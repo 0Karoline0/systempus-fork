@@ -36,7 +36,6 @@ public class HorarioDisciplina {
     @ManyToOne
     @MapsId("disciplinaId")
     @JoinColumn(name = "disciplina_id")
-    // @JsonManagedReference(value = "horario_disciplina")
     private Disciplina disciplina;
 
     @OneToMany(mappedBy = "horarioDisciplina")

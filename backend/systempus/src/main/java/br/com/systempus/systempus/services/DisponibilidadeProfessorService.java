@@ -41,8 +41,8 @@ public class DisponibilidadeProfessorService {
 
         for (DisponibilidadeProfessorDTO disponibilidade : disponibilidades){
             HorarioAula horario = horarioAulaService.getById(disponibilidade.getHorarioAulaId());
-            DisponibilidadeProfessorId id = new DisponibilidadeProfessorId(horario.getId(), professor.getId());
-            DisponibilidadeProfessor d = new DisponibilidadeProfessor(id, professor, horario, disponibilidade.getDiaSemana());
+            // DisponibilidadeProfessorId id = new DisponibilidadeProfessorId(horario.getId(), professor.getId());
+            DisponibilidadeProfessor d = new DisponibilidadeProfessor(professor, horario, disponibilidade.getDiaSemana());
             disponibilidadesRetorno.add(disponibilidade);
             repository.save(d);
         }

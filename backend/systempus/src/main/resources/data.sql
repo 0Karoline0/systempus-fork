@@ -56,12 +56,12 @@ INSERT INTO instituicao(nome, cnpj) VALUES ('Faculdade Teste', '321.323.0001/232
 INSERT INTO instituicao(nome, cnpj) VALUES ('Faculdade Senac', '222.444.0001/232');
 INSERT INTO instituicao(nome, cnpj) VALUES ('Faculdade Goiás', '662.111.0001/232');
 
-INSERT INTO periodo (curso_id, turno, instituicao_id, inicio_intervalo, fim_intervalo, inicio_horario, fim_horario) VALUES (1, 0, 1, '09:50', '10:10', '08:10', '11:40');
-INSERT INTO periodo (curso_id, turno, instituicao_id, inicio_intervalo, fim_intervalo, inicio_horario, fim_horario) VALUES (1, 2, 1, '19:50', '20:10', '18:30', '22:00');
+INSERT INTO carga_horaria(carga_horaria, instituicao_id) VALUES (80, 1);
+INSERT INTO carga_horaria(carga_horaria, instituicao_id) VALUES (25, 2);
+INSERT INTO carga_horaria(carga_horaria, instituicao_id) VALUES (50, 1);
 
-INSERT INTO carga_horaria(carga_horaria, instituicao_id, periodo_id) VALUES (80, 1, 1);
-INSERT INTO carga_horaria(carga_horaria, instituicao_id, periodo_id) VALUES (25, 2, 1);
-INSERT INTO carga_horaria(carga_horaria) VALUES (50);
+INSERT INTO periodo (curso_id, turno, instituicao_id, inicio_intervalo, fim_intervalo, inicio_horario, fim_horario, carga_horaria) VALUES (1, 0, 1, '09:50', '10:10', '08:10', '11:40', 3);
+INSERT INTO periodo (curso_id, turno, instituicao_id, inicio_intervalo, fim_intervalo, inicio_horario, fim_horario, carga_horaria) VALUES (1, 2, 1, '19:50', '20:10', '18:30', '22:00', 3);
 
 INSERT INTO horario_aula(carga_horaria_id, periodo_id, inicio_aula, fim_aula) VALUES (3, 1, '08:10', '09:00');
 INSERT INTO horario_aula(carga_horaria_id, periodo_id, inicio_aula, fim_aula) VALUES (3, 1, '09:00', '09:50');

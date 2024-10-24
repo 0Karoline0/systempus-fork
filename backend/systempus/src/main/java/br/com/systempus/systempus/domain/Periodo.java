@@ -15,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -53,16 +54,17 @@ public class Periodo {
 
     @ManyToOne
     @JoinColumn(name = "instituicao_id")
-    // @JsonManagedReference(value = "instituicao_periodos")
     private Instituicao instituicao;
 
-    @OneToMany
-    // @JsonManagedReference(value = "periodo_hora_aula")
-    @JoinColumn(name = "periodo_id")
+    @OneToMany(mappedBy = "periodo")
     private List<HorarioAula> horariosAula;
 
     @ManyToOne
     @JoinColumn(name = "curso_id")
     private Curso curso;
+
+    @OneToOne
+    @JoinColumn(name = "carga_horaria_id")
+    private CargaHoraria cargaHoraria;
 
 }

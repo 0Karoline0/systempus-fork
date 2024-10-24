@@ -7,7 +7,9 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import br.com.systempus.systempus.domain.embeddableclass.DisponibilidadeProfessorId;
 import br.com.systempus.systempus.domain.enumerador.DiaSemana;
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -27,24 +29,22 @@ import jakarta.persistence.OneToMany;
 @Table(name = "disponibilidade_professor")
 public class DisponibilidadeProfessor {
 
-    public DisponibilidadeProfessor(DisponibilidadeProfessorId id, Professor professor, HorarioAula horarioAula, DiaSemana diaSemana){
-        this.id = id;
+    public DisponibilidadeProfessor(Professor professor, HorarioAula horarioAula, DiaSemana diaSemana){
         this.professor = professor;
         this.horarioAula = horarioAula;
         this.diaSemana = diaSemana;
     }
 
-    @EmbeddedId
-    private DisponibilidadeProfessorId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @ManyToOne
-    @MapsId("professorId")
     @JoinColumn(name = "professor_id")
     @JsonBackReference(value = "disponibilidade_professor_professor")
     private Professor professor;
     
     @ManyToOne
-    @MapsId("horarioAulaId")
     @JoinColumn(name = "horario_aula_id")
     @JsonBackReference(value = "disponibilidade_professor_horario_aula")
     private HorarioAula horarioAula;

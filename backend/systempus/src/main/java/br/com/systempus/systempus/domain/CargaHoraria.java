@@ -33,14 +33,8 @@ public class CargaHoraria {
     @Column(name = "carga_horaria")
     private Integer cargaHoraria;
 
-    @OneToMany(mappedBy = "cargaHoraria")
-    // @JsonManagedReference(value = "periodo_hora_aula")
-    private List<HorarioAula> horariosAula;
-
     @ManyToOne
     @JoinColumn(name = "instituicao_id")
-    // @JsonManagedReference(value = "instituicao_cargas_horarias")
-    private Instituicao instituicao;
-    
+    private Instituicao instituicao;    
     
 }

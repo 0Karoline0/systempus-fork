@@ -40,8 +40,11 @@ public class HorarioAula {
 
     @ManyToOne
     @JoinColumn(name = "carga_horaria_id")
-    @JsonBackReference(value = "periodo_hora_aula")
     private CargaHoraria cargaHoraria;
+
+    @ManyToOne
+    @JoinColumn(name = "periodo_id")
+    private Periodo periodo;
 
     @OneToMany(mappedBy = "horarioAula")
     @JsonManagedReference(value = "disponibilidade_professor_horario_aula")
@@ -50,6 +53,4 @@ public class HorarioAula {
     @OneToMany(mappedBy = "horarioAula")
     private List<HorarioDisciplina> horarioDisciplina;
 
-    
-    
 }
