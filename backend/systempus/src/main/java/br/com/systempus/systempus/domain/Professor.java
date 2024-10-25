@@ -24,7 +24,6 @@ import jakarta.persistence.DiscriminatorValue;
 @Getter
 @Setter
 @DiscriminatorValue("2")
-// @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Professor extends Profissional{
 
     @ManyToMany
@@ -39,7 +38,6 @@ public class Professor extends Profissional{
     private List<Disciplina> disciplinas;
 
     @OneToMany(mappedBy = "professor")
-    // @JsonManagedReference(value = "disponibilidade_professor_professor")
     private List<DisponibilidadeProfessor> disponibilidadeProfessor;
 
     public Professor(){

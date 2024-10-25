@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import br.com.systempus.systempus.domain.embeddableclass.DisponibilidadeProfessorId;
 import br.com.systempus.systempus.domain.enumerador.DiaSemana;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +17,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -28,13 +26,7 @@ import jakarta.persistence.OneToMany;
 @Setter
 @Table(name = "disponibilidade_professor")
 public class DisponibilidadeProfessor {
-
-    public DisponibilidadeProfessor(Professor professor, HorarioAula horarioAula, DiaSemana diaSemana){
-        this.professor = professor;
-        this.horarioAula = horarioAula;
-        this.diaSemana = diaSemana;
-    }
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -53,5 +45,11 @@ public class DisponibilidadeProfessor {
     private List<HorarioDocente> horariosDocente;
 
     private DiaSemana diaSemana;
+    
 
+    public DisponibilidadeProfessor(Professor professor, HorarioAula horarioAula, DiaSemana diaSemana){
+        this.professor = professor;
+        this.horarioAula = horarioAula;
+        this.diaSemana = diaSemana;
+    }
 }

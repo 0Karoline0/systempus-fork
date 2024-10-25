@@ -23,10 +23,7 @@ public class HorarioDocente {
     private HorarioDisciplina horarioDisciplina;
 
     @ManyToOne
-    @JoinColumns({
-        @JoinColumn(name = "disponibilidade_professor_horario_aula_id", referencedColumnName = "horario_aula_id"),
-        @JoinColumn(name = "disponibilidade_professor_professor_id", referencedColumnName = "professor_id")
-    })
+    @JoinColumn(name = "disponibilidade_professor_id", referencedColumnName = "id")
     private DisponibilidadeProfessor disponibilidadeProfessor;
 
     public HorarioDocente() {
