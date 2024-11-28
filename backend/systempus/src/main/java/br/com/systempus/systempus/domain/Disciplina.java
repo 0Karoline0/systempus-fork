@@ -37,10 +37,6 @@ public class Disciplina {
     @NotNull(message = "Campo Obrigatório")
     private String nome;
 
-
-    @ManyToMany(mappedBy = "disciplinas")
-    private List<Professor> professores;
-
     @JsonBackReference(value = "disciplina_modulo")
     @ManyToOne
     @JoinColumn(name = "modulo_id")
@@ -49,5 +45,9 @@ public class Disciplina {
     @OneToMany(mappedBy = "disciplina")
     @JsonBackReference(value = "horario_disciplina")
     private List<HorarioDisciplina> horarioDisciplina;
+
+	@OneToMany(mappedBy = "disciplina")
+	@JsonBackReference(value = "professor_disciplina")
+	private List<ProfessorDisciplina> professorDisciplina;
 
 }

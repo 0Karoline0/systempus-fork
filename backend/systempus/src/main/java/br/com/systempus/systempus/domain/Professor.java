@@ -2,6 +2,8 @@ package br.com.systempus.systempus.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -25,15 +27,14 @@ public class Professor extends Profissional{
     inverseJoinColumns = @JoinColumn(name = "curso_id"))
     private List<Curso> cursos;
 
-    
-    @ManyToMany
-    @JoinTable(name="professor_disciplina", joinColumns = @JoinColumn(name="professor_id"),
-    inverseJoinColumns = @JoinColumn(name="disciplina_id"))
-    private List<Disciplina> disciplinas;
+    @OneToMany(mappedBy = "professor")
+    private List<DisponibilidadeProfessor> disponibilidadeProfessor;
 
     @OneToMany(mappedBy = "professor")
-    // @JsonManagedReference(value = "disponibilidade_professor_professor")
-    private List<DisponibilidadeProfessor> disponibilidadeProfessor;
+    @JsonBackReference(value = "professor_disciplina")
+    private List<ProfessorDisciplina> professorDisciplina;
+
+
     public Professor(){
 
     }
@@ -43,30 +44,6 @@ public class Professor extends Profissional{
         this.setNome(nome);
         this.setTelefone(telefone);
     }
-
-	public List<Curso> getCursos() {
-		return cursos;
-	}
-
-	public void setCursos(List<Curso> cursos) {
-		this.cursos = cursos;
-	}
-
-	public List<Disciplina> getDisciplinas() {
-		return disciplinas;
-	}
-
-	public void setDisciplinas(List<Disciplina> disciplinas) {
-		this.disciplinas = disciplinas;
-	}
-
-	public List<DisponibilidadeProfessor> getDisponibilidadeProfessor() {
-		return disponibilidadeProfessor;
-	}
-
-	public void setDisponibilidadeProfessor(List<DisponibilidadeProfessor> disponibilidadeProfessor) {
-		this.disponibilidadeProfessor = disponibilidadeProfessor;
-	}
     
     
 }

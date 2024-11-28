@@ -7,7 +7,9 @@ ALTER SEQUENCE carga_horaria_id_seq RESTART WITH 1;
 ALTER SEQUENCE periodo_id_seq RESTART WITH 1;
 ALTER SEQUENCE horario_aula_id_seq RESTART WITH 1;
 ALTER SEQUENCE disponibilidade_professor_id_seq RESTART WITH 1;
+ALTER SEQUENCE professor_disciplina_id_seq RESTART WITH 1;
 
+DELETE FROM professor_disciplina;
 DELETE FROM disponibilidade_professor;
 DELETE FROM horario_disciplina;
 DELETE FROM horario_aula;
@@ -23,7 +25,7 @@ DELETE FROM curso;
 DELETE FROM coordenador;
 DELETE FROM profissional;
 
-ALTER TABLE disponibilidade_professor DROP CONSTRAINT uk_g4j2flr6lb67dd2w89laprade;
+-- ALTER TABLE disponibilidade_professor DROP CONSTRAINT uk_g4j2flr6lb67dd2w89laprade;
 
 INSERT INTO profissional(cpf, nome, status_profissional, telefone, email, foto) VALUES ('29803896091', 'Erick Lima Cavalcanti', 1, '97922208738', 'erick@outlook.com', 'https://img.freepik.com/fotos-gratis/retrato-de-homem-feliz-e-sorridente_23-2149022620.jpg');
 INSERT INTO profissional(cpf, nome, status_profissional, telefone, email) VALUES ('70622239058', 'Luís Pereira Santos', 2, '6836364963', 'luis@outlook.com');
@@ -73,11 +75,11 @@ INSERT INTO professor_curso(professor_id, curso_id) VALUES (2, 1);
 INSERT INTO professor_curso(professor_id, curso_id) VALUES (3, 1);
 INSERT INTO professor_curso(professor_id, curso_id) VALUES (6, 2);
 
-INSERT INTO professor_disciplina(professor_id, disciplina_id) VALUES (1, 4);
-INSERT INTO professor_disciplina(professor_id, disciplina_id) VALUES (3, 1);
-INSERT INTO professor_disciplina(professor_id, disciplina_id) VALUES (1, 2);
-INSERT INTO professor_disciplina(professor_id, disciplina_id) VALUES (3, 3);
-INSERT INTO professor_disciplina(professor_id, disciplina_id) VALUES (6, 6);
+INSERT INTO professor_disciplina(professor_id, disciplina_id, status_disciplina_professor) VALUES (1, 4, 0);
+INSERT INTO professor_disciplina(professor_id, disciplina_id, status_disciplina_professor) VALUES (3, 1, 0);
+INSERT INTO professor_disciplina(professor_id, disciplina_id, status_disciplina_professor) VALUES (1, 2, 0);
+INSERT INTO professor_disciplina(professor_id, disciplina_id, status_disciplina_professor) VALUES (3, 3, 0);
+INSERT INTO professor_disciplina(professor_id, disciplina_id, status_disciplina_professor) VALUES (1, 6, 0);
 
 INSERT INTO instituicao(nome, cnpj) VALUES ('Faculdade Teste', '321.323.0001/232');
 INSERT INTO instituicao(nome, cnpj) VALUES ('Faculdade Senac', '222.444.0001/232');

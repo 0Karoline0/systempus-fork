@@ -4,12 +4,15 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
 import br.com.systempus.systempus.domain.Curso;
+import br.com.systempus.systempus.domain.Professor;
+import br.com.systempus.systempus.domain.ProfessorDisciplina;
 import br.com.systempus.systempus.domain.Disciplina;
 import br.com.systempus.systempus.domain.HorarioDisciplina;
 import br.com.systempus.systempus.domain.Modulo;
@@ -71,7 +74,7 @@ public class DisciplinaService implements IDisciplinaService {
 
 			disciplinaExistente.setNome(disciplina.getNome());
 			disciplinaExistente.setModulo(disciplina.getModulo());
-			disciplinaExistente.setProfessores(disciplina.getProfessores());
+			disciplinaExistente.setProfessorDisciplina(disciplina.getProfessorDisciplina());
 
 			repository.saveAndFlush(disciplinaExistente);
 		} else {

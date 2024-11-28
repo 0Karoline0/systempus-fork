@@ -67,7 +67,7 @@ public class ProfessorService implements IProfessorService{
             professorExistente.setCpf(professor.getCpf());//Setar CPF do Professor Existente
             professorExistente.setNome(professor.getNome());
             professorExistente.setTelefone(professor.getTelefone());
-            professorExistente.setDisciplinas(professor.getDisciplinas());
+            professorExistente.setProfessorDisciplina(professor.getProfessorDisciplina());
             professorExistente.setCursos(professor.getCursos());
             professorExistente.setStatus(professor.getStatus());
             professorExistente.setEmail(professor.getEmail());

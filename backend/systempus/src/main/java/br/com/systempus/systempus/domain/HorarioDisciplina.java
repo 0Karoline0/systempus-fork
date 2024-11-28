@@ -4,7 +4,6 @@ import java.util.List;
 
 import br.com.systempus.systempus.domain.embeddableclass.HorarioDisciplinaId;
 import br.com.systempus.systempus.domain.enumerador.DiaSemana;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
