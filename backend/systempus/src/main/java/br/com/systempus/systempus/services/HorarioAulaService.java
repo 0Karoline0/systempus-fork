@@ -3,7 +3,6 @@ package br.com.systempus.systempus.services;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -15,14 +14,11 @@ import br.com.systempus.systempus.domain.CargaHoraria;
 import br.com.systempus.systempus.domain.HorarioAula;
 import br.com.systempus.systempus.domain.Periodo;
 import br.com.systempus.systempus.error.DataIntegrityViolationException;
-import br.com.systempus.systempus.error.NotFoundException;
-import br.com.systempus.systempus.repository.CargaHorariaRepository;
 import br.com.systempus.systempus.repository.HorarioAulaRepository;
-import br.com.systempus.systempus.repository.PeriodoRepository;
 
 @Service
 public class HorarioAulaService {
-    
+
     @Autowired
     private HorarioAulaRepository repository;
 
@@ -42,11 +38,11 @@ public class HorarioAulaService {
 
     public List<HorarioAula> saveHorariosByPeriodo(CargaHoraria cargaHoraria, Periodo periodo){
 
-        
+
         try {
             Set<LocalTime> horarios = separarCargasHorarias(cargaHoraria, periodo);
-            List<LocalTime> horariosList = new ArrayList<LocalTime>(horarios);
-            List<HorarioAula> horariosAula = new ArrayList<HorarioAula>();
+            List<LocalTime> horariosList = new ArrayList<>(horarios);
+            List<HorarioAula> horariosAula = new ArrayList<>();
             int listSize = horariosList.size();
 
             // 08:10
@@ -67,20 +63,20 @@ public class HorarioAulaService {
 
                 if (horariosList.get(j) != periodo.getInicioIntervalo()){
                     horarioAula.setInicioAula(horariosList.get(j));
-                    
+
                     //Horário antes do Intervalo
                     if (isIndex(listSize, j) && isHorarioAntesIntervalo(horarioAfrente, periodo.getInicioIntervalo())){
-                        horarioAula.setFimAula(periodo.getInicioIntervalo());                        
+                        horarioAula.setFimAula(periodo.getInicioIntervalo());
                     } else if (j > 0 && isIndex(listSize, j) && (horariosList.get(j - 1) == periodo.getFimIntervalo())){
-                        horarioAula.setFimAula(periodo.getFimIntervalo());                        
+                        horarioAula.setFimAula(periodo.getFimIntervalo());
                     }
 
                     //Horário antes do encerramento das aulas
                     if (isIndex(listSize, j) && (j == listSize - 1)){
-                        horarioAula.setFimAula(periodo.getFimHorario());                        
+                        horarioAula.setFimAula(periodo.getFimHorario());
                     } else {
-                        horarioAula.setFimAula(horarioAfrente);                        
-                    }                  
+                        horarioAula.setFimAula(horarioAfrente);
+                    }
 
                     this.save(horariosAula,horarioAula, cargaHoraria);
                 }
@@ -134,7 +130,7 @@ public class HorarioAulaService {
         long segundoTempo = Duration.between(periodo.getFimIntervalo(), periodo.getFimHorario()).toMinutes();
         long quantidadeAulas = (primeiroTempo + segundoTempo) / duracaoAula;
 
-        Set<LocalTime> horarios = new TreeSet<LocalTime>();
+        Set<LocalTime> horarios = new TreeSet<>();
 
         LocalTime ultimoHorario = periodo.getInicioHorario();
 

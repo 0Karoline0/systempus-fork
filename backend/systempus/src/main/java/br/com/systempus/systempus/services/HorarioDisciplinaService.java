@@ -1,43 +1,57 @@
 package br.com.systempus.systempus.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.systempus.systempus.domain.Disciplina;
+import br.com.systempus.systempus.domain.HorarioAula;
 import br.com.systempus.systempus.domain.HorarioDisciplina;
+import br.com.systempus.systempus.domain.Professor;
+import br.com.systempus.systempus.domain.dto.DisponibilidadeProfessorDTO;
+import br.com.systempus.systempus.domain.dto.HorarioDisciplinaDTO;
 import br.com.systempus.systempus.repository.HorarioDisciplinaRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class HorarioDisciplinaService {
-    
+
     @Autowired
     private HorarioDisciplinaRepository repository;
+    
+    @Autowired
+    private HorarioAulaService horarioAulaService;
 
-    // public HorarioDisciplina getById(Integer id){
-    //     return repository.findById(id).get();
-    // }
-
-    public List<HorarioDisciplina> getAll(){
-        return repository.findAll();
+    public List<HorarioDisciplinaDTO> getAll(){
+        return HorarioDisciplinaDTO.convertToDTO(repository.findAll());
     }
 
-    public HorarioDisciplina save(HorarioDisciplina horarioDisciplina){
-        return repository.save(horarioDisciplina);
+    @Transactional
+    public List<HorarioDisciplinaDTO> save(List<HorarioDisciplinaDTO> horarios, Disciplina disciplina){
+
+        List<HorarioDisciplinaDTO> horariosRetorno = new ArrayList<>();
+
+        for (HorarioDisciplinaDTO horario : horarios){
+            HorarioAula horarioAula = horarioAulaService.getById(horario.getHorarioAulaId());
+            HorarioDisciplina horarioDisciplina = new HorarioDisciplina(horario.getDiaSemana(), horarioAula, disciplina);
+            horariosRetorno.add(horario);
+            repository.save(horarioDisciplina);
+        }
+
+        return horariosRetorno;
+    }
+    
+    @Transactional
+    public List<HorarioDisciplinaDTO> updateHorarioDisciplina(List<HorarioDisciplinaDTO> disponibilidades, Disciplina disciplina){
+        deleteHorariosByDisciplina(disciplina);
+        return save(disponibilidades, disciplina);
     }
 
-    // public HorarioDisciplina update(HorarioDisciplina horarioDisciplina, Integer id){
-    //     if (repository.existsById(id)){
-    //         HorarioDisciplina existente = repository.findById(id).get();
-
-    //         return repository.saveAndFlush(existente);
-    //     }else{
-    //         return null;
-    //     }
-    // }
-
-    // public void deleteById(Integer id){
-    //     repository.deleteById(id);
-    // }
+    @Transactional
+    public void deleteHorariosByDisciplina(Disciplina disciplina){
+        repository.deleteByDisciplina(disciplina);
+    }
 
 }

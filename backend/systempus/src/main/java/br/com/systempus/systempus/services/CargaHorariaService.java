@@ -48,8 +48,9 @@ public class CargaHorariaService {
 
     public void update(CargaHoraria cargaHoraria) {
 
-        if (!repository.existsById(cargaHoraria.getId()))
-        throw new NotFoundException(CargaHoraria.class.getSimpleName().toString(), cargaHoraria.getId());
+        if (!repository.existsById(cargaHoraria.getId())) {
+			throw new NotFoundException(CargaHoraria.class.getSimpleName().toString(), cargaHoraria.getId());
+		}
 
         CargaHoraria cargaHorariaExistente = repository.findById(cargaHoraria.getId()).get();
 
@@ -60,8 +61,9 @@ public class CargaHorariaService {
 
     public CargaHoraria updatePartial(Map<String, Object> mapValores, Integer id) {
 
-        if (!repository.existsById(id))
-        throw new NotFoundException(CargaHoraria.class.getSimpleName().toString(), id);
+        if (!repository.existsById(id)) {
+			throw new NotFoundException(CargaHoraria.class.getSimpleName().toString(), id);
+		}
 
         CargaHoraria cargaHorariaExistente = repository.findById(id).get();
 

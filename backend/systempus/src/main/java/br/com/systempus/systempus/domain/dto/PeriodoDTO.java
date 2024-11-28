@@ -23,7 +23,7 @@ public class PeriodoDTO {
     private LocalTime fimHorario;
     private List<HorarioAulaDTO> horariosAulaDTO;
 
-    public static PeriodoDTO convertToDTO(Periodo periodo) {
+	public static PeriodoDTO convertToDTO(Periodo periodo) {
         List<HorarioAulaDTO> horariosAulaDTO = periodo.getHorariosAula().stream()
                 .map(horarioAula -> new HorarioAulaDTO(horarioAula.getId(), horarioAula.getInicioAula(), horarioAula.getFimAula()))
                 .collect(Collectors.toList());
@@ -37,5 +37,6 @@ public class PeriodoDTO {
             periodo.getFimHorario(),
             horariosAulaDTO
         );
-    }
+    }	
+	
 }

@@ -1,14 +1,12 @@
 package br.com.systempus.systempus.domain.enumerador;
 
-import java.time.LocalTime;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import br.com.systempus.systempus.error.NotFoundException;
 
 public enum Turno {
-    
+
     MATUTINO(0, "Matutino"),
     VESPERTINO(1, "Vespertino"),
     NOTURNO(2, "Noturno"),

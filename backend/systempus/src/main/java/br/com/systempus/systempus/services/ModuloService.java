@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
-import br.com.systempus.systempus.domain.Curso;
 import br.com.systempus.systempus.domain.Disciplina;
 import br.com.systempus.systempus.domain.Modulo;
 import br.com.systempus.systempus.error.IllegalStateException;
@@ -28,17 +27,20 @@ public class ModuloService implements IModuloService{
     @Autowired
     private DisciplinaRepository disciplinaRepository;
 
-    public List<Modulo> getAll(){
+    @Override
+	public List<Modulo> getAll(){
         List<Modulo> resultado = repository.findAll();
         return resultado;
     }
 
-    public Modulo getOne(Integer id){
+    @Override
+	public Modulo getOne(Integer id){
         Modulo resultado = repository.findById(id).orElseThrow(() -> new NotFoundException(Modulo.class.getSimpleName().toString()));
         return resultado;
     }
 
-    public void save(Modulo modulo){
+    @Override
+	public void save(Modulo modulo){
         if (modulo.getId() == null){
             repository.save(modulo);
         }else{
@@ -46,7 +48,8 @@ public class ModuloService implements IModuloService{
         }
     }
 
-    public void delete(Integer id){
+    @Override
+	public void delete(Integer id){
         if (repository.existsById(id)){
             repository.deleteById(id);
         }else{
@@ -54,7 +57,8 @@ public class ModuloService implements IModuloService{
         }
     }
 
-    public void update(Modulo modulo){
+    @Override
+	public void update(Modulo modulo){
         if(repository.existsById(modulo.getId())){
             Modulo moduloExistente = repository.findById(modulo.getId()).get();
 
@@ -70,7 +74,8 @@ public class ModuloService implements IModuloService{
         }
     }
 
-    public Modulo updatePartial(Map<String, Object> mapValores, Integer id){
+    @Override
+	public Modulo updatePartial(Map<String, Object> mapValores, Integer id){
         if(repository.existsById(id)){
             Modulo moduloExistente = repository.findById(id).get();
 
@@ -97,10 +102,10 @@ public class ModuloService implements IModuloService{
     public Modulo adicionarDisicplinas(Integer idModulo, Disciplina disciplina){
         Modulo modulo = repository.findById(idModulo).get();
         disciplina.setModulo(modulo);
-        
+
         disciplinaRepository.save(disciplina);
 
         return repository.findById(idModulo).get();
     }
-    
+
 }

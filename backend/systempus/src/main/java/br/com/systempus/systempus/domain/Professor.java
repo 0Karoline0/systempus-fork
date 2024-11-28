@@ -2,12 +2,7 @@ package br.com.systempus.systempus.domain;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -16,7 +11,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import jakarta.persistence.DiscriminatorValue;
 
 
 @Entity
@@ -24,7 +18,6 @@ import jakarta.persistence.DiscriminatorValue;
 @Getter
 @Setter
 @DiscriminatorValue("2")
-// @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Professor extends Profissional{
 
     @ManyToMany
@@ -41,7 +34,6 @@ public class Professor extends Profissional{
     @OneToMany(mappedBy = "professor")
     // @JsonManagedReference(value = "disponibilidade_professor_professor")
     private List<DisponibilidadeProfessor> disponibilidadeProfessor;
-
     public Professor(){
 
     }
@@ -51,4 +43,30 @@ public class Professor extends Profissional{
         this.setNome(nome);
         this.setTelefone(telefone);
     }
+
+	public List<Curso> getCursos() {
+		return cursos;
+	}
+
+	public void setCursos(List<Curso> cursos) {
+		this.cursos = cursos;
+	}
+
+	public List<Disciplina> getDisciplinas() {
+		return disciplinas;
+	}
+
+	public void setDisciplinas(List<Disciplina> disciplinas) {
+		this.disciplinas = disciplinas;
+	}
+
+	public List<DisponibilidadeProfessor> getDisponibilidadeProfessor() {
+		return disponibilidadeProfessor;
+	}
+
+	public void setDisponibilidadeProfessor(List<DisponibilidadeProfessor> disponibilidadeProfessor) {
+		this.disponibilidadeProfessor = disponibilidadeProfessor;
+	}
+    
+    
 }

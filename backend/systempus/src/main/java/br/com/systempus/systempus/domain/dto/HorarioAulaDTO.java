@@ -10,10 +10,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class HorarioAulaDTO {
-    
+
     private Integer id;
     private LocalTime inicioAula;
-    private LocalTime fimAula;
-
-
+    private LocalTime fimAula;    
+    
 }

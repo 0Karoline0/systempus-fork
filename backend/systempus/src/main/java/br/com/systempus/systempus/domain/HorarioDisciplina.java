@@ -2,11 +2,13 @@ package br.com.systempus.systempus.domain;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import br.com.systempus.systempus.domain.embeddableclass.HorarioDisciplinaId;
+import br.com.systempus.systempus.domain.enumerador.DiaSemana;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
@@ -24,23 +26,38 @@ import lombok.Setter;
 @AllArgsConstructor
 @Table(name = "horario_disciplina")
 public class HorarioDisciplina {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     
-    @EmbeddedId
-    private HorarioDisciplinaId id;
-    
+    private DiaSemana diaSemana;
+
     @ManyToOne
-    @MapsId("horarioAulaId") 
     @JoinColumn(name = "horario_aula_id")
     private HorarioAula horarioAula;
 
     @ManyToOne
-    @MapsId("disciplinaId")
     @JoinColumn(name = "disciplina_id")
-    // @JsonManagedReference(value = "horario_disciplina")
     private Disciplina disciplina;
 
     @OneToMany(mappedBy = "horarioDisciplina")
     private List<HorarioDocente> horariosDocente;
     
-    
+	public HorarioDisciplina(Integer id, DiaSemana diaSemana, HorarioAula horarioAula,
+			Disciplina disciplina) {
+		this.id = id;
+		this.diaSemana = diaSemana;
+		this.horarioAula = horarioAula;
+		this.disciplina = disciplina;
+	}
+	
+	public HorarioDisciplina(DiaSemana diaSemana, HorarioAula horarioAula,
+			Disciplina disciplina) {
+		this.diaSemana = diaSemana;
+		this.horarioAula = horarioAula;
+		this.disciplina = disciplina;
+	}
+
+
 }

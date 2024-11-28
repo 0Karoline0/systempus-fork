@@ -4,9 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import br.com.systempus.systempus.domain.Disciplina;
+import br.com.systempus.systempus.domain.dto.DisciplinaDTO;
 
 public interface IDisciplinaService {
-    public List<Disciplina> getAll();
+    public List<DisciplinaDTO> getAll();
 
     public Disciplina getOne(Integer id);
 

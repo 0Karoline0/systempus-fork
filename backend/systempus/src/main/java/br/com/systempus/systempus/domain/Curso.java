@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import br.com.systempus.systempus.domain.enumerador.Modalidade;
@@ -70,7 +68,7 @@ public class Curso {
 
     @OneToMany(mappedBy = "curso")
     private List<Periodo> periodos;
-    
+
     @Override
     public String toString() {
         return "Curso [id=" + id + ", nome=" + nome + ", nivelEnsino=" + nivelEnsino + ", qtdPeriodos=" + qtdPeriodos
@@ -78,6 +76,4 @@ public class Curso {
                 + ", coordenador=" + coordenador + "]";
     }
 
-
-    
 }

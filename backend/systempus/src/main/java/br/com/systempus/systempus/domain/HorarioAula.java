@@ -3,7 +3,6 @@ package br.com.systempus.systempus.domain;
 import java.time.LocalTime;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -40,8 +39,11 @@ public class HorarioAula {
 
     @ManyToOne
     @JoinColumn(name = "carga_horaria_id")
-    @JsonBackReference(value = "periodo_hora_aula")
     private CargaHoraria cargaHoraria;
+
+    @ManyToOne
+    @JoinColumn(name = "periodo_id")
+    private Periodo periodo;
 
     @OneToMany(mappedBy = "horarioAula")
     @JsonManagedReference(value = "disponibilidade_professor_horario_aula")
@@ -50,6 +52,4 @@ public class HorarioAula {
     @OneToMany(mappedBy = "horarioAula")
     private List<HorarioDisciplina> horarioDisciplina;
 
-    
-    
 }

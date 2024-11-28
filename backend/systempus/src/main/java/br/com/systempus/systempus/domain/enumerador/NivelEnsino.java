@@ -26,7 +26,7 @@ public enum NivelEnsino {
     public int getValue(){
         return value;
     }
-    
+
     public String getNome(){
         return nome;
     }

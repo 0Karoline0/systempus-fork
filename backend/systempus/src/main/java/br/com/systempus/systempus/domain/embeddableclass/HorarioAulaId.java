@@ -4,9 +4,9 @@ import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class HorarioAulaId {
-    
+
     private Integer cargaHorariaId;
-   
+
     private Integer periodoId;
 
     public HorarioAulaId(Integer cargaHorariaId, Integer periodoId) {
@@ -30,7 +30,7 @@ public class HorarioAulaId {
         this.periodoId = periodoId;
     }
 
-    
 
-    
+
+
 }

@@ -25,13 +25,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Instituicao {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String nome;
-    
+
     private String cnpj;
 
     @OneToMany(mappedBy = "instituicao")
@@ -42,5 +42,4 @@ public class Instituicao {
     @JsonBackReference(value = "instituicao_cargas_horarias")
     private List<CargaHoraria> cargasHorarias;
 
-    
 }

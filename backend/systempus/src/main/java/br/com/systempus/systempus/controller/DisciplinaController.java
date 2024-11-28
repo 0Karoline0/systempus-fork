@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.systempus.systempus.domain.Curso;
 import br.com.systempus.systempus.domain.Disciplina;
-import br.com.systempus.systempus.domain.Modulo;
+import br.com.systempus.systempus.domain.dto.DisciplinaDTO;
+import br.com.systempus.systempus.domain.dto.HorarioDisciplinaDTO;
 import br.com.systempus.systempus.services.DisciplinaService;
 import br.com.systempus.systempus.services.ModuloService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -46,7 +46,7 @@ public class DisciplinaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Disciplina>> getAll(){
+    public ResponseEntity<List<DisciplinaDTO>> getAll(){
         return ResponseEntity.ok().body(service.getAll());
     }
 
@@ -88,5 +88,34 @@ public class DisciplinaController {
     public ResponseEntity<List<Disciplina>> getByCurso(@PathVariable Integer idCurso){
         return ResponseEntity.ok().body(service.getByCurso(idCurso));
     }
+    
+    @GetMapping("{id}/horarios")
+    public ResponseEntity<List<HorarioDisciplinaDTO>> getDisponibilidadeByProfessorId(@PathVariable Integer id){
+        List<HorarioDisciplinaDTO> horarios = service.getHorariosByDisciplina(id);
+        return ResponseEntity.ok().body(horarios);
+    }
+    
+    @PostMapping("{id}/horarios")
+    public ResponseEntity<List<HorarioDisciplinaDTO>> saveHorariosDisciplina(@PathVariable Integer id, @RequestBody List<HorarioDisciplinaDTO> disponibilidadeRequest, HttpServletRequest request, HttpServletResponse response) throws URISyntaxException{
+        List<HorarioDisciplinaDTO> horarios = service.saveHorariosDisciplina(disponibilidadeRequest, id);
+
+        StringBuffer path = new StringBuffer();
+
+        path.append(request.getRequestURI())
+            .append("/")
+            .append(id);
+
+        URI uri = new URI(path.toString());
+
+        return ResponseEntity.created(uri).body(horarios);
+    }
+
+    @PutMapping("{id}/horarios")
+    public ResponseEntity<List<HorarioDisciplinaDTO>> updateDisponibilidadesPorProfessor(@PathVariable Integer id, @RequestBody List<HorarioDisciplinaDTO> disponibilidades) {
+        List<HorarioDisciplinaDTO> horariosSalvos = service.updateHorariosDisciplina(id, disponibilidades);
+        return ResponseEntity.ok().body(horariosSalvos);
+    }
+
+
 
 }

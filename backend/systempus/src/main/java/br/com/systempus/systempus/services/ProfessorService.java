@@ -26,16 +26,19 @@ public class ProfessorService implements IProfessorService{
     @Autowired
     private DisponibilidadeProfessorService disponibilidadeService;
 
-    public List<Professor> getAll() {
+    @Override
+	public List<Professor> getAll() {
         List<Professor> resultado = repository.findAll();
         return resultado;
     }
 
-    public Professor getOne(Integer id){
+    @Override
+	public Professor getOne(Integer id){
         return repository.findById(id).orElseThrow(() -> new NotFoundException(Professor.class.getSimpleName().toString(), id));
     }
 
-    public void save(Professor professor){
+    @Override
+	public void save(Professor professor){
         if (professor.getId() == null){
             if (!repository.existsByCPF(professor.getCpf())){
                 repository.save(professor);
@@ -47,7 +50,8 @@ public class ProfessorService implements IProfessorService{
         }
     }
 
-    public void delete(Integer id){
+    @Override
+	public void delete(Integer id){
         if (repository.existsById(id)){
             repository.deleteById(id);
         }else{
@@ -55,7 +59,8 @@ public class ProfessorService implements IProfessorService{
         }
     }
 
-    public void update(Professor professor){
+    @Override
+	public void update(Professor professor){
         if(repository.existsById(professor.getId())){
             Professor professorExistente = repository.findById(professor.getId()).get();//Pegar Professor existente no repository
 
@@ -75,7 +80,8 @@ public class ProfessorService implements IProfessorService{
     }
 
 
-    public Professor updatePartial(Map<String, Object> mapValores, Integer id){//Conjunto de valores
+    @Override
+	public Professor updatePartial(Map<String, Object> mapValores, Integer id){//Conjunto de valores
         if(repository.existsById(id)){
             Professor professorExistente = repository.findById(id).get();//Pegar Professor existente no repository
 
@@ -104,6 +110,11 @@ public class ProfessorService implements IProfessorService{
         Professor professor = getOne(id);
         List<DisponibilidadeProfessor> getDisponibilidades = professor.getDisponibilidadeProfessor();
         return DisponibilidadeProfessorDTO.convertToDTO(getDisponibilidades);
+    }
+
+    public List<DisponibilidadeProfessorDTO> updateDisponibilidadeProfessor(Integer professorId, List<DisponibilidadeProfessorDTO> disponibilidades){
+        Professor professor = getOne(professorId);
+        return disponibilidadeService.updateDisponibilidades(disponibilidades, professor);
     }
 
 

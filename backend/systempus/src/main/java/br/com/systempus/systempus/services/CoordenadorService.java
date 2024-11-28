@@ -20,18 +20,21 @@ public class CoordenadorService implements ICoordenadorService{
     @Autowired
     private CoordenadorRepository repository;
 
-    public Coordenador getOne(Integer id) {
+    @Override
+	public Coordenador getOne(Integer id) {
         Coordenador resultado = repository.findById(id)
                 .orElseThrow(() -> new NotFoundException(Coordenador.class.getSimpleName().toString(), id));
         return resultado;
     }
 
-    public List<Coordenador> getAll() {
+    @Override
+	public List<Coordenador> getAll() {
         List<Coordenador> resultado = repository.findAll();
         return resultado;
     }
 
-    public void save(Coordenador coordenador) {
+    @Override
+	public void save(Coordenador coordenador) {
         if ((coordenador.getId() == null)) {
             if (!repository.existsByCPF(coordenador.getCpf())){
                 repository.save(coordenador);
@@ -43,7 +46,8 @@ public class CoordenadorService implements ICoordenadorService{
         }
     }
 
-    public void delete(Integer id) {
+    @Override
+	public void delete(Integer id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
         } else {
@@ -52,10 +56,12 @@ public class CoordenadorService implements ICoordenadorService{
     }
 
 
-    public void update(Coordenador coordenador) {
+    @Override
+	public void update(Coordenador coordenador) {
 
-        if (!repository.existsById(coordenador.getId()))
-        throw new NotFoundException(Coordenador.class.getSimpleName().toString(), coordenador.getId());
+        if (!repository.existsById(coordenador.getId())) {
+			throw new NotFoundException(Coordenador.class.getSimpleName().toString(), coordenador.getId());
+		}
 
         Coordenador coordenadorExistente = repository.findById(coordenador.getId()).get();
 
@@ -72,10 +78,12 @@ public class CoordenadorService implements ICoordenadorService{
     }
 
 
-    public Coordenador updatePartial(Map<String, Object> mapValores, Integer id) {
+    @Override
+	public Coordenador updatePartial(Map<String, Object> mapValores, Integer id) {
 
-        if (!repository.existsById(id))
-        throw new NotFoundException(Coordenador.class.getSimpleName().toString(), id);
+        if (!repository.existsById(id)) {
+			throw new NotFoundException(Coordenador.class.getSimpleName().toString(), id);
+		}
 
         Coordenador coordenadorExistente = repository.findById(id).get();
 

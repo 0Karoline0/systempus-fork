@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.systempus.systempus.domain.DisponibilidadeProfessor;
 import br.com.systempus.systempus.domain.Professor;
 import br.com.systempus.systempus.domain.dto.DisponibilidadeProfessorDTO;
 import br.com.systempus.systempus.services.ProfessorService;
@@ -31,15 +30,15 @@ import jakarta.servlet.http.HttpServletResponse;
 @Tag(name = "Professor")
 @CrossOrigin(origins = ("*"), allowedHeaders = ("*"))
 public class ProfessorController {
-    
+
     @Autowired
     private ProfessorService professorService;
-    
+
     @GetMapping("/{id}")
     public ResponseEntity<Professor> getOne(@PathVariable Integer id){
         return ResponseEntity.ok().body(professorService.getOne(id));
     }
-    
+
     @GetMapping("/")
     public ResponseEntity<List<Professor>> getAll(){
         return ResponseEntity.ok().body(professorService.getAll());
@@ -91,6 +90,12 @@ public class ProfessorController {
         URI uri = new URI(path.toString());
 
         return ResponseEntity.created(uri).body(disponibilidades);
+    }
+
+    @PutMapping("/{id}/disponibilidades")
+    public ResponseEntity<List<DisponibilidadeProfessorDTO>> updateDisponibilidadesPorProfessor(@PathVariable Integer id, @RequestBody List<DisponibilidadeProfessorDTO> disponibilidades) {
+        List<DisponibilidadeProfessorDTO> disponibilidadesSalvas = professorService.updateDisponibilidadeProfessor(id, disponibilidades);
+        return ResponseEntity.ok().body(disponibilidadesSalvas);
     }
 
     @GetMapping("/{id}/disponibilidades")

@@ -2,10 +2,8 @@ package br.com.systempus.systempus.domain.enumerador;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-import lombok.Getter;
-
 public enum DiaSemana {
-    
+
     SEGUNDA(0, "Segunda-Feira"),
     TERCA(1, "Terça-Feira"),
     QUARTA(2, "Quarta-Feira"),

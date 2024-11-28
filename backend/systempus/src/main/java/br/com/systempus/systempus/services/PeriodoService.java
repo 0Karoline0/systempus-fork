@@ -53,7 +53,7 @@ public class PeriodoService {
         Util.matchTurno(periodo);
         Util.matchCargaHoraria(periodo, cargaHoraria);
         Util.podeCadastrarPorTurno(periodo, getAll());
-        
+
         try {
             List<HorarioAula> horariosAula = horarioAulaService.saveHorariosByPeriodo(cargaHoraria, periodo);
             periodo.setHorariosAula(horariosAula);
@@ -85,13 +85,13 @@ public class PeriodoService {
                 // periodo.setCurso(periodoExistente.getCurso());
 
                 // turnoCadastrado(periodo);
-                
+
                 periodoExistente.setTurno(periodo.getTurno());
                 periodoExistente.setInicioIntervalo(periodo.getInicioIntervalo());
                 periodoExistente.setFimIntervalo(periodo.getFimIntervalo());
                 periodoExistente.setInicioHorario(periodo.getInicioHorario());
                 periodoExistente.setFimHorario(periodo.getFimHorario());
-    
+
                 repository.saveAndFlush(periodoExistente);
 
         }else{
@@ -124,7 +124,7 @@ public class PeriodoService {
         for (Periodo periodo : cursoExistente.getPeriodos()){
             System.out.println(periodo);
         }
-        
+
         List<Periodo> periodos = cursoExistente.getPeriodos();
         return periodos;
     }

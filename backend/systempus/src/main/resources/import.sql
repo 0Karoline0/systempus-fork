@@ -1,3 +1,30 @@
+ALTER SEQUENCE profissional_id_seq RESTART WITH 1;
+ALTER SEQUENCE curso_id_seq RESTART WITH 1;
+ALTER SEQUENCE modulo_id_seq RESTART WITH 1;
+ALTER SEQUENCE disciplina_id_seq RESTART WITH 1;
+ALTER SEQUENCE instituicao_id_seq RESTART WITH 1;
+ALTER SEQUENCE carga_horaria_id_seq RESTART WITH 1;
+ALTER SEQUENCE periodo_id_seq RESTART WITH 1;
+ALTER SEQUENCE horario_aula_id_seq RESTART WITH 1;
+ALTER SEQUENCE disponibilidade_professor_id_seq RESTART WITH 1;
+
+DELETE FROM disponibilidade_professor;
+DELETE FROM horario_disciplina;
+DELETE FROM horario_aula;
+DELETE FROM professor_curso;
+DELETE FROM professor_disciplina;
+DELETE FROM disciplina;
+DELETE FROM modulo;
+DELETE FROM professor;
+DELETE FROM carga_horaria;
+DELETE FROM periodo;
+DELETE FROM instituicao;
+DELETE FROM curso;
+DELETE FROM coordenador;
+DELETE FROM profissional;
+
+ALTER TABLE disponibilidade_professor DROP CONSTRAINT uk_g4j2flr6lb67dd2w89laprade;
+
 INSERT INTO profissional(cpf, nome, status_profissional, telefone, email, foto) VALUES ('29803896091', 'Erick Lima Cavalcanti', 1, '97922208738', 'erick@outlook.com', 'https://img.freepik.com/fotos-gratis/retrato-de-homem-feliz-e-sorridente_23-2149022620.jpg');
 INSERT INTO profissional(cpf, nome, status_profissional, telefone, email) VALUES ('70622239058', 'Luís Pereira Santos', 2, '6836364963', 'luis@outlook.com');
 INSERT INTO profissional(cpf, nome, status_profissional, telefone, email, foto) VALUES ('98579973090', 'Laura Cavalcanti Melo', 2, '69926295047', 'laura@yahoo.com.br', 'https://img.freepik.com/fotos-gratis/retrato-de-uma-jovem-linda-modelo-de-pe-e-sorrindo-para-a-camera-foto-de-alta-qualidade_144627-75055.jpg');
@@ -56,12 +83,12 @@ INSERT INTO instituicao(nome, cnpj) VALUES ('Faculdade Teste', '321.323.0001/232
 INSERT INTO instituicao(nome, cnpj) VALUES ('Faculdade Senac', '222.444.0001/232');
 INSERT INTO instituicao(nome, cnpj) VALUES ('Faculdade Goiás', '662.111.0001/232');
 
-INSERT INTO periodo (curso_id, turno, instituicao_id, inicio_intervalo, fim_intervalo, inicio_horario, fim_horario) VALUES (1, 0, 1, '09:50', '10:10', '08:10', '11:40');
-INSERT INTO periodo (curso_id, turno, instituicao_id, inicio_intervalo, fim_intervalo, inicio_horario, fim_horario) VALUES (1, 2, 1, '19:50', '20:10', '18:30', '22:00');
+INSERT INTO carga_horaria(carga_horaria, instituicao_id) VALUES (80, 1);
+INSERT INTO carga_horaria(carga_horaria, instituicao_id) VALUES (25, 2);
+INSERT INTO carga_horaria(carga_horaria, instituicao_id) VALUES (50, 1);
 
-INSERT INTO carga_horaria(carga_horaria, instituicao_id, periodo_id) VALUES (80, 1, 1);
-INSERT INTO carga_horaria(carga_horaria, instituicao_id, periodo_id) VALUES (25, 2, 1);
-INSERT INTO carga_horaria(carga_horaria) VALUES (50);
+INSERT INTO periodo (curso_id, turno, instituicao_id, inicio_intervalo, fim_intervalo, inicio_horario, fim_horario, carga_horaria_id) VALUES (1, 0, 1, '09:50', '10:10', '08:10', '11:40', 3);
+INSERT INTO periodo (curso_id, turno, instituicao_id, inicio_intervalo, fim_intervalo, inicio_horario, fim_horario, carga_horaria_id) VALUES (1, 2, 1, '19:50', '20:10', '18:30', '22:00', 3);
 
 INSERT INTO horario_aula(carga_horaria_id, periodo_id, inicio_aula, fim_aula) VALUES (3, 1, '08:10', '09:00');
 INSERT INTO horario_aula(carga_horaria_id, periodo_id, inicio_aula, fim_aula) VALUES (3, 1, '09:00', '09:50');
@@ -73,4 +100,19 @@ INSERT INTO horario_aula(carga_horaria_id, periodo_id, inicio_aula, fim_aula) VA
 INSERT INTO horario_aula(carga_horaria_id, periodo_id, inicio_aula, fim_aula) VALUES (3, 2, '20:20', '21:10');
 INSERT INTO horario_aula(carga_horaria_id, periodo_id, inicio_aula, fim_aula) VALUES (3, 2, '21:10', '22:00');
 
-INSERT INTO horario_disciplina(horario_aula_id, disciplina_id) VALUES (1, 1);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (0, 1, 1);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (0, 2, 1);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (0, 3, 1);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (0, 4, 1);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (1, 1, 1);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (1, 2, 1);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (1, 3, 1);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (2, 5, 1);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (2, 6, 1);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (5, 7, 1);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (5, 8, 1);
+
+INSERT INTO horario_disciplina(dia_semana, horario_aula_id, disciplina_id) VALUES (0, 1, 1);
+INSERT INTO horario_disciplina(dia_semana, horario_aula_id, disciplina_id) VALUES (0, 2, 1);
+INSERT INTO horario_disciplina(dia_semana, horario_aula_id, disciplina_id) VALUES (0, 3, 1);
+INSERT INTO horario_disciplina(dia_semana, horario_aula_id, disciplina_id) VALUES (0, 4, 1);

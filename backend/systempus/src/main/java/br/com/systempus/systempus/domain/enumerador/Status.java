@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import br.com.systempus.systempus.error.NotFoundException;
 
 public enum Status {
-    
+
     ATIVO(0, "Ativo"),
     DESAIVADO(1, "Desativado"),
     LINCENCA(2, "Licença");

@@ -1,9 +1,5 @@
 package br.com.systempus.systempus.domain;
 
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,7 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,14 +28,9 @@ public class CargaHoraria {
     @Column(name = "carga_horaria")
     private Integer cargaHoraria;
 
-    @OneToMany(mappedBy = "cargaHoraria")
-    // @JsonManagedReference(value = "periodo_hora_aula")
-    private List<HorarioAula> horariosAula;
-
     @ManyToOne
     @JoinColumn(name = "instituicao_id")
-    // @JsonManagedReference(value = "instituicao_cargas_horarias")
     private Instituicao instituicao;
     
-    
+
 }

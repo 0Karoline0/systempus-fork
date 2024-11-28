@@ -24,7 +24,7 @@ public enum Modalidade {
         return value;
     }
 
-    
+
     public String getName(){
         return name;
     }

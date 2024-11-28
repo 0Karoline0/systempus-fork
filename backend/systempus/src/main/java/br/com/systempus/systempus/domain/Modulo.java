@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -50,6 +49,5 @@ public class Modulo {
     // @JsonManagedReference(value = "disciplina_modulo")
     @OneToMany(mappedBy = "modulo")
     private List<Disciplina> disciplinas;
-
 
 }

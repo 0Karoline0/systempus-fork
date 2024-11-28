@@ -2,13 +2,11 @@ package br.com.systempus.systempus.domain;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PreRemove;
 import jakarta.persistence.Table;
-import jakarta.persistence.DiscriminatorValue;
 
 @Entity
 @Table(name = "coordenador")
@@ -33,4 +31,6 @@ public class Coordenador extends Profissional{
             curso.setCoordenador(null);
         }
     }
+    
+    
 }
