@@ -12,6 +12,7 @@ import org.springframework.util.ReflectionUtils;
 
 import br.com.systempus.systempus.domain.Curso;
 import br.com.systempus.systempus.domain.Modulo;
+import br.com.systempus.systempus.domain.Professor;
 import br.com.systempus.systempus.error.IllegalStateException;
 import br.com.systempus.systempus.error.NotFoundException;
 import br.com.systempus.systempus.repository.CoordenadorRepository;
@@ -141,6 +142,10 @@ public class CursoService implements ICursoService {
         Modulo moduloNovo = moduloRepository.save(modulo);
 
         return repository.findById(idCurso).get();
+    }
+
+    public List<Professor> getProfessoresByCurso(Integer idCurso){
+        return repository.findById(idCurso).get().getProfessores();
     }
 
 

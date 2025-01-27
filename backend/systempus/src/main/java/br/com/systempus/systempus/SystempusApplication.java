@@ -1,4 +1,3 @@
-
 package br.com.systempus.systempus;
 
 import org.springframework.boot.SpringApplication;

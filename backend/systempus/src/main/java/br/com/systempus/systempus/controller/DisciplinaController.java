@@ -22,7 +22,6 @@ import br.com.systempus.systempus.domain.Disciplina;
 import br.com.systempus.systempus.domain.dto.DisciplinaDTO;
 import br.com.systempus.systempus.domain.dto.HorarioDisciplinaDTO;
 import br.com.systempus.systempus.services.DisciplinaService;
-import br.com.systempus.systempus.services.ModuloService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -36,13 +35,9 @@ public class DisciplinaController {
     @Autowired
     private DisciplinaService service;
 
-    @Autowired
-    private ModuloService moduloService;
-
-
     @GetMapping("{id}")
-    public ResponseEntity<Disciplina> getOne(@PathVariable Integer id){
-        return ResponseEntity.ok().body(service.getOne(id));
+    public ResponseEntity<DisciplinaDTO> getOne(@PathVariable Integer id){
+        return ResponseEntity.ok().body(service.getDisciplinaById(id));
     }
 
     @GetMapping
@@ -115,7 +110,6 @@ public class DisciplinaController {
         List<HorarioDisciplinaDTO> horariosSalvos = service.updateHorariosDisciplina(id, disponibilidades);
         return ResponseEntity.ok().body(horariosSalvos);
     }
-
 
 
 }

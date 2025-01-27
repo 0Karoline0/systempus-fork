@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.systempus.systempus.domain.Curso;
 import br.com.systempus.systempus.domain.Modulo;
+import br.com.systempus.systempus.domain.Professor;
 import br.com.systempus.systempus.services.CursoService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -81,6 +82,11 @@ public class CursoController {
     public ResponseEntity<Curso> adicionarModulo(@PathVariable Integer idCurso, @RequestBody Modulo modulo){
         Curso cursoAtualizado = cursoService.adicionarModulo(idCurso, modulo);
         return ResponseEntity.ok().body(cursoAtualizado);
+    }
+
+    @GetMapping("professores/{idCurso}")
+    public ResponseEntity<List<Professor>> getProfessoresByCurso(@PathVariable Integer idCurso){
+        return ResponseEntity.ok().body(cursoService.getProfessoresByCurso(idCurso));
     }
 
 }

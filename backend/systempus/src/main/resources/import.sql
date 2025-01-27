@@ -63,12 +63,12 @@ INSERT INTO modulo(nome, data_Inicio, data_Fim, curso_id) VALUES ('BE-2', '2023-
 INSERT INTO modulo(nome, data_Inicio, data_Fim, curso_id) VALUES ('AV-2', '2023-02-01', '2023-06-12', 3);
 INSERT INTO modulo(nome, data_Inicio, data_Fim, curso_id) VALUES ('CA-2', '2023-08-01', '2023-12-10', 3);
 
-INSERT INTO disciplina(nome, modulo_id) VALUES ('Fundamentos de Redes', 1);
-INSERT INTO disciplina(nome, modulo_id) VALUES ('Programação Orientada a Objetos', 2);
-INSERT INTO disciplina(nome, modulo_id) VALUES ('Engenharia de Software', 1);
-INSERT INTO disciplina(nome, modulo_id) VALUES ('Fundamentos de Banco de Dados', 2);
-INSERT INTO disciplina(nome, modulo_id) VALUES ('Fundamento das Cores', 3);
-INSERT INTO disciplina(nome, modulo_id) VALUES ('Arte Pré-Histórica', 4);
+INSERT INTO disciplina(nome, modulo_id, quantidade_cargas) VALUES ('Fundamentos de Redes', 1, 2);
+INSERT INTO disciplina(nome, modulo_id, quantidade_cargas) VALUES ('Programação Orientada a Objetos', 2, 8);
+INSERT INTO disciplina(nome, modulo_id, quantidade_cargas) VALUES ('Engenharia de Software', 1, 2);
+INSERT INTO disciplina(nome, modulo_id, quantidade_cargas) VALUES ('Fundamentos de Banco de Dados', 2, 8);
+INSERT INTO disciplina(nome, modulo_id, quantidade_cargas) VALUES ('Fundamento das Cores', 3, 4);
+INSERT INTO disciplina(nome, modulo_id, quantidade_cargas) VALUES ('Arte Pré-Histórica', 4, 2);
 
 INSERT INTO professor_curso(professor_id, curso_id) VALUES (1, 1);
 INSERT INTO professor_curso(professor_id, curso_id) VALUES (2, 1);

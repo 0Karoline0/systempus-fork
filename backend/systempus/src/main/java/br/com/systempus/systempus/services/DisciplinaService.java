@@ -2,22 +2,21 @@ package br.com.systempus.systempus.services;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
 import br.com.systempus.systempus.domain.Curso;
-import br.com.systempus.systempus.domain.Professor;
-import br.com.systempus.systempus.domain.ProfessorDisciplina;
 import br.com.systempus.systempus.domain.Disciplina;
 import br.com.systempus.systempus.domain.HorarioDisciplina;
 import br.com.systempus.systempus.domain.Modulo;
 import br.com.systempus.systempus.domain.dto.DisciplinaDTO;
 import br.com.systempus.systempus.domain.dto.HorarioDisciplinaDTO;
+import br.com.systempus.systempus.error.DataIntegrityViolationException;
 import br.com.systempus.systempus.error.IllegalStateException;
 import br.com.systempus.systempus.error.NotFoundException;
 import br.com.systempus.systempus.repository.CursoRepository;
@@ -41,6 +40,13 @@ public class DisciplinaService implements IDisciplinaService {
 		Disciplina resultado = repository.findById(id)
 				.orElseThrow(() -> new NotFoundException(Disciplina.class.getSimpleName().toString(), id));
 		return resultado;
+	}
+
+	public DisciplinaDTO getDisciplinaById(Integer id) {
+		final Disciplina resultado = repository.findById(id)
+				.orElseThrow(() -> new NotFoundException(Disciplina.class.getSimpleName().toString(), id));
+		List<DisciplinaDTO> lista = DisciplinaDTO.convertToDTO(Collections.singletonList(resultado));
+		return lista.get(0);
 	}
 
 	@Override
@@ -129,15 +135,24 @@ public class DisciplinaService implements IDisciplinaService {
         return HorarioDisciplinaDTO.convertToDTO(horarios);
 	}
 
-	public List<HorarioDisciplinaDTO> saveHorariosDisciplina(List<HorarioDisciplinaDTO> disponibilidadeRequest, Integer disciplinaId){
+	public List<HorarioDisciplinaDTO> saveHorariosDisciplina(List<HorarioDisciplinaDTO> horarios, Integer disciplinaId){
+		horariosCondizCargas(horarios, disciplinaId);
 		Disciplina disciplina = getOne(disciplinaId);
-	    return horarioDisciplinaService.save(disponibilidadeRequest, disciplina);
+	    return horarioDisciplinaService.save(horarios, disciplina);
 	}
-
+	
 	public List<HorarioDisciplinaDTO> updateHorariosDisciplina(Integer disciplinaId,
-			List<HorarioDisciplinaDTO> horarios) {
+	List<HorarioDisciplinaDTO> horarios) {
+		horariosCondizCargas(horarios, disciplinaId);
 		Disciplina disciplina = getOne(disciplinaId);
 	    return horarioDisciplinaService.updateHorarioDisciplina(horarios, disciplina);
+	}
+
+	public void horariosCondizCargas(List<HorarioDisciplinaDTO> horarios, Integer disciplinaId){
+		Integer quantidadeCargas = getOne(disciplinaId).getQuantidadeCargas();
+		if (horarios.size() != quantidadeCargas){
+			throw new DataIntegrityViolationException("A quantidade de horários selecionados precisa ser equivalente à quantidade de carga horária da disciplina.");
+		}
 	}
 	
 }

@@ -11,7 +11,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -36,6 +35,9 @@ public class Disciplina {
 
     @NotNull(message = "Campo Obrigatório")
     private String nome;
+
+    @NotNull(message = "Campo obrigatório")
+    private Integer quantidadeCargas;
 
     @JsonBackReference(value = "disciplina_modulo")
     @ManyToOne
