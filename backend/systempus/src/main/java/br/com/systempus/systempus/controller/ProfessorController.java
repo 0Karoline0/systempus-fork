@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.systempus.systempus.domain.Professor;
+import br.com.systempus.systempus.domain.dto.DisciplinaDTO;
 import br.com.systempus.systempus.domain.dto.DisponibilidadeProfessorDTO;
 import br.com.systempus.systempus.services.ProfessorService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -102,6 +103,27 @@ public class ProfessorController {
     public ResponseEntity<List<DisponibilidadeProfessorDTO>> getDisponibilidadeByProfessorId(@PathVariable Integer id){
         List<DisponibilidadeProfessorDTO> disponibilidades = professorService.getDisponibilidadeByProfessorId(id);
         return ResponseEntity.ok().body(disponibilidades);
+    }
+
+    @PostMapping("/{id}/preferem/disciplinas")
+    public ResponseEntity<Professor> salvarDisponibilidadesPreferidas(@PathVariable Integer id, @RequestBody List<Integer> disciplinasIds, HttpServletRequest request, HttpServletResponse response) throws URISyntaxException{
+        Professor professor = professorService.salvarDisciplinasPreferidas(id, disciplinasIds);
+        
+        StringBuffer path = new StringBuffer();
+
+        path.append(request.getRequestURI())
+            .append('/')
+            .append(id);
+
+        URI uri = new URI(path.toString());
+        
+        return ResponseEntity.created(uri).body(professor);
+    }
+
+    
+    @GetMapping("/{id}/preferem/disciplinas")
+    public ResponseEntity<List<DisciplinaDTO>> getDisciplinasPreferidasByProfessor(@PathVariable Integer id){
+        return ResponseEntity.ok().body(professorService.getDisciplinasPreferidas(id));
     }
 
 }

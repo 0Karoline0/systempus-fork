@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.systempus.systempus.domain.Curso;
 import br.com.systempus.systempus.domain.Modulo;
 import br.com.systempus.systempus.domain.Professor;
+import br.com.systempus.systempus.domain.dto.CursoDTO;
 import br.com.systempus.systempus.services.CursoService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -88,5 +89,18 @@ public class CursoController {
     public ResponseEntity<List<Professor>> getProfessoresByCurso(@PathVariable Integer idCurso){
         return ResponseEntity.ok().body(cursoService.getProfessoresByCurso(idCurso));
     }
+
+    @GetMapping("{idCurso}/professores/sem-horarios")
+    public ResponseEntity<List<Professor>> getProfessorSemHorarios(@PathVariable Integer idCurso){
+        List<Professor> professores = cursoService.getProfessoresSemHorarios(idCurso);
+        return ResponseEntity.ok().body(professores);
+    }
+
+    @GetMapping("/professor/{idProfessor}")
+    public ResponseEntity<List<CursoDTO>> getCursosByProfessor(@PathVariable Integer idProfessor){
+        List<CursoDTO> cursos = cursoService.getCursosByProfessor(idProfessor);
+        return ResponseEntity.ok().body(cursos);
+    }
+    
 
 }

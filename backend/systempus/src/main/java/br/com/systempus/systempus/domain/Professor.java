@@ -1,6 +1,7 @@
 package br.com.systempus.systempus.domain;
 
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -33,6 +34,14 @@ public class Professor extends Profissional{
     @OneToMany(mappedBy = "professor")
     @JsonBackReference(value = "professor_disciplina")
     private List<ProfessorDisciplina> professorDisciplina;
+
+    @ManyToMany
+    @JoinTable(
+        name = "preferencia_professor_disciplina",
+        joinColumns = @JoinColumn(name = "prof_id"),
+        inverseJoinColumns = @JoinColumn(name = "disc_id")
+    )
+    private Set<Disciplina> disciplinasPreferidas;
 
 
     public Professor(){

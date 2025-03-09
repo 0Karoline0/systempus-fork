@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.systempus.systempus.domain.Disciplina;
 import br.com.systempus.systempus.domain.Modulo;
+import br.com.systempus.systempus.domain.dto.DisciplinaDTO;
 import br.com.systempus.systempus.services.ModuloService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -83,4 +84,16 @@ public class ModuloController {
         Modulo moduloAtualizado = service.adicionarDisicplinas(idModulo, disciplina);
         return ResponseEntity.ok().body(moduloAtualizado);
     }
+
+    @GetMapping("/curso/{idCurso}")
+    public ResponseEntity<List<Modulo>> getModulosPorCurso(@PathVariable Integer idCurso){
+        return ResponseEntity.ok().body(service.getModulosPorCurso(idCurso));
+    }
+
+    @GetMapping("/{idModulo}/disciplinas/sem-horarios")
+    public ResponseEntity<List<DisciplinaDTO>> getDisciplinasSemHorarios(@PathVariable Integer idModulo){
+        return ResponseEntity.ok().body(service.getDisciplinasSemHorarios(idModulo));
+    }
+
+    
 }

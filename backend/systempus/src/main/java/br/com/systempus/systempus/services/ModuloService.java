@@ -3,6 +3,7 @@ package br.com.systempus.systempus.services;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,10 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
+import br.com.systempus.systempus.domain.Curso;
 import br.com.systempus.systempus.domain.Disciplina;
 import br.com.systempus.systempus.domain.Modulo;
+import br.com.systempus.systempus.domain.dto.DisciplinaDTO;
 import br.com.systempus.systempus.error.IllegalStateException;
 import br.com.systempus.systempus.error.NotFoundException;
+import br.com.systempus.systempus.repository.CursoRepository;
 import br.com.systempus.systempus.repository.DisciplinaRepository;
 import br.com.systempus.systempus.repository.ModuloRepository;
 import br.com.systempus.systempus.services.interfaces.IModuloService;
@@ -26,6 +30,9 @@ public class ModuloService implements IModuloService{
 
     @Autowired
     private DisciplinaRepository disciplinaRepository;
+
+    @Autowired
+    private CursoRepository cursoRepository;
 
     @Override
 	public List<Modulo> getAll(){
@@ -107,5 +114,26 @@ public class ModuloService implements IModuloService{
 
         return repository.findById(idModulo).get();
     }
+
+    public List<Modulo> getModulosPorCurso(Integer idCurso) {
+        Curso curso = cursoRepository.findById(idCurso).get();
+        return curso.getModulos();
+    }
+
+    public List<DisciplinaDTO> getDisciplinasSemHorarios(int idModulo){
+        Modulo modulo = repository.findById(idModulo).get();
+
+        List<Disciplina> disciplinas = modulo.getDisciplinas();
+		
+        List<Disciplina> semHorarios = new ArrayList<>();
+
+        for (Disciplina disciplina : disciplinas) {
+			if (disciplina.getHorarioDisciplina().isEmpty()) {
+				semHorarios.add(disciplina);
+			}
+		}
+		return DisciplinaDTO.convertToDTO(semHorarios);
+		
+	}
 
 }

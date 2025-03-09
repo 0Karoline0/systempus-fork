@@ -3,6 +3,7 @@ package br.com.systempus.systempus.services;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import org.springframework.util.ReflectionUtils;
 import br.com.systempus.systempus.domain.Curso;
 import br.com.systempus.systempus.domain.Modulo;
 import br.com.systempus.systempus.domain.Professor;
+import br.com.systempus.systempus.domain.dto.CursoDTO;
 import br.com.systempus.systempus.error.IllegalStateException;
 import br.com.systempus.systempus.error.NotFoundException;
 import br.com.systempus.systempus.repository.CoordenadorRepository;
@@ -35,6 +37,9 @@ public class CursoService implements ICursoService {
 
     @Autowired
     private PeriodoRepository periodoRepository;
+
+    @Autowired
+    private ProfessorService professorService;
 
     @Override
 	public List<Curso> getAll() {
@@ -139,13 +144,30 @@ public class CursoService implements ICursoService {
         Curso curso = repository.findById(idCurso).get();
         modulo.setCurso(curso);
 
-        Modulo moduloNovo = moduloRepository.save(modulo);
-
         return repository.findById(idCurso).get();
     }
 
     public List<Professor> getProfessoresByCurso(Integer idCurso){
         return repository.findById(idCurso).get().getProfessores();
+    }
+
+    public List<Professor> getProfessoresSemHorarios(int idCurso){
+        Curso cursos = repository.findById(idCurso).get();
+
+        List<Professor> professores = cursos.getProfessores();
+
+        List<Professor> semHorarios = new ArrayList<>();
+        for (Professor professor : professores) {
+            if (professor.getDisponibilidadeProfessor().isEmpty()) {
+                semHorarios.add(professor);
+            }
+        }
+        return semHorarios;
+
+    }
+
+    public List<CursoDTO> getCursosByProfessor(Integer idProfessor) {
+        return CursoDTO.convertToDTO(professorService.getOne(idProfessor).getCursos());
     }
 
 
