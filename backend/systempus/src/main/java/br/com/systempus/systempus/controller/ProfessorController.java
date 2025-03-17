@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.systempus.systempus.domain.Professor;
 import br.com.systempus.systempus.domain.dto.DisciplinaDTO;
 import br.com.systempus.systempus.domain.dto.DisponibilidadeProfessorDTO;
+import br.com.systempus.systempus.domain.dto.ProfessorCompatibilidadeDTO;
 import br.com.systempus.systempus.services.ProfessorService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -124,6 +125,11 @@ public class ProfessorController {
     @GetMapping("/{id}/preferem/disciplinas")
     public ResponseEntity<List<DisciplinaDTO>> getDisciplinasPreferidasByProfessor(@PathVariable Integer id){
         return ResponseEntity.ok().body(professorService.getDisciplinasPreferidas(id));
+    }
+
+    @GetMapping("/{idDisciplina}/disciplina/compatibilidade")
+    public ResponseEntity<List<ProfessorCompatibilidadeDTO>> getProfessoresComCompatibilidade(@PathVariable Integer idDisciplina){
+        return ResponseEntity.ok().body(professorService.getProfessoresPorCompatibilidade(idDisciplina));
     }
 
 }

@@ -16,9 +16,11 @@ import br.com.systempus.systempus.domain.DisponibilidadeProfessor;
 import br.com.systempus.systempus.domain.Professor;
 import br.com.systempus.systempus.domain.dto.DisciplinaDTO;
 import br.com.systempus.systempus.domain.dto.DisponibilidadeProfessorDTO;
+import br.com.systempus.systempus.domain.dto.ProfessorCompatibilidadeDTO;
 import br.com.systempus.systempus.error.DataIntegrityViolationException;
 import br.com.systempus.systempus.error.IllegalStateException;
 import br.com.systempus.systempus.error.NotFoundException;
+import br.com.systempus.systempus.repository.ProfessorCompatibilidadeRepository;
 import br.com.systempus.systempus.repository.ProfessorRepository;
 import br.com.systempus.systempus.services.interfaces.IProfessorService;
 
@@ -33,6 +35,12 @@ public class ProfessorService implements IProfessorService{
 
     @Autowired
     private DisciplinaService disciplinaService;
+
+    private final ProfessorCompatibilidadeRepository compatibilidade;
+
+    ProfessorService(ProfessorCompatibilidadeRepository professorCompat){
+        this.compatibilidade = professorCompat;
+    }
 
     @Override
 	public List<Professor> getAll() {
@@ -150,6 +158,10 @@ public class ProfessorService implements IProfessorService{
         disciplinas = DisciplinaDTO.convertToDTO(new ArrayList<>(professor.getDisciplinasPreferidas()));
 
         return disciplinas;
+    }
+
+    public List<ProfessorCompatibilidadeDTO> getProfessoresPorCompatibilidade(Integer disciplinaId){
+        return compatibilidade.getProfessoresByCompatibilidade(disciplinaId);
     }
 
 

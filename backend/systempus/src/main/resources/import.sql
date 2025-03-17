@@ -74,6 +74,11 @@ INSERT INTO professor_curso(professor_id, curso_id) VALUES (1, 1);
 INSERT INTO professor_curso(professor_id, curso_id) VALUES (2, 1);
 INSERT INTO professor_curso(professor_id, curso_id) VALUES (3, 1);
 INSERT INTO professor_curso(professor_id, curso_id) VALUES (6, 2);
+INSERT INTO professor_curso(professor_id, curso_id) VALUES (7, 1);
+INSERT INTO professor_curso(professor_id, curso_id) VALUES (8, 1);
+INSERT INTO professor_curso(professor_id, curso_id) VALUES (10, 1);
+
+
 
 INSERT INTO professor_disciplina(professor_id, disciplina_id, status_disciplina_professor) VALUES (1, 4, 0);
 INSERT INTO professor_disciplina(professor_id, disciplina_id, status_disciplina_professor) VALUES (3, 1, 0);

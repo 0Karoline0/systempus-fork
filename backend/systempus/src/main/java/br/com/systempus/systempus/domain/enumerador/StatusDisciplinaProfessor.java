@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import br.com.systempus.systempus.error.NotFoundException;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 
 @AllArgsConstructor
 public enum StatusDisciplinaProfessor{
