@@ -107,7 +107,7 @@ public class DisciplinaService implements IDisciplinaService {
 		}
 	}
 
-	public List<Disciplina> getByCurso(Integer idCurso) {
+	public List<DisciplinaDTO> getByCurso(Integer idCurso) {
 
 		List<Disciplina> disciplinas = new ArrayList<>();
 
@@ -119,9 +119,9 @@ public class DisciplinaService implements IDisciplinaService {
 					disciplinas.addAll(modulos.get(i).getDisciplinas());
 				}
 
-				return disciplinas;
+				return DisciplinaDTO.convertToDTO(disciplinas);
 			} else {
-				return disciplinas;
+				return DisciplinaDTO.convertToDTO(disciplinas);
 			}
 		} else {
 			throw new NotFoundException(Curso.class.getSimpleName().toString(), idCurso);

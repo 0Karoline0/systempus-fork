@@ -80,7 +80,7 @@ public class DisciplinaController {
     }
 
     @GetMapping("curso/{idCurso}")
-    public ResponseEntity<List<Disciplina>> getByCurso(@PathVariable Integer idCurso){
+    public ResponseEntity<List<DisciplinaDTO>> getByCurso(@PathVariable Integer idCurso){
         return ResponseEntity.ok().body(service.getByCurso(idCurso));
     }
     

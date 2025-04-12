@@ -78,8 +78,6 @@ INSERT INTO professor_curso(professor_id, curso_id) VALUES (7, 1);
 INSERT INTO professor_curso(professor_id, curso_id) VALUES (8, 1);
 INSERT INTO professor_curso(professor_id, curso_id) VALUES (10, 1);
 
-
-
 INSERT INTO professor_disciplina(professor_id, disciplina_id, status_disciplina_professor) VALUES (1, 4, 0);
 INSERT INTO professor_disciplina(professor_id, disciplina_id, status_disciplina_professor) VALUES (3, 1, 0);
 INSERT INTO professor_disciplina(professor_id, disciplina_id, status_disciplina_professor) VALUES (1, 2, 0);
@@ -119,7 +117,41 @@ INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id)
 INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (5, 7, 1);
 INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (5, 8, 1);
 
+
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (3, 1, 2);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (3, 2, 2);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (3, 3, 2);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (3, 4, 2);
+
+
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (2, 5, 3);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (2, 6, 3);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (5, 1, 3);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (5, 2, 3);
+
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (1, 1, 7);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (1, 2, 7);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (3, 5, 7);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (3, 6, 7);
+
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (4, 1, 8);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (4, 2, 8);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (4, 3, 8);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (4, 4, 8);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (4, 5, 8);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (4, 6, 8);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (4, 7, 8);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (4, 8, 8);
+
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (5, 7, 10);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (5, 8, 10);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (1, 7, 10);
+INSERT INTO disponibilidade_professor(dia_semana, horario_aula_id, professor_id) VALUES (1, 8, 10);
+
 INSERT INTO horario_disciplina(dia_semana, horario_aula_id, disciplina_id) VALUES (0, 1, 1);
 INSERT INTO horario_disciplina(dia_semana, horario_aula_id, disciplina_id) VALUES (0, 2, 1);
 INSERT INTO horario_disciplina(dia_semana, horario_aula_id, disciplina_id) VALUES (0, 3, 1);
 INSERT INTO horario_disciplina(dia_semana, horario_aula_id, disciplina_id) VALUES (0, 4, 1);
+INSERT INTO horario_disciplina(dia_semana, horario_aula_id, disciplina_id) VALUES (6, 1, 3);
+INSERT INTO horario_disciplina(dia_semana, horario_aula_id, disciplina_id) VALUES (6, 2, 3);
+
