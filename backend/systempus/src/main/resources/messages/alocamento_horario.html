@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 0;
+      margin: 0;
+    }
+    .container {
+      background-color: #ffffff;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .header {
+      text-align: center;
+      padding-bottom: 20px;
+    }
+    .header img {
+      max-height: 60px;
+    }
+    .content {
+      color: #333;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .highlight {
+      font-weight: bold;
+      color: #005b96;
+    }
+    .section {
+      margin-top: 20px;
+    }
+    .message-box {
+      background-color: #f0f8ff;
+      border-left: 4px solid #007acc;
+      padding: 15px;
+      font-style: italic;
+    }
+    .footer {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #777;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="./systempus.png" alt="Logo Systempus" />
+    </div>
+
+    <div class="content">
+      <p>Olá, <span class="highlight">{{NOME_PROFESSOR}}</span>!</p>
+
+      <p>
+        Estamos entrando em contato para informá-lo de que a disciplina <span class="highlight">{{NOME_DISCIPLINA}}</span> 
+        está disponível para os horários de disponibilidade informados na sua grade.
+      </p>
+
+      <div class="section">
+        <h3>📋 Detalhes:</h3>
+        <ul>
+          <li><strong>Curso da Disciplina:</strong>{{CURSO}}</li>
+          <li><strong>Nome da Disciplina:</strong>{{NOME_DISCIPLINA}}</li>
+          <li><strong>Módulo:</strong>{{MODULO}}</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <p>
+          Por favor, confirme com a coordenação a possibilidade de assumir a disciplina nos horários e módulo informados acima.
+          Caso os novos horários já não estejam mais compatíveis com sua disponibilidade, solicitamos que realize as devidas
+          alterações no sistema o quanto antes, a fim de evitar eventuais transtornos.
+        </p>
+      </div>
+
+      <div class="section">
+        <h3>📝 Mensagem Adicional:</h3>
+        <div class="message-box">
+         {{MENSAGEM_ADICIONAL}}
+        </div>
+      </div>
+
+      <div class="footer">
+        <p>Atenciosamente,<br><strong>Equipe Systempus</strong></p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
