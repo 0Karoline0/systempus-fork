@@ -79,8 +79,74 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
-		
 
+
+		
+			<dependency>
+			  <groupId>org.springframework.boot</groupId>
+			  <artifactId>spring-boot-starter-security</artifactId>
+			</dependency>
+			<!-- Transforma sua aplicação em um Resource Server OAuth2.
+				 Por que é necessário: Ele é quem vai validar tokens JWT 
+				 					   enviados nos headers (Authorization: Bearer <token>).
+			-->
+			<dependency>
+			  <groupId>org.springframework.boot</groupId>
+			  <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+			</dependency>
+
+			<!-- OPCIONAL
+				O que faz: Permite que sua app se conecte a provedores OAuth2 
+					       externos como Google, GitHub, etc.
+				Por que é necessário: Se você quiser login social ou conectar a
+									  outro Authorization Server, como o Keycloak.
+									  Não é obrigatório para JWT local, mas ajuda se quiser evoluir. 
+			-->
+			<dependency>
+			  <groupId>org.springframework.boot</groupId>
+			  <artifactId>spring-boot-starter-oauth2-client</artifactId>
+			</dependency>
+
+			<!-- 
+				O que faz: Fornece a API para criar, assinar e validar JWTs.
+				 Por que é necessário: Para gerar seus próprios tokens JWT no back-end. 
+				 						A jjwt-api só define as classes/interfaces – tipo uma casca.
+			-->
+			<dependency>
+			  <groupId>io.jsonwebtoken</groupId>
+			  <artifactId>jjwt-api</artifactId>
+			  <version>0.11.5</version>
+			</dependency>
+
+			<!-- 
+			O que faz: É a implementação real da lógica de geração/validação do JWT.
+			Por que é necessário: É o núcleo interno da biblioteca jjwt, que contém os algoritmos de assinatura
+								 (HS256, RS256 etc.), validação de expiração, e toda a lógica de parsing do token.
+			-->
+			<dependency>
+			  <groupId>io.jsonwebtoken</groupId>
+			  <artifactId>jjwt-impl</artifactId>
+			  <version>0.11.5</version>
+			  <scope>runtime</scope>
+			</dependency>
+
+			<!-- 
+			O que faz: Usa o Jackson para serializar/deserializar o conteúdo do JWT.
+			Por que é necessário: Permite trabalhar com claims no 
+								  formato JSON de forma automática e integrada.
+								  JWT = JSON Web Token = composto de três partes:
+						 		  Header . Payload . Signature
+
+			-->
+			<dependency>
+			  <groupId>io.jsonwebtoken</groupId>
+			  <artifactId>jjwt-jackson</artifactId>
+			  <version>0.11.5</version>
+			  <scope>runtime</scope>
+			</dependency>
+		  
+
+		  
 
 	</dependencies>
 

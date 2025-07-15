@@ -1,16 +1,19 @@
 package br.com.systempus.systempus.services;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.systempus.systempus.domain.Disciplina;
 import br.com.systempus.systempus.domain.DisponibilidadeProfessor;
 import br.com.systempus.systempus.domain.HorarioAula;
 import br.com.systempus.systempus.domain.Professor;
 import br.com.systempus.systempus.domain.dto.DisponibilidadeProfessorDTO;
 import br.com.systempus.systempus.repository.DisponibilidadeProfessorRepository;
+import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -21,6 +24,18 @@ public class DisponibilidadeProfessorService {
 
     @Autowired
     private HorarioAulaService horarioAulaService;
+
+    @Autowired
+    private ProfessorService professorService;
+
+    @Autowired
+    private DisciplinaService disciplinaService;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private WhatsappService whatsappService;
 
     public DisponibilidadeProfessor getById(Integer id){
         return repository.findById(id).get();
@@ -54,6 +69,33 @@ public class DisponibilidadeProfessorService {
     @Transactional
     public void deleteDisponibilidadesByProfessor(Professor professor){
         repository.deleteByProfessor(professor);
+    }
+
+    public List<DisponibilidadeProfessorDTO> saveDisponibilidadeProfessor(List<DisponibilidadeProfessorDTO> disponibilidadeRequest, Integer professorId) {
+        Professor professor = professorService.getOne(professorId);
+        return save(disponibilidadeRequest, professor);
+    }
+
+    public List<DisponibilidadeProfessorDTO> updateDisponibilidadeProfessor(Integer professorId, List<DisponibilidadeProfessorDTO> disponibilidades){
+        Professor professor = professorService.getOne(professorId);
+        return updateDisponibilidades(disponibilidades, professor);
+    }
+
+    public String sendWhatsappMessage(Integer idProfessor, Integer idDisciplina, String customMessage) throws IOException, MessagingException{
+        
+        Professor professor = professorService.getOne(idProfessor);
+        Disciplina disciplina = disciplinaService.getOne(idDisciplina);
+
+        try {
+            Integer statusCode = whatsappService.sendWhatsappMessage(professor.getTelefone(), professor.getNome(), disciplina, customMessage);
+            if (statusCode >= 200 && statusCode < 300){
+                return "Mensagem enviada por Whatsapp com sucesso!";
+            }
+            return "Não foi possível enviar mensagem";
+        } catch (Exception e) {
+            emailService.enviarEmailAlteracaoHorario(professor, disciplina, customMessage);
+            return "Não foi possível enviar mensagem por Whatsapp, a mensagem foi enviada por email.";
+        }
     }
 
 }

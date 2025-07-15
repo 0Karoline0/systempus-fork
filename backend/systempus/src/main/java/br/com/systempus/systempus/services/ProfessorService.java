@@ -31,9 +31,6 @@ public class ProfessorService implements IProfessorService{
     private ProfessorRepository repository;
 
     @Autowired
-    private DisponibilidadeProfessorService disponibilidadeService;
-
-    @Autowired
     private DisciplinaService disciplinaService;
 
     private final ProfessorCompatibilidadeRepository compatibilidade;
@@ -117,20 +114,10 @@ public class ProfessorService implements IProfessorService{
         }
     }
 
-    public List<DisponibilidadeProfessorDTO> saveDisponibilidades(List<DisponibilidadeProfessorDTO> disponibilidadeRequest, Integer professorId) {
-        Professor professor = getOne(professorId);
-        return disponibilidadeService.save(disponibilidadeRequest, professor);
-    }
-
     public List<DisponibilidadeProfessorDTO> getDisponibilidadeByProfessorId(Integer id) {
         Professor professor = getOne(id);
         List<DisponibilidadeProfessor> getDisponibilidades = professor.getDisponibilidadeProfessor();
         return DisponibilidadeProfessorDTO.convertToDTO(getDisponibilidades);
-    }
-
-    public List<DisponibilidadeProfessorDTO> updateDisponibilidadeProfessor(Integer professorId, List<DisponibilidadeProfessorDTO> disponibilidades){
-        Professor professor = getOne(professorId);
-        return disponibilidadeService.updateDisponibilidades(disponibilidades, professor);
     }
 
     public Professor salvarDisciplinasPreferidas(Integer id, List<Integer> disciplinasIds) {

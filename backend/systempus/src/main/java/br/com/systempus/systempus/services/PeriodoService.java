@@ -16,7 +16,7 @@ import br.com.systempus.systempus.error.DataIntegrityViolationException;
 import br.com.systempus.systempus.error.NotFoundException;
 import br.com.systempus.systempus.repository.CargaHorariaRepository;
 import br.com.systempus.systempus.repository.PeriodoRepository;
-import br.com.systempus.systempus.services.util.Util;
+import br.com.systempus.systempus.util.Util;
 import jakarta.transaction.Transactional;
 
 @Service

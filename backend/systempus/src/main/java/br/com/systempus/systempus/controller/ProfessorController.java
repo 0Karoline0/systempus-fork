@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -22,6 +21,7 @@ import br.com.systempus.systempus.domain.Professor;
 import br.com.systempus.systempus.domain.dto.DisciplinaDTO;
 import br.com.systempus.systempus.domain.dto.DisponibilidadeProfessorDTO;
 import br.com.systempus.systempus.domain.dto.ProfessorCompatibilidadeDTO;
+import br.com.systempus.systempus.services.DisponibilidadeProfessorService;
 import br.com.systempus.systempus.services.ProfessorService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,11 +30,14 @@ import jakarta.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("api/v1/professor")
 @Tag(name = "Professor")
-@CrossOrigin(origins = ("*"), allowedHeaders = ("*"))
+//@CrossOrigin(origins = ("*"), allowedHeaders = ("*"))(origins = ("*"), allowedHeaders = ("*"))
 public class ProfessorController {
 
     @Autowired
     private ProfessorService professorService;
+
+    @Autowired
+    private DisponibilidadeProfessorService disponibilidadesService;
 
     @GetMapping("/{id}")
     public ResponseEntity<Professor> getOne(@PathVariable Integer id){
@@ -46,6 +49,13 @@ public class ProfessorController {
         return ResponseEntity.ok().body(professorService.getAll());
     }
 
+    //TODO-2:
+    /*
+    * 1 - Status Pendencia_Ativação
+    * 2 - Criar o usuario com login mas sem senha.
+    * 3 - Gerar o token de ativação (salva no banco)
+    * 4 - Enviar email: link professor/ativar-conta?token=...
+    */     
     @PostMapping("/")
     public ResponseEntity<Professor> save(@RequestBody Professor professor, HttpServletRequest request, HttpServletResponse response) throws URISyntaxException{
         professorService.save(professor);
@@ -81,7 +91,7 @@ public class ProfessorController {
 
     @PostMapping("/{id}/disponibilidades")
     public ResponseEntity<List<DisponibilidadeProfessorDTO>> saveDisponibilidadesPorProfessor(@PathVariable Integer id, @RequestBody List<DisponibilidadeProfessorDTO> disponibilidadeRequest, HttpServletRequest request, HttpServletResponse response) throws URISyntaxException{
-        List<DisponibilidadeProfessorDTO> disponibilidades = professorService.saveDisponibilidades(disponibilidadeRequest, id);
+        List<DisponibilidadeProfessorDTO> disponibilidades = disponibilidadesService.saveDisponibilidadeProfessor(disponibilidadeRequest, id);
 
         StringBuffer path = new StringBuffer();
 
@@ -96,7 +106,7 @@ public class ProfessorController {
 
     @PutMapping("/{id}/disponibilidades")
     public ResponseEntity<List<DisponibilidadeProfessorDTO>> updateDisponibilidadesPorProfessor(@PathVariable Integer id, @RequestBody List<DisponibilidadeProfessorDTO> disponibilidades) {
-        List<DisponibilidadeProfessorDTO> disponibilidadesSalvas = professorService.updateDisponibilidadeProfessor(id, disponibilidades);
+        List<DisponibilidadeProfessorDTO> disponibilidadesSalvas = disponibilidadesService.updateDisponibilidadeProfessor(id, disponibilidades);
         return ResponseEntity.ok().body(disponibilidadesSalvas);
     }
 
@@ -131,5 +141,12 @@ public class ProfessorController {
     public ResponseEntity<List<ProfessorCompatibilidadeDTO>> getProfessoresComCompatibilidade(@PathVariable Integer idDisciplina){
         return ResponseEntity.ok().body(professorService.getProfessoresPorCompatibilidade(idDisciplina));
     }
+
+    //TODO-3:
+    /* PostMapping: professor/ativar-conta
+    * 1 - Validar o token ativo ou expirado (Service)
+    * 2 - Salvar a senha criptografada e os dados do professor.
+    * 3 - Remove ou expira o token
+    */
 
 }

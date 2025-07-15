@@ -2,16 +2,12 @@ package br.com.systempus.systempus.services;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
 
-import org.aspectj.apache.bcel.util.ClassPath;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StreamUtils;
 
 import br.com.systempus.systempus.domain.Disciplina;
 import br.com.systempus.systempus.domain.Professor;
@@ -24,32 +20,46 @@ public class EmailService {
     @Autowired
     private JavaMailSender mailSender;
 
-    @Autowired
-    private DisciplinaService disciplinaService;
-
-    @Autowired
-    private ProfessorService professorService;
-
-    public void enviarEmailAlteracaoHorario(Integer idProfessor, Integer idDisciplina, String mensagemCustomizada) throws IOException, MessagingException{
-        Professor p = professorService.getOne(idProfessor);
-        Disciplina d = disciplinaService.getOne(idDisciplina);
+    public void enviarEmailAlteracaoHorario(Professor professor, Disciplina disciplina, String mensagemCustomizada) throws IOException, MessagingException{
 
         MimeMessage mime = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mime, true, "UTF-8");
 
-        helper.setTo("karolinevmfaria@gmail.com");
+        helper.setTo("karolinevmfaria@gmail.com");//roussian23@gmail.com
         helper.setSubject("Solicitação de Alocamento de Horário");
 
         ClassPathResource resource = new ClassPathResource("messages/alocamento_horario.html");
         String html = new String(resource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
 
+        String customMessage = "";
+        if (mensagemCustomizada != null){
+            customMessage = mensagemCustomizada;
+        }
+
         html = html
-            .replace("{{NOME_PROFESSOR}}", "Lasanha")
-            .replace("{{NOME_DISCIPLINA}}", "Batata Frita")
-            .replace("{{MODULO}}", "AB-1")
-            .replace("{{CURSO}}", "Culinária")
-            .replace("{{MENSAGEM_ADICIONAL}}", "TESTE");
+            .replace("{{NOME_PROFESSOR}}", professor.getNome())
+            .replace("{{NOME_DISCIPLINA}}", disciplina.getNome())
+            .replace("{{MODULO}}", disciplina.getModulo().getNome())
+            .replace("{{CURSO}}", disciplina.getModulo().getCurso().getNome())
+            .replace("{{MENSAGEM_ADICIONAL}}", customMessage);
         
+        helper.setText(html, true);
+        mailSender.send(mime);
+    }
+
+    public void enviarEmailLinkResetSenha(String email, String token) throws MessagingException, IOException {
+        MimeMessage mime = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mime, true, "UTF-8");
+        helper.setTo(email);
+        helper.setSubject("Link Temporário para reset de senha");
+
+        ClassPathResource resource = new ClassPathResource("messages/resetPassword.html");
+        String html = new String(resource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+
+        String linkToken = "http://localhost:5173/novaSenha/" + token + "/" + email;
+
+        html = html.replace("{{link}}", linkToken);
+
         helper.setText(html, true);
         mailSender.send(mime);
     }

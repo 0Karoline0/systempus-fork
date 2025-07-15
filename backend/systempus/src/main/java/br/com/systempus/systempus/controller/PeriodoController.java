@@ -29,7 +29,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("api/v1/periodo/")
 @Tag(name = "Periodo")
-@CrossOrigin(origins = ("*"), allowedHeaders = ("*"))
+//@CrossOrigin(origins = ("*"), allowedHeaders = ("*"))(origins = ("*"), allowedHeaders = ("*"))
 public class PeriodoController {
 
     @Autowired

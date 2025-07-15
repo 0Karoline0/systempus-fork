@@ -1,25 +1,27 @@
-// package br.com.systempus.systempus.config;
+package br.com.systempus.systempus.config;
 
-// import org.springframework.context.annotation.Bean;
-// import org.springframework.context.annotation.Configuration;
-// import org.springframework.web.cors.CorsConfiguration;
-// import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-// import org.springframework.web.filter.CorsFilter;
+import java.util.List;
 
-// @Configuration
-// public class CorsConfig{
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
-//     @Bean
-//     public CorsFilter corsFilter(){
-//         CorsConfiguration config = new CorsConfiguration();
-//         config.setAllowCredentials(true);
-//         config.addAllowedOrigin("*");//Define a origem permitia
-//         config.addAllowedHeader("*");//Define os cabeçalhos permitidos
-//         config.addAllowedMethod("*");//Define os métodos HTTP permitidos
+@Configuration
+public class CorsConfig{
 
-//         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//         source.registerCorsConfiguration(("/**"), config);// "/**" é um padrão curinga que corresponde a qualquer URL
+    @Bean
+    public CorsFilter corsFilter(){
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.setAllowedOrigins(List.of("http://localhost:5173"));//Define a origem permitia
+        config.setAllowedHeaders(List.of("*"));//Define os cabeçalhos permitidos
+        config.setAllowedMethods(List.of("GET", "POST", "DELETE", "PUT", "PATCH"));//Define os métodos HTTP permitidos
 
-//         return new CorsFilter(source);
-//     }
-// }
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration(("/**"), config);// "/**" é um padrão curinga que corresponde a qualquer URL
+
+        return new CorsFilter(source);
+    }
+}

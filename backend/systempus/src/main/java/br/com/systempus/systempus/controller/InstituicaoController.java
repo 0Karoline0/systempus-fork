@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -28,7 +27,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("api/v1/instituicao/")
 @Tag(name = "Instituição")
-@CrossOrigin(origins = ("*"), allowedHeaders = ("*"))
+//@CrossOrigin(origins = ("*"), allowedHeaders = ("*"))(origins = ("*"), allowedHeaders = ("*"))
 public class InstituicaoController {
 
     @Autowired
@@ -40,7 +39,7 @@ public class InstituicaoController {
     }
 
     @GetMapping
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    //@CrossOrigin(origins = ("*"), allowedHeaders = ("*"))(origins = "*", allowedHeaders = "*")
     public ResponseEntity<List<Instituicao>> getAll(){
         return ResponseEntity.ok().body(service.getAll());
     }

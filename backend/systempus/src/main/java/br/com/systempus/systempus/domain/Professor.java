@@ -43,6 +43,11 @@ public class Professor extends Profissional{
     )
     private Set<Disciplina> disciplinasPreferidas;
 
+   // TODO-1: Adicionar uma propriedade de status do professor: ATIVO, INATIVO, PENDENTE_ATIVACAO
+   //  - Antes de enviar o email para ativação, o coordenador/ADM informará do professor e coordenador:
+   //     - Nome
+   //     - Email
+   //     - Cursos
 
     public Professor(){
 

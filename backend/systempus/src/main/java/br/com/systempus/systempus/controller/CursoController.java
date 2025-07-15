@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -31,7 +30,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("api/v1/curso/")
 @Tag(name = "Curso")
-@CrossOrigin(origins = ("*"), allowedHeaders = ("*"))
+//@CrossOrigin(origins = ("*"), allowedHeaders = ("*"))(origins = ("*"), allowedHeaders = ("*"))
 public class CursoController {
 
     @Autowired
@@ -46,7 +45,6 @@ public class CursoController {
     public ResponseEntity<List<Curso>> getAll() {
         return ResponseEntity.ok().body(cursoService.getAll());
     }
-
 
     @PostMapping
     public ResponseEntity<Curso> save(@Valid @RequestBody Curso curso, HttpServletRequest request, HttpServletResponse response) throws URISyntaxException {
@@ -101,6 +99,5 @@ public class CursoController {
         List<CursoDTO> cursos = cursoService.getCursosByProfessor(idProfessor);
         return ResponseEntity.ok().body(cursos);
     }
-    
 
 }
