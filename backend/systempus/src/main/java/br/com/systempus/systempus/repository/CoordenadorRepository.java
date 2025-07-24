@@ -12,4 +12,6 @@ public interface CoordenadorRepository extends JpaRepository<Coordenador, Intege
 
     @Query(value = "SELECT COUNT(*) > 0 FROM profissional WHERE cpf = :cpf", nativeQuery = true)
     boolean existsByCPF(@Param("cpf") String cpf);
+
+    boolean existsByEmail(String email);
 }

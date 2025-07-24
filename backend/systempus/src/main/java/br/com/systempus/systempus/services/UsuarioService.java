@@ -9,8 +9,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.com.systempus.systempus.domain.Profissional;
 import br.com.systempus.systempus.domain.Usuario;
 import br.com.systempus.systempus.domain.security.UserDetailsImpl;
+import br.com.systempus.systempus.error.NotFoundException;
 import br.com.systempus.systempus.repository.UsuarioRepository;
 
 
@@ -19,9 +21,6 @@ public class UsuarioService implements UserDetailsService {
     
     @Autowired
     private UsuarioRepository repository;
-
-    @Autowired
-    private ProfessorService professorService;
 
     @Autowired
     private CoordenadorService coordenadorService;
@@ -49,6 +48,10 @@ public class UsuarioService implements UserDetailsService {
     public void resetPassword(Usuario usuario){
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         repository.saveAndFlush(usuario);  
+    }
+
+    public Usuario getByIdProfissional(Integer idProfissional) {
+        return repository.buscarPorIdDoProfissional(idProfissional).orElseThrow(() -> new NotFoundException(Profissional.class.getName(), idProfissional));
     }
 
     

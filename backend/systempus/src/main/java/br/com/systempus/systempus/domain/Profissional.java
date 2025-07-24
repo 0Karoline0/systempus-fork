@@ -3,6 +3,7 @@ package br.com.systempus.systempus.domain;
 import org.hibernate.validator.constraints.br.CPF;
 
 import br.com.systempus.systempus.domain.enumerador.Status;
+import br.com.systempus.systempus.domain.enumerador.StatusAtivacao;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,8 +41,11 @@ public class Profissional {
     private String email;
 
     @Column(name = "status_profissional")
-    @NotNull(message = "Campo obrigatório")
     private Status status;
+
+    @NotNull(message = "Campo obrigatório")
+    @Column(name = "status_ativacao")
+    private StatusAtivacao statusAtivacao;
 
     private String foto;
 
@@ -99,6 +103,12 @@ public class Profissional {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+    public StatusAtivacao getStatusAtivacao() {
+        return statusAtivacao;
+    }
+    public void setStatusAtivacao(StatusAtivacao statusAtivacao) {
+        this.statusAtivacao = statusAtivacao;
     }
 
 

@@ -64,4 +64,22 @@ public class EmailService {
         mailSender.send(mime);
     }
 
+    public void enviarEmailCadastro(String email, String token, String frontPath, Integer idProfessor) throws MessagingException, IOException {
+        MimeMessage mime = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mime, true, "UTF-8");
+        helper.setTo(email);
+        helper.setSubject("Link Temporário para cadastro");
+
+        // LINK APENAS!!!!
+        ClassPathResource resource = new ClassPathResource("messages/register.html");
+        String html = new String(resource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+
+        String linkToken = "http://localhost:5173/" + frontPath + idProfessor + "/" + token;
+
+        html = html.replace("{{link}}", linkToken);
+
+        helper.setText(html, true);
+        mailSender.send(mime);
+    }
+
 }

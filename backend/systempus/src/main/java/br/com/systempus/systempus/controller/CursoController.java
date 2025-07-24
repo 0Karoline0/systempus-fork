@@ -46,6 +46,11 @@ public class CursoController {
         return ResponseEntity.ok().body(cursoService.getAll());
     }
 
+    @GetMapping("cursos")
+    public ResponseEntity<List<CursoDTO>> getCursos() {
+        return ResponseEntity.ok().body(cursoService.getCursos());
+    }
+
     @PostMapping
     public ResponseEntity<Curso> save(@Valid @RequestBody Curso curso, HttpServletRequest request, HttpServletResponse response) throws URISyntaxException {
         cursoService.save(curso);

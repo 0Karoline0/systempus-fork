@@ -170,5 +170,18 @@ public class CursoService implements ICursoService {
         return CursoDTO.convertToDTO(professorService.getOne(idProfessor).getCursos());
     }
 
+    public List<Curso> getCursosByIntegerList(List<Integer> cursos) {
+        List<Curso> aux = new ArrayList<>();
+        for (Integer idCurso : cursos) {
+            aux.add(getOne(idCurso));
+        }
+        return aux;
+    }
+
+    public List<CursoDTO> getCursos() {
+        List<Curso> cursos = getAll();
+        return CursoDTO.convertToDTO(cursos);
+    }
+
 
 }

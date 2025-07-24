@@ -17,6 +17,7 @@ import br.com.systempus.systempus.domain.Professor;
 import br.com.systempus.systempus.domain.dto.DisciplinaDTO;
 import br.com.systempus.systempus.domain.dto.DisponibilidadeProfessorDTO;
 import br.com.systempus.systempus.domain.dto.ProfessorCompatibilidadeDTO;
+import br.com.systempus.systempus.domain.enumerador.StatusAtivacao;
 import br.com.systempus.systempus.error.DataIntegrityViolationException;
 import br.com.systempus.systempus.error.IllegalStateException;
 import br.com.systempus.systempus.error.NotFoundException;
@@ -32,6 +33,12 @@ public class ProfessorService implements IProfessorService{
 
     @Autowired
     private DisciplinaService disciplinaService;
+
+    @Autowired
+    private UsuarioService usuarioService;
+
+    @Autowired
+    private UserTokenService tokenService;
 
     private final ProfessorCompatibilidadeRepository compatibilidade;
 
@@ -53,13 +60,23 @@ public class ProfessorService implements IProfessorService{
     @Override
 	public void save(Professor professor){
         if (professor.getId() == null){
-            if (!repository.existsByCPF(professor.getCpf())){
-                repository.save(professor);
-            }else{
-                throw new DataIntegrityViolationException(DataIntegrityViolationException.cpfExists(professor.getCpf()));
-            }
+            existsByCpf(professor);
+            existsByEmail(professor);
+            repository.save(professor);
         }else{
             throw new IllegalStateException(Professor.class.getSimpleName().toString());
+        }
+    }
+
+    public void existsByCpf(Professor professor) {
+        if (repository.existsByCPF(professor.getCpf())){
+            throw new DataIntegrityViolationException(DataIntegrityViolationException.cpfExists(professor.getCpf()));
+        }
+    }
+    
+    public void existsByEmail(Professor professor) {
+        if (repository.existsByEmail(professor.getEmail())) {
+            throw new DataIntegrityViolationException(DataIntegrityViolationException.emailExists(professor.getEmail()));
         }
     }
 
@@ -149,6 +166,12 @@ public class ProfessorService implements IProfessorService{
 
     public List<ProfessorCompatibilidadeDTO> getProfessoresPorCompatibilidade(Integer disciplinaId){
         return compatibilidade.getProfessoresByCompatibilidade(disciplinaId);
+    }
+
+    public Professor changeProfessorStatusAtivacao(Integer idProfessor, Map<String, Integer> status) {
+        Professor p = getOne(idProfessor);
+        p.setStatusAtivacao(StatusAtivacao.toEnum(status.get("statusAtivacao")));
+        return repository.saveAndFlush(p);
     }
 
 

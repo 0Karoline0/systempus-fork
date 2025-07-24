@@ -18,6 +18,16 @@ public class DataIntegrityViolationException extends NonTransientDataAccessExcep
         return mensagem.toString();
     }
 
+    public static String emailExists(String email){
+        StringBuilder mensagem = new StringBuilder();
+
+        mensagem.append("O email: ")
+                .append(email)
+                .append(" já foi cadastrado no sistema");
+
+        return mensagem.toString();
+    }
+
     public static String turnoAlreadyExists(String turno, String curso){
         StringBuilder mensagem = new StringBuilder();
         

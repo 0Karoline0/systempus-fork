@@ -14,9 +14,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class PasswordResetToken {
-    
-    private static final int EXPIRATION = 60 * 24;
+public class UserToken {
  
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

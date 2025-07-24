@@ -1,5 +1,6 @@
 package br.com.systempus.systempus.controller;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -18,12 +19,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.systempus.systempus.domain.Professor;
+import br.com.systempus.systempus.domain.dto.CadastroDTO;
+import br.com.systempus.systempus.domain.dto.CadastroProfissionalDTO;
 import br.com.systempus.systempus.domain.dto.DisciplinaDTO;
 import br.com.systempus.systempus.domain.dto.DisponibilidadeProfessorDTO;
 import br.com.systempus.systempus.domain.dto.ProfessorCompatibilidadeDTO;
+import br.com.systempus.systempus.domain.dto.ProfissionalDTO;
+import br.com.systempus.systempus.services.CadastroService;
 import br.com.systempus.systempus.services.DisponibilidadeProfessorService;
 import br.com.systempus.systempus.services.ProfessorService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -39,9 +45,18 @@ public class ProfessorController {
     @Autowired
     private DisponibilidadeProfessorService disponibilidadesService;
 
+    @Autowired
+    private CadastroService cadastroService;
+
     @GetMapping("/{id}")
     public ResponseEntity<Professor> getOne(@PathVariable Integer id){
         return ResponseEntity.ok().body(professorService.getOne(id));
+    }
+
+    @GetMapping("/{token}/{idProfessor}")
+    public ResponseEntity<ProfissionalDTO> getProfessorById(@PathVariable String token, @PathVariable Integer idProfessor){
+        ProfissionalDTO professor = cadastroService.getProfessorById(token, idProfessor);
+        return ResponseEntity.ok().body(professor);
     }
 
     @GetMapping("/")
@@ -49,26 +64,25 @@ public class ProfessorController {
         return ResponseEntity.ok().body(professorService.getAll());
     }
 
-    //TODO-2:
-    /*
-    * 1 - Status Pendencia_Ativação
-    * 2 - Criar o usuario com login mas sem senha.
-    * 3 - Gerar o token de ativação (salva no banco)
-    * 4 - Enviar email: link professor/ativar-conta?token=...
-    */     
-    @PostMapping("/")
-    public ResponseEntity<Professor> save(@RequestBody Professor professor, HttpServletRequest request, HttpServletResponse response) throws URISyntaxException{
-        professorService.save(professor);
+    @PostMapping("/pre-cadastro")
+    public ResponseEntity<Void> enviarEmailCadastro(@RequestBody CadastroProfissionalDTO cadastro) throws MessagingException, IOException {
+        cadastroService.enviarEmailCadastro(cadastro, true);
+        return ResponseEntity.ok().build();
+    }  
+
+    @PostMapping("/cadastro")
+    public ResponseEntity<Professor> save(@RequestBody CadastroDTO professor, HttpServletRequest request, HttpServletResponse response) throws URISyntaxException{
+        Professor p = cadastroService.cadastroProfessor(professor);
 
         StringBuffer path = new StringBuffer();
 
         path.append(request.getRequestURI())
             .append("/")
-            .append(professor.getId());
+            .append(p.getId());
 
         URI uri = new URI(path.toString());
 
-        return ResponseEntity.created(uri).body(professor);
+        return ResponseEntity.created(uri).body(p);
     }
 
     @DeleteMapping("/{id}")
@@ -142,11 +156,10 @@ public class ProfessorController {
         return ResponseEntity.ok().body(professorService.getProfessoresPorCompatibilidade(idDisciplina));
     }
 
-    //TODO-3:
-    /* PostMapping: professor/ativar-conta
-    * 1 - Validar o token ativo ou expirado (Service)
-    * 2 - Salvar a senha criptografada e os dados do professor.
-    * 3 - Remove ou expira o token
-    */
+    @PatchMapping("/status/{id}")
+    public ResponseEntity<Professor> updateStatusAtivacao(@PathVariable Integer id, @RequestBody Map<String, Integer> status){
+        Professor professorAtualizado = professorService.changeProfessorStatusAtivacao(id, status);
+        return ResponseEntity.ok().body(professorAtualizado);
+    }
 
 }

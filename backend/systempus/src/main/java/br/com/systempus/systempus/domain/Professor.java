@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import br.com.systempus.systempus.domain.enumerador.StatusAtivacao;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -43,21 +44,16 @@ public class Professor extends Profissional{
     )
     private Set<Disciplina> disciplinasPreferidas;
 
-   // TODO-1: Adicionar uma propriedade de status do professor: ATIVO, INATIVO, PENDENTE_ATIVACAO
-   //  - Antes de enviar o email para ativação, o coordenador/ADM informará do professor e coordenador:
-   //     - Nome
-   //     - Email
-   //     - Cursos
-
     public Professor(){
 
     }
 
-    public Professor(String cpf, String nome, String telefone){
-        this.setCpf(cpf);
-        this.setNome(nome);
-        this.setTelefone(telefone);
+    public Professor(String nome, String cpf, String email, List<Curso> cursos) {
+        setNome(nome);
+        setCpf(cpf);
+        setEmail(email);
+        setStatusAtivacao(StatusAtivacao.PENDENTE_ATIVACAO);
+        setCursos(cursos);
     }
-    
     
 }

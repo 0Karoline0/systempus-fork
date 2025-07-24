@@ -32,6 +32,10 @@ public class SecurityConfig {
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/api/v1/auth/**").permitAll()
                 .requestMatchers("/api/v1/auth/reset/password").permitAll()
+                .requestMatchers("/api/v1/professor/*/*").permitAll()
+                .requestMatchers("/api/v1/coordenador/*/*").permitAll()
+                .requestMatchers("/api/v1/professor/cadastro").permitAll()
+                .requestMatchers("/api/v1/coordenador/cadastro").permitAll()
                 .requestMatchers("/api/v1/password/**").permitAll()
                 .anyRequest().authenticated()
             )
