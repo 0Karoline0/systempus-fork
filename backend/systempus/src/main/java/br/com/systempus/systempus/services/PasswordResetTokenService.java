@@ -25,7 +25,7 @@ public class PasswordResetTokenService {
     private EmailService emailService;
 
     public void solicitarReset(String email) throws MessagingException, IOException {
-        Usuario usuario = usuarioService.findUserByEmail(email).orElseThrow( () -> new UsernameNotFoundException(email));
+        Usuario usuario = usuarioService.findUserByEmail(email);
         UserToken token = userTokenService.save(usuario, LocalDateTime.now().plusMinutes(30));
         emailService.enviarEmailLinkResetSenha(email, token.getToken());
     }

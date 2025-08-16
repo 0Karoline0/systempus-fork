@@ -27,7 +27,7 @@ DELETE FROM profissional;
 
 -- ALTER TABLE disponibilidade_professor DROP CONSTRAINT uk_g4j2flr6lb67dd2w89laprade;
 
-INSERT INTO profissional(cpf, nome, status_profissional, telefone, email, foto, status_ativacao) VALUES ('29803896091', 'Erick Lima Cavalcanti', 1, '97922208738', 'erick@outlook.com', 'https://img.freepik.com/fotos-gratis/retrato-de-homem-feliz-e-sorridente_23-2149022620.jpg', 0);
+INSERT INTO profissional(cpf, nome, status_profissional, telefone, email, foto, status_ativacao) VALUES ('29803896091', 'Erick Lima Cavalcanti', 1, '97922208738', 'karol@gmail.com', 'https://img.freepik.com/fotos-gratis/retrato-de-homem-feliz-e-sorridente_23-2149022620.jpg', 0);
 INSERT INTO profissional(cpf, nome, status_profissional, telefone, email, status_ativacao) VALUES ('70622239058', 'Luís Pereira Santos', 2, '6836364963', 'luis@outlook.com', 0);
 INSERT INTO profissional(cpf, nome, status_profissional, telefone, email, foto, status_ativacao) VALUES ('98579973090', 'Laura Cavalcanti Melo', 2, '69926295047', 'laura@yahoo.com.br', 'https://img.freepik.com/fotos-gratis/retrato-de-uma-jovem-linda-modelo-de-pe-e-sorrindo-para-a-camera-foto-de-alta-qualidade_144627-75055.jpg', 1);
 INSERT INTO profissional(cpf, nome, status_profissional, telefone, email, status_ativacao) VALUES ('77230341051', 'Amanda Gomes Cardoso', 0, '63932156476', 'amandaGomes@gmail.com.br', 1);
@@ -39,6 +39,111 @@ INSERT INTO profissional(cpf, nome, status_profissional, telefone, status_ativac
 INSERT INTO profissional(cpf, nome, status_profissional, telefone, foto, status_ativacao) VALUES ('22525229096', 'Kauan Souza Fernandes', 0, '33922412233', 'https://media.istockphoto.com/id/1338134336/pt/foto/headshot-portrait-african-30s-man-smile-look-at-camera.webp?b=1&s=170667a&w=0&k=20&c=SFQyWuhNqsI4YypI1rQEwV3yv9RMzkHoXaHrz_Jkft8=', 2);
 
 INSERT INTO usuario(user_name, password, profissional_id) VALUES ('karolinevmfaria@gmail.com', '$2a$12$O1GOaztvttDdtmPDKeG71.zqdDBSLVoVuPrFemYiDAKNeUGNjxAVW', 6);
+INSERT INTO usuario(user_name, password, profissional_id) VALUES ('karol@gmail.com', '$2a$12$O1GOaztvttDdtmPDKeG71.zqdDBSLVoVuPrFemYiDAKNeUGNjxAVW', 1);
+
+INSERT INTO permissoes(id, nome) VALUES (1, 'Listar Professor');
+INSERT INTO permissoes(id, nome) VALUES (2, 'Cadastrar Professor');
+INSERT INTO permissoes(id, nome) VALUES (3, 'Editar Professor');
+INSERT INTO permissoes(id, nome) VALUES (4, 'Excluir Professor');
+INSERT INTO permissoes(id, nome) VALUES (5, 'Editar Horário Professor');
+
+INSERT INTO permissoes(id, nome) VALUES (6, 'Listar Coordenador');
+INSERT INTO permissoes(id, nome) VALUES (7, 'Cadastrar Coordenador');
+INSERT INTO permissoes(id, nome) VALUES (8, 'Editar Coordenador');
+INSERT INTO permissoes(id, nome) VALUES (9, 'Excluir Coordenador');
+INSERT INTO permissoes(id, nome) VALUES (10, 'Editar Horário Coordenador');
+
+INSERT INTO permissoes(id, nome) VALUES (11, 'Listar Curso');
+INSERT INTO permissoes(id, nome) VALUES (12, 'Cadastrar Curso');
+INSERT INTO permissoes(id, nome) VALUES (13, 'Editar Curso');
+INSERT INTO permissoes(id, nome) VALUES (14, 'Excluir Curso');
+
+INSERT INTO permissoes(id, nome) VALUES (15, 'Listar Período');
+INSERT INTO permissoes(id, nome) VALUES (16, 'Cadastrar Período');
+INSERT INTO permissoes(id, nome) VALUES (17, 'Editar Período');
+INSERT INTO permissoes(id, nome) VALUES (18, 'Excluir Período');
+
+INSERT INTO permissoes(id, nome) VALUES (19, 'Listar Módulo');
+INSERT INTO permissoes(id, nome) VALUES (20, 'Cadastrar Módulo');
+INSERT INTO permissoes(id, nome) VALUES (21, 'Editar Módulo');
+INSERT INTO permissoes(id, nome) VALUES (22, 'Excluir Módulo');
+
+INSERT INTO permissoes(id, nome) VALUES (23, 'Listar Disciplina');
+INSERT INTO permissoes(id, nome) VALUES (24, 'Cadastrar Disciplina');
+INSERT INTO permissoes(id, nome) VALUES (25, 'Editar Disciplina');
+INSERT INTO permissoes(id, nome) VALUES (26, 'Excluir Disciplina');
+INSERT INTO permissoes(id, nome) VALUES (27, 'Editar Horário Disciplina');
+
+INSERT INTO permissoes(id, nome) VALUES (28, 'Listar Horário Docente');
+INSERT INTO permissoes(id, nome) VALUES (29, 'Cadastrar Horário Docente');
+INSERT INTO permissoes(id, nome) VALUES (30, 'Editar Horário Docente');
+
+INSERT INTO permissoes(id, nome) VALUES (31, 'Favoritar Disciplina');
+INSERT INTO permissoes(id, nome) VALUES (32, 'Enviar Mensagem');
+
+INSERT INTO permissoes(id, nome) VALUES (33, 'Acessa Menu Curso');
+INSERT INTO permissoes(id, nome) VALUES (34, 'Acessa Menu Disciplina');
+INSERT INTO permissoes(id, nome) VALUES (35, 'Acessa Menu Coordenador');
+INSERT INTO permissoes(id, nome) VALUES (36, 'Acessa Menu Professor');
+INSERT INTO permissoes(id, nome) VALUES (37, 'Acessa Menu Horário Docente');
+
+INSERT INTO permissoes(id, nome) VALUES (38, 'Alterar Status Coordenador');
+INSERT INTO permissoes(id, nome) VALUES (39, 'Alterar Status Professor');
+INSERT INTO permissoes(id, nome) VALUES (40, 'Reenviar Email Cadastro');
+
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (1, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (2, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (3, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (4, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (5, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (6, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (7, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (8, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (9, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (10, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (11, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (12, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (13, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (14, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (15, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (16, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (17, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (18, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (19, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (20, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (21, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (22, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (23, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (24, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (25, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (26, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (27, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (28, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (29, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (30, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (31, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (32, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (33, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (34, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (35, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (36, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (37, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (38, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (39, 'COORDENADOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (40, 'COORDENADOR');
+
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (30, 'PROFESSOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (31, 'PROFESSOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (33, 'PROFESSOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (11, 'PROFESSOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (23, 'PROFESSOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (34, 'PROFESSOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (37, 'PROFESSOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (19, 'PROFESSOR');
+INSERT INTO permissoes_roles(permissoes_id, roles) VALUES (15, 'PROFESSOR');
+
+INSERT INTO usuario_role(usuario_id, role) VALUES (1, 'COORDENADOR');
+INSERT INTO usuario_role(usuario_id, role) VALUES (2, 'PROFESSOR');
 
 INSERT INTO coordenador(id) VALUES(4);
 INSERT INTO coordenador(id) VALUES(5);

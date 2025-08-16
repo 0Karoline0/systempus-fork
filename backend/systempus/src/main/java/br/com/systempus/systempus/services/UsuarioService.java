@@ -1,6 +1,7 @@
 package br.com.systempus.systempus.services;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,10 +10,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.com.systempus.systempus.domain.Permissoes;
 import br.com.systempus.systempus.domain.Profissional;
+import br.com.systempus.systempus.domain.Role;
 import br.com.systempus.systempus.domain.Usuario;
+import br.com.systempus.systempus.domain.dto.PermissoesDTO;
 import br.com.systempus.systempus.domain.security.UserDetailsImpl;
 import br.com.systempus.systempus.error.NotFoundException;
+import br.com.systempus.systempus.repository.PermissoesRepository;
 import br.com.systempus.systempus.repository.UsuarioRepository;
 
 
@@ -28,12 +33,15 @@ public class UsuarioService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private PermissoesRepository permissoesRepository;
+
     @Override
     public UserDetails loadUserByUsername(String username) {
         Usuario usuario = repository.findByUserName(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
-        return new UserDetailsImpl(usuario);
+        return new UserDetailsImpl(usuario, permissoesRepository);
     }
 
     public void register(Usuario usuario) {
@@ -41,8 +49,8 @@ public class UsuarioService implements UserDetailsService {
         repository.save(usuario);
     }
 
-    public Optional<Usuario> findUserByEmail(String email) {
-        return repository.findByProfissionalEmail(email);
+    public Usuario findUserByEmail(String email) {
+        return repository.findByProfissionalEmail(email).orElseThrow(() ->new NotFoundException("Usuário com o email: " + email + " não foi encontrado"));
     }
 
     public void resetPassword(Usuario usuario){
@@ -52,6 +60,20 @@ public class UsuarioService implements UserDetailsService {
 
     public Usuario getByIdProfissional(Integer idProfissional) {
         return repository.buscarPorIdDoProfissional(idProfissional).orElseThrow(() -> new NotFoundException(Profissional.class.getName(), idProfissional));
+    }
+
+    public PermissoesDTO getPermissoes(Integer userId) {
+        Usuario usuario = repository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(Usuario.class.getName(), userId));
+
+        Set<Role> userRoles = usuario.getRoles();
+        List<Permissoes> p = userRoles.stream().flatMap(role -> permissoesRepository.findByRolesContaining(role).stream()).distinct().toList();
+        PermissoesDTO p2 = new PermissoesDTO(
+            userRoles,
+            p
+        );
+
+        return p2;
     }
 
     

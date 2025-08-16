@@ -63,7 +63,7 @@ public class CadastroService {
     }
 
     public Usuario preCadastroUsuario(Profissional profissional) {
-        Usuario newUser = new Usuario(null, profissional.getEmail(), "", profissional);
+        Usuario newUser = new Usuario(null, profissional.getEmail(), "", profissional, null);
         usuarioService.register(newUser);
         return newUser;
     }
@@ -117,8 +117,7 @@ public class CadastroService {
         p.setTelefone(professor.getTelefone());
         professorService.update(p);
 
-        Usuario u = usuarioService.findUserByEmail(professor.getEmail())
-                                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        Usuario u = usuarioService.findUserByEmail(professor.getEmail());
         
         if (u != null) {
             u.setProfissional(p);
@@ -146,8 +145,7 @@ public class CadastroService {
         c.setTelefone(coordenador.getTelefone());
         coordenadorService.update(c);
 
-        Usuario u = usuarioService.findUserByEmail(coordenador.getEmail())
-                                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        Usuario u = usuarioService.findUserByEmail(coordenador.getEmail());
         
         if (u != null) {
             u.setProfissional(c);

@@ -37,6 +37,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/professor/cadastro").permitAll()
                 .requestMatchers("/api/v1/coordenador/cadastro").permitAll()
                 .requestMatchers("/api/v1/password/**").permitAll()
+                // .requestMatchers("/api/v1/**").hasRole("COORDENADOR")
                 .anyRequest().authenticated()
             )
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
