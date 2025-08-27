@@ -24,6 +24,7 @@ import br.com.systempus.systempus.domain.dto.CadastroProfissionalDTO;
 import br.com.systempus.systempus.domain.dto.ProfissionalDTO;
 import br.com.systempus.systempus.services.CadastroService;
 import br.com.systempus.systempus.services.CoordenadorService;
+import br.com.systempus.systempus.services.UsuarioService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,10 +43,18 @@ public class CoordenadorController {
     @Autowired
     private CadastroService cadastroService;
 
+    @Autowired
+    private UsuarioService usuarioService;
+
     @GetMapping("{id}")
     public ResponseEntity<Coordenador> getOne(@PathVariable Integer id){
         return ResponseEntity.ok().body(coordenadorService.getOne(id));
     }
+
+    // @GetMapping("usuario/{userId}")
+    // public ResponseEntity<Coordenador> getCoordenadorByUserId(@PathVariable Integer userId) {
+    //     return ResponseEntity.ok().body(usuarioService.getCoordenadorByUserId(userId));
+    // }
 
     @GetMapping
     public ResponseEntity<List<Coordenador>> getAll(){

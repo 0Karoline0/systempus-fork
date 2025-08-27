@@ -35,9 +35,6 @@ public class ProfessorService implements IProfessorService{
     private DisciplinaService disciplinaService;
 
     @Autowired
-    private UsuarioService usuarioService;
-
-    @Autowired
     private UserTokenService tokenService;
 
     private final ProfessorCompatibilidadeRepository compatibilidade;

@@ -14,6 +14,7 @@ import br.com.systempus.systempus.domain.Permissoes;
 import br.com.systempus.systempus.domain.Profissional;
 import br.com.systempus.systempus.domain.Role;
 import br.com.systempus.systempus.domain.Usuario;
+import br.com.systempus.systempus.domain.dto.DisciplinaDTO;
 import br.com.systempus.systempus.domain.dto.PermissoesDTO;
 import br.com.systempus.systempus.domain.security.UserDetailsImpl;
 import br.com.systempus.systempus.error.NotFoundException;
@@ -36,6 +37,9 @@ public class UsuarioService implements UserDetailsService {
     @Autowired
     private PermissoesRepository permissoesRepository;
 
+    @Autowired
+    private ProfessorService professorService;
+
     @Override
     public UserDetails loadUserByUsername(String username) {
         Usuario usuario = repository.findByUserName(username)
@@ -47,6 +51,10 @@ public class UsuarioService implements UserDetailsService {
     public void register(Usuario usuario) {
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         repository.save(usuario);
+    }
+
+    public Usuario findUserById(Integer id) {
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("Usuário com o ID: " + id.toString() + " não existe"));
     }
 
     public Usuario findUserByEmail(String email) {
@@ -75,6 +83,16 @@ public class UsuarioService implements UserDetailsService {
 
         return p2;
     }
+
+    public Profissional getProfissionalByUserId(Integer userId) {
+        Usuario u = findUserById(userId);
+        return u.getProfissional();
+    }
+
+    // public List<DisciplinaDTO> getDisciplinasPreferidas(Integer id) {
+    //     Profissional p = findUserById(id).getProfissional();
+    //     // return 
+    // }
 
     
 }

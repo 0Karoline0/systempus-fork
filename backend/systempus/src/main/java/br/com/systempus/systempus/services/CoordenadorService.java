@@ -18,6 +18,7 @@ import br.com.systempus.systempus.services.interfaces.ICoordenadorService;
 
 @Service
 public class CoordenadorService implements ICoordenadorService {
+
     @Autowired
     private CoordenadorRepository repository;
 
@@ -112,4 +113,5 @@ public class CoordenadorService implements ICoordenadorService {
         c.setStatusAtivacao(StatusAtivacao.toEnum(status.get("statusAtivacao")));
         return repository.saveAndFlush(c);
     }
+
 }

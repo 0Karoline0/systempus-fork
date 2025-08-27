@@ -2,6 +2,8 @@ package br.com.systempus.systempus.services;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import br.com.systempus.systempus.domain.Coordenador;
 import br.com.systempus.systempus.domain.Professor;
 import br.com.systempus.systempus.domain.Profissional;
+import br.com.systempus.systempus.domain.Role;
 import br.com.systempus.systempus.domain.UserToken;
 import br.com.systempus.systempus.domain.Usuario;
 import br.com.systempus.systempus.domain.dto.CadastroDTO;
@@ -62,8 +65,16 @@ public class CadastroService {
         return coordenador;
     }
 
-    public Usuario preCadastroUsuario(Profissional profissional) {
+    public Usuario preCadastroUsuario(Profissional profissional, boolean isProfessor) {
         Usuario newUser = new Usuario(null, profissional.getEmail(), "", profissional, null);
+        Set<Role> roles = new HashSet<>();
+        if (isProfessor) {
+            roles.add(Role.PROFESSOR);
+            newUser.setRoles(roles);
+        } else {
+            roles.add(Role.COORDENADOR);
+            newUser.setRoles(roles);
+        }
         usuarioService.register(newUser);
         return newUser;
     }
@@ -79,7 +90,8 @@ public class CadastroService {
             profissional = preCadastroCoordenador(cadastro);
             frontPath = "cadastro/coordenador/";
         }
-        Usuario newUser = preCadastroUsuario(profissional);
+
+        Usuario newUser = preCadastroUsuario(profissional, isProfessor);
         UserToken tk = tokenService.save(newUser, LocalDateTime.now().plusHours(24));
         emailService.enviarEmailCadastro(cadastro.getEmail(), tk.getToken(), frontPath, profissional.getId());
     }
