@@ -42,13 +42,13 @@ public class CursoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Curso>> getAll() {
+    public ResponseEntity<List<CursoDTO>> getAll() {
         return ResponseEntity.ok().body(cursoService.getAll());
     }
 
     @GetMapping("cursos")
     public ResponseEntity<List<CursoDTO>> getCursos() {
-        return ResponseEntity.ok().body(cursoService.getCursos());
+        return ResponseEntity.ok().body(cursoService.getAll());
     }
 
     @PostMapping

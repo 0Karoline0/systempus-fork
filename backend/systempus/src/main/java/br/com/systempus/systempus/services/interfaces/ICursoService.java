@@ -4,9 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import br.com.systempus.systempus.domain.Curso;
+import br.com.systempus.systempus.domain.dto.CursoDTO;
 
 public interface ICursoService {
-    public List<Curso> getAll();
+    public List<CursoDTO> getAll();
 
     public Curso getOne(Integer id);
 

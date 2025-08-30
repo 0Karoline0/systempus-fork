@@ -25,9 +25,9 @@ public class UsuarioController {
         return ResponseEntity.ok().body(usuarioService.getProfissionalByUserId(id));
     }
 
-    @GetMapping("/{id}/preferem/disciplinas")
-    public ResponseEntity<List<DisciplinaDTO>> getDisciplinasPreferidasByUsuario(@PathVariable Integer id){
-        return ResponseEntity.ok().body(usuarioService.getDisciplinasPreferidas(id));
-    }
+    // @GetMapping("/{id}/preferem/disciplinas")
+    // public ResponseEntity<List<DisciplinaDTO>> getDisciplinasPreferidasByUsuario(@PathVariable Integer id){
+    //     return ResponseEntity.ok().body(usuarioService.getDisciplinasPreferidas(id));
+    // }
 
 }

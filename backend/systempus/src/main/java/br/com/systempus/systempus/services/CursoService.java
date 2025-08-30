@@ -42,9 +42,10 @@ public class CursoService implements ICursoService {
     private ProfessorService professorService;
 
     @Override
-	public List<Curso> getAll() {
+	public List<CursoDTO> getAll() {
         List<Curso> resultado = repository.findAll();
-        return resultado;
+        List<CursoDTO> cursos = CursoDTO.convertToDTO(resultado);
+        return cursos;
     }
 
     @Override
@@ -176,11 +177,6 @@ public class CursoService implements ICursoService {
             aux.add(getOne(idCurso));
         }
         return aux;
-    }
-
-    public List<CursoDTO> getCursos() {
-        List<Curso> cursos = getAll();
-        return CursoDTO.convertToDTO(cursos);
     }
 
 
