@@ -21,10 +21,9 @@ import br.com.systempus.systempus.error.IllegalStateException;
 import br.com.systempus.systempus.error.NotFoundException;
 import br.com.systempus.systempus.repository.CursoRepository;
 import br.com.systempus.systempus.repository.DisciplinaRepository;
-import br.com.systempus.systempus.services.interfaces.IDisciplinaService;
 
 @Service
-public class DisciplinaService implements IDisciplinaService {
+public class DisciplinaService {
 
 	@Autowired
 	private DisciplinaRepository repository;
@@ -35,7 +34,7 @@ public class DisciplinaService implements IDisciplinaService {
 	@Autowired
 	private HorarioDisciplinaService horarioDisciplinaService;
 
-	@Override
+
 	public Disciplina getOne(Integer id) {
 		Disciplina resultado = repository.findById(id)
 				.orElseThrow(() -> new NotFoundException(Disciplina.class.getSimpleName().toString(), id));
@@ -49,13 +48,12 @@ public class DisciplinaService implements IDisciplinaService {
 		return lista.get(0);
 	}
 
-	@Override
+
 	public List<DisciplinaDTO> getAll() {
 		List<DisciplinaDTO> resultado = DisciplinaDTO.convertToDTO(repository.findAll());
 		return resultado;
 	}
 
-	@Override
 	public void save(Disciplina disciplina) {
 		if (disciplina.getId() == null) {
 			repository.save(disciplina);
@@ -64,7 +62,6 @@ public class DisciplinaService implements IDisciplinaService {
 		}
 	}
 
-	@Override
 	public void delete(Integer id) {
 		if (repository.existsById(id)) {
 			repository.deleteById(id);
@@ -73,14 +70,13 @@ public class DisciplinaService implements IDisciplinaService {
 		}
 	}
 
-	@Override
 	public void update(Disciplina disciplina) {
 		if (repository.existsById(disciplina.getId())) {
 			Disciplina disciplinaExistente = repository.findById(disciplina.getId()).get();
 
 			disciplinaExistente.setNome(disciplina.getNome());
 			disciplinaExistente.setModulo(disciplina.getModulo());
-			disciplinaExistente.setProfessorDisciplina(disciplina.getProfessorDisciplina());
+			disciplinaExistente.setProfessoresDisciplinas(disciplina.getProfessoresDisciplinas());
 
 			repository.saveAndFlush(disciplinaExistente);
 		} else {
@@ -88,7 +84,6 @@ public class DisciplinaService implements IDisciplinaService {
 		}
 	}
 
-	@Override
 	public Disciplina updatePartial(Map<String, Object> mapValores, Integer id) {
 		if (repository.existsById(id)) {
 			Disciplina disciplinaExistente = repository.findById(id).get();

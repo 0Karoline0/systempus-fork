@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.systempus.systempus.domain.Curso;
 import br.com.systempus.systempus.domain.Modulo;
-import br.com.systempus.systempus.domain.Professor;
 import br.com.systempus.systempus.domain.dto.CursoDTO;
+import br.com.systempus.systempus.domain.role_object.Professor;
 import br.com.systempus.systempus.services.CursoService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,8 +37,8 @@ public class CursoController {
     private CursoService cursoService;
 
     @GetMapping("{id}")
-    public ResponseEntity<Curso> getOne(@PathVariable Integer id) {
-        return ResponseEntity.ok().body(cursoService.getOne(id));
+    public ResponseEntity<CursoDTO> getOne(@PathVariable Integer id) {
+        return ResponseEntity.ok().body(CursoDTO.convertToDTO(cursoService.getOne(id)));
     }
 
     @GetMapping

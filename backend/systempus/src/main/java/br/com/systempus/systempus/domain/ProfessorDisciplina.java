@@ -1,6 +1,8 @@
 package br.com.systempus.systempus.domain;
 
 import jakarta.persistence.Table;
+import br.com.systempus.systempus.domain.enumerador.StatusDisciplinaProfessor;
+import br.com.systempus.systempus.domain.role_object.Professor;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +14,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-import br.com.systempus.systempus.domain.enumerador.StatusDisciplinaProfessor;
 
 @Entity
 @Getter

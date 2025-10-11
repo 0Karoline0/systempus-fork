@@ -33,7 +33,7 @@ public enum StatusDisciplinaProfessor{
                 return statusDisciplina;
             }
         }
-        throw new NotFoundException("Valor não encontrado nos Status Disciplina Professor: " + codigo);
+        throw new NotFoundException("Valor não encontrado nos Status Disciplina Docente: " + codigo);
     }
 
 }

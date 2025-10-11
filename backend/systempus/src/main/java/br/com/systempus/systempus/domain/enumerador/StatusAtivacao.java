@@ -28,7 +28,7 @@ public enum StatusAtivacao {
         return status;
     }
 
-    @JsonCreator
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static StatusAtivacao toEnum(Integer value) {
         for (StatusAtivacao status : StatusAtivacao.values()) {
             if (value == status.getValue()) {

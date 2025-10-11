@@ -37,8 +37,8 @@ public class PeriodoController {
 
 
     @GetMapping("{id}")
-    public ResponseEntity<Periodo> getOne(@PathVariable Integer id){
-        return ResponseEntity.ok().body(service.getOne(id));
+    public ResponseEntity<PeriodoDTO> getOne(@PathVariable Integer id){
+        return ResponseEntity.ok().body(PeriodoDTO.convertToDTO(service.getOne(id)));
     }
 
     @GetMapping

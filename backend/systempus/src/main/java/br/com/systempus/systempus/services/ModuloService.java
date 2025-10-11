@@ -20,10 +20,9 @@ import br.com.systempus.systempus.error.NotFoundException;
 import br.com.systempus.systempus.repository.CursoRepository;
 import br.com.systempus.systempus.repository.DisciplinaRepository;
 import br.com.systempus.systempus.repository.ModuloRepository;
-import br.com.systempus.systempus.services.interfaces.IModuloService;
 
 @Service
-public class ModuloService implements IModuloService{
+public class ModuloService {
 
     @Autowired
     private ModuloRepository repository;
@@ -34,19 +33,16 @@ public class ModuloService implements IModuloService{
     @Autowired
     private CursoRepository cursoRepository;
 
-    @Override
 	public List<Modulo> getAll(){
         List<Modulo> resultado = repository.findAll();
         return resultado;
     }
 
-    @Override
 	public Modulo getOne(Integer id){
         Modulo resultado = repository.findById(id).orElseThrow(() -> new NotFoundException(Modulo.class.getSimpleName().toString()));
         return resultado;
     }
 
-    @Override
 	public void save(Modulo modulo){
         if (modulo.getId() == null){
             repository.save(modulo);
@@ -55,7 +51,6 @@ public class ModuloService implements IModuloService{
         }
     }
 
-    @Override
 	public void delete(Integer id){
         if (repository.existsById(id)){
             repository.deleteById(id);
@@ -64,7 +59,6 @@ public class ModuloService implements IModuloService{
         }
     }
 
-    @Override
 	public void update(Modulo modulo){
         if(repository.existsById(modulo.getId())){
             Modulo moduloExistente = repository.findById(modulo.getId()).get();
@@ -81,7 +75,6 @@ public class ModuloService implements IModuloService{
         }
     }
 
-    @Override
 	public Modulo updatePartial(Map<String, Object> mapValores, Integer id){
         if(repository.existsById(id)){
             Modulo moduloExistente = repository.findById(id).get();

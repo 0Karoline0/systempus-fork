@@ -11,11 +11,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.systempus.systempus.domain.Permissoes;
-import br.com.systempus.systempus.domain.Profissional;
 import br.com.systempus.systempus.domain.Role;
 import br.com.systempus.systempus.domain.Usuario;
 import br.com.systempus.systempus.domain.dto.DisciplinaDTO;
 import br.com.systempus.systempus.domain.dto.PermissoesDTO;
+import br.com.systempus.systempus.domain.dto.ProfissionalRoleDTO;
+import br.com.systempus.systempus.domain.role_object.Profissional;
+import br.com.systempus.systempus.domain.role_object.ProfissionalRole;
 import br.com.systempus.systempus.domain.security.UserDetailsImpl;
 import br.com.systempus.systempus.error.NotFoundException;
 import br.com.systempus.systempus.repository.PermissoesRepository;
@@ -70,19 +72,25 @@ public class UsuarioService implements UserDetailsService {
         return repository.buscarPorIdDoProfissional(idProfissional).orElseThrow(() -> new NotFoundException(Profissional.class.getName(), idProfissional));
     }
 
-    public PermissoesDTO getPermissoes(Integer userId) {
-        Usuario usuario = repository.findById(userId)
-                .orElseThrow(() -> new NotFoundException(Usuario.class.getName(), userId));
-
-        Set<Role> userRoles = usuario.getRoles();
-        List<Permissoes> p = userRoles.stream().flatMap(role -> permissoesRepository.findByRolesContaining(role).stream()).distinct().toList();
-        PermissoesDTO p2 = new PermissoesDTO(
-            userRoles,
-            p
-        );
-
-        return p2;
+    public List<String> getRoles(Integer userId) {
+        Usuario usuario = repository.findById(userId).orElseThrow(() -> new NotFoundException(Usuario.class.getName(), userId));
+        // return new ProfissionalRoleDTO(usuario);
+        return usuario.getProfissional().getRoles().stream().map((r) -> r.getTipoProfissional().name()).toList();
     }
+
+    // public PermissoesDTO getPermissoes(Integer userId) {
+    //     Usuario usuario = repository.findById(userId)
+    //             .orElseThrow(() -> new NotFoundException(Usuario.class.getName(), userId));
+
+    //     Set<Role> userRoles = usuario.getRoles();
+    //     List<Permissoes> p = userRoles.stream().flatMap(role -> permissoesRepository.findByRolesContaining(role).stream()).distinct().toList();
+    //     PermissoesDTO p2 = new PermissoesDTO(
+    //         userRoles,
+    //         p
+    //     );
+
+    //     return p2;
+    // }
 
     public Profissional getProfissionalByUserId(Integer userId) {
         Usuario u = findUserById(userId);

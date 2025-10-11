@@ -8,67 +8,62 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
-import br.com.systempus.systempus.domain.Coordenador;
+import br.com.systempus.systempus.domain.dto.CoordenadorDTO;
+import br.com.systempus.systempus.domain.enumerador.ProfissionalEnum;
 import br.com.systempus.systempus.domain.enumerador.StatusAtivacao;
+import br.com.systempus.systempus.domain.role_object.Coordenador;
+import br.com.systempus.systempus.domain.role_object.Professor;
+import br.com.systempus.systempus.domain.role_object.Profissional;
+import br.com.systempus.systempus.domain.role_object.ProfissionalRole;
 import br.com.systempus.systempus.error.DataIntegrityViolationException;
 import br.com.systempus.systempus.error.IllegalStateException;
 import br.com.systempus.systempus.error.NotFoundException;
 import br.com.systempus.systempus.repository.CoordenadorRepository;
-import br.com.systempus.systempus.services.interfaces.ICoordenadorService;
+import br.com.systempus.systempus.services.role_object.ProfissionalService;
 
 @Service
-public class CoordenadorService implements ICoordenadorService {
+public class CoordenadorService {
 
     @Autowired
     private CoordenadorRepository repository;
 
-    @Override
-    public Coordenador getOne(Integer id) {
-        Coordenador resultado = repository.findById(id)
-                .orElseThrow(() -> new NotFoundException(Coordenador.class.getSimpleName().toString(), id));
-        return resultado;
+    @Autowired
+    private ProfissionalService profissionalService;
+
+	public Coordenador getOne(Integer id) {
+        Profissional p = profissionalService.getProfissionalById(id);
+        Coordenador coordenador = (Coordenador) p.getByRole(ProfissionalEnum.COORDENADOR);
+        return coordenador;
     }
 
-    @Override
-    public List<Coordenador> getAll() {
-        List<Coordenador> resultado = repository.findAll();
-        return resultado;
+    public List<CoordenadorDTO> getAll() {
+        List<Profissional> p = profissionalService.getAllByTipoProfissional(ProfissionalEnum.COORDENADOR);
+        return CoordenadorDTO.convertToDTO(p);
     }
 
-    @Override
     public void save(Coordenador coordenador) {
         if ((coordenador.getId() == null)) {
-            existsByCPF(coordenador);
-            existsByEmail(coordenador);
+            profissionalService.existsByCpf(coordenador.getProfissional().getCpf());
+            profissionalService.existsByEmail(coordenador.getProfissional().getEmail());
             repository.save(coordenador);
         } else {
             throw new IllegalStateException(Coordenador.class.getSimpleName().toString());
         }
     }
 
-    public void existsByEmail(Coordenador coordenador) {
-        if (repository.existsByEmail(coordenador.getEmail())) {
-            throw new DataIntegrityViolationException(DataIntegrityViolationException.emailExists(coordenador.getEmail()));
-        }
-    }
-
-    public void existsByCPF(Coordenador coordenador) {
-        if (repository.existsByCPF(coordenador.getCpf())) {
-            throw new DataIntegrityViolationException(DataIntegrityViolationException.cpfExists(coordenador.getCpf()));
-        }
-    }
-
-    @Override
     public void delete(Integer id) {
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
-        } else {
-            throw new NotFoundException(Coordenador.class.getSimpleName().toString(), id);
+        Profissional p = profissionalService.getProfissionalById(id);
+        Coordenador coord = (Coordenador) p.getByRole(ProfissionalEnum.COORDENADOR);
+        for (ProfissionalRole papel : p.getRoles()) {
+            if (papel.getTipoProfissional() == ProfissionalEnum.COORDENADOR) {
+                p.getRoles().remove(papel);
+            }
         }
+        repository.deleteById(coord.getId());
+        profissionalService.update(p);
     }
 
-    @Override
-    public void update(Coordenador coordenador) {
+    public Coordenador update(Coordenador coordenador) {
 
         if (!repository.existsById(coordenador.getId())) {
             throw new NotFoundException(Coordenador.class.getSimpleName().toString(), coordenador.getId());
@@ -76,19 +71,19 @@ public class CoordenadorService implements ICoordenadorService {
 
         Coordenador coordenadorExistente = repository.findById(coordenador.getId()).get();
 
-        coordenadorExistente.setCpf(coordenador.getCpf());
-        coordenadorExistente.setNome(coordenador.getNome());
-        coordenadorExistente.setTelefone(coordenador.getTelefone());
-        coordenadorExistente.setCursos(coordenador.getCursos());
-        coordenadorExistente.setFoto(coordenador.getFoto());
-        coordenadorExistente.setEmail(coordenador.getEmail());
-        coordenadorExistente.setStatus(coordenador.getStatus());
+        // TODO: Ajustar pós Roles
+        coordenadorExistente.getProfissional().setCpf(coordenador.getProfissional().getCpf());
+        coordenadorExistente.getProfissional().setNome(coordenador.getProfissional().getNome());
+        coordenadorExistente.getProfissional().setTelefone(coordenador.getProfissional().getTelefone());
+        coordenadorExistente.setCursosGerenciados(coordenador.getCursosGerenciados());
+        coordenadorExistente.getProfissional().setFoto(coordenador.getProfissional().getFoto());
+        coordenadorExistente.getProfissional().setEmail(coordenador.getProfissional().getEmail());
+        // coordenadorExistente.setStatus(coordenador.getStatus());
 
-        repository.saveAndFlush(coordenadorExistente);
+        return repository.saveAndFlush(coordenadorExistente);
 
     }
 
-    @Override
     public Coordenador updatePartial(Map<String, Object> mapValores, Integer id) {
 
         if (!repository.existsById(id)) {
@@ -108,10 +103,10 @@ public class CoordenadorService implements ICoordenadorService {
 
     }
 
-    public Coordenador changeCoordenadorStatusAtivacao(Integer idCoordenador, Map<String, Integer> status) {
-        Coordenador c = getOne(idCoordenador);
-        c.setStatusAtivacao(StatusAtivacao.toEnum(status.get("statusAtivacao")));
-        return repository.saveAndFlush(c);
-    }
+    // public Coordenador changeCoordenadorStatusAtivacao(Integer idCoordenador, Map<String, Integer> status) {
+    //     Coordenador c = getOne(idCoordenador);
+    //     // c.setStatusAtivacao(StatusAtivacao.toEnum(status.get("statusAtivacao")));
+    //     return repository.saveAndFlush(c);
+    // }
 
 }

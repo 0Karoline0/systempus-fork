@@ -21,6 +21,10 @@ public class DisciplinaDTO {
 		this.quantidadeCarga = quantidadeCarga;
 	}
 	
+	public static DisciplinaDTO convertToDTO(Disciplina disciplina){
+		return new DisciplinaDTO(disciplina.getId(), disciplina.getNome(), disciplina.getQuantidadeCargas());
+	}
+	
 	public static List<DisciplinaDTO> convertToDTO(List<Disciplina> disciplinas){
 		return disciplinas.stream().map(d -> new DisciplinaDTO(d.getId(), d.getNome(), d.getQuantidadeCargas())).collect(Collectors.toList());
 	}

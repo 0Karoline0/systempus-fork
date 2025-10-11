@@ -10,7 +10,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import br.com.systempus.systempus.domain.Disciplina;
-import br.com.systempus.systempus.domain.Professor;
+import br.com.systempus.systempus.domain.role_object.Professor;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
@@ -37,7 +37,7 @@ public class EmailService {
         }
 
         html = html
-            .replace("{{NOME_PROFESSOR}}", professor.getNome())
+            .replace("{{NOME_PROFESSOR}}", professor.getProfissional().getNome())
             .replace("{{NOME_DISCIPLINA}}", disciplina.getNome())
             .replace("{{MODULO}}", disciplina.getModulo().getNome())
             .replace("{{CURSO}}", disciplina.getModulo().getCurso().getNome())

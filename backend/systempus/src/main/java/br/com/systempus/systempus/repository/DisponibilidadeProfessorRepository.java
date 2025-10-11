@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.systempus.systempus.domain.DisponibilidadeProfessor;
-import br.com.systempus.systempus.domain.Professor;
+import br.com.systempus.systempus.domain.role_object.Professor;
 
 public interface DisponibilidadeProfessorRepository extends JpaRepository<DisponibilidadeProfessor, Integer> {
 
     List<DisponibilidadeProfessor> getByProfessor(Professor professor);
-    List<DisponibilidadeProfessor> deleteByProfessor(Professor professor);
+    void deleteByProfessor(Professor professor);
 
 }

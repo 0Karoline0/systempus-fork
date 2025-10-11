@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 import br.com.systempus.systempus.domain.Disciplina;
 import br.com.systempus.systempus.domain.HorarioAula;
 import br.com.systempus.systempus.domain.HorarioDisciplina;
-import br.com.systempus.systempus.domain.Professor;
-import br.com.systempus.systempus.domain.dto.DisponibilidadeProfessorDTO;
 import br.com.systempus.systempus.domain.dto.HorarioDisciplinaDTO;
 import br.com.systempus.systempus.repository.HorarioDisciplinaRepository;
 import jakarta.transaction.Transactional;

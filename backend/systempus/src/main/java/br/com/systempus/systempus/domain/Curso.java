@@ -8,6 +8,9 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import br.com.systempus.systempus.domain.enumerador.Modalidade;
 import br.com.systempus.systempus.domain.enumerador.NivelEnsino;
+import br.com.systempus.systempus.domain.role_object.Coordenador;
+import br.com.systempus.systempus.domain.role_object.Professor;
+import br.com.systempus.systempus.domain.role_object.Profissional;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -24,6 +27,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.Builder;
 
 @Entity
 @Table(name = "curso")
@@ -31,6 +35,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Curso {
 
@@ -63,7 +68,7 @@ public class Curso {
     @JoinColumn(name = "coordenador_id", nullable = true)
     private Coordenador coordenador;
 
-    @ManyToMany (mappedBy = "cursos")
+    @ManyToMany(mappedBy = "cursosLecionados")
     private List<Professor> professores;
 
     @OneToMany(mappedBy = "curso")
@@ -74,6 +79,17 @@ public class Curso {
         return "Curso [id=" + id + ", nome=" + nome + ", nivelEnsino=" + nivelEnsino + ", qtdPeriodos=" + qtdPeriodos
                 + ", modalidade=" + modalidade + ", cargaTotal=" + cargaTotal + ", modulo=" + modulos
                 + ", coordenador=" + coordenador + "]";
+    }
+
+    public Curso(Integer id, String nome, NivelEnsino nivelEnsino, Integer qtdPeriodos,
+                Modalidade modalidade, Integer cargaTotal, List<Modulo> modulos) {
+        this.id = id;
+        this.nome = nome;
+        this.nivelEnsino = nivelEnsino;
+        this.qtdPeriodos = qtdPeriodos;
+        this.modalidade = modalidade;
+        this.cargaTotal = cargaTotal;
+        this.modulos = modulos;
     }
 
 }

@@ -73,9 +73,9 @@ public class DisciplinaController {
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<Disciplina> updatePartial(@RequestBody Map<String, Object> mapValores, @PathVariable Integer id){
+    public ResponseEntity<DisciplinaDTO> updatePartial(@RequestBody Map<String, Object> mapValores, @PathVariable Integer id){
         Disciplina disciplinaAtualizada = service.updatePartial(mapValores, id);
-        return ResponseEntity.ok().body(disciplinaAtualizada);
+        return ResponseEntity.ok().body(DisciplinaDTO.convertToDTO(disciplinaAtualizada));
     }
 
     @GetMapping("curso/{idCurso}")

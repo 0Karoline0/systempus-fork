@@ -21,13 +21,6 @@ public class HorarioDocente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    //@ManyToOne
-    //@JoinColumns({
-    //    @JoinColumn(name = "horario_disciplina_horario_aula_id", referencedColumnName = "horario_aula_id"),
-    //    @JoinColumn(name = "horario_disciplina_disciplina_id", referencedColumnName = "disciplina_id")
-    //})
-    //private HorarioDisciplina horarioDisciplina;
     
     @ManyToOne
     @JoinColumn(name = "horario_disciplina_id", referencedColumnName = "id")

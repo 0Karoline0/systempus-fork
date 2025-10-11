@@ -47,7 +47,7 @@ public class HorarioAula {
 
     @OneToMany(mappedBy = "horarioAula")
     @JsonManagedReference(value = "disponibilidade_professor_horario_aula")
-    private List<DisponibilidadeProfessor> disponibilidadeProfessor;
+    private List<DisponibilidadeProfessor> DisponibilidadeProfessor;
 
     @OneToMany(mappedBy = "horarioAula")
     private List<HorarioDisciplina> horarioDisciplina;

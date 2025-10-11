@@ -13,18 +13,17 @@ import org.springframework.util.ReflectionUtils;
 
 import br.com.systempus.systempus.domain.Curso;
 import br.com.systempus.systempus.domain.Modulo;
-import br.com.systempus.systempus.domain.Professor;
 import br.com.systempus.systempus.domain.dto.CursoDTO;
+import br.com.systempus.systempus.domain.role_object.Professor;
 import br.com.systempus.systempus.error.IllegalStateException;
 import br.com.systempus.systempus.error.NotFoundException;
 import br.com.systempus.systempus.repository.CoordenadorRepository;
 import br.com.systempus.systempus.repository.CursoRepository;
 import br.com.systempus.systempus.repository.ModuloRepository;
 import br.com.systempus.systempus.repository.PeriodoRepository;
-import br.com.systempus.systempus.services.interfaces.ICursoService;
 
 @Service
-public class CursoService implements ICursoService {
+public class CursoService {
 
     @Autowired//Instanciação automática
     private CursoRepository repository;
@@ -41,21 +40,19 @@ public class CursoService implements ICursoService {
     @Autowired
     private ProfessorService professorService;
 
-    @Override
 	public List<CursoDTO> getAll() {
         List<Curso> resultado = repository.findAll();
         List<CursoDTO> cursos = CursoDTO.convertToDTO(resultado);
         return cursos;
     }
 
-    @Override
+
 	public Curso getOne(Integer id) {
         Curso resultado = repository.findById(id).orElseThrow(() -> new NotFoundException(Curso.class.getSimpleName().toString(), id));
-        // System.out.println("\n\n\n\n Teste: " + resultado.getPeriodos() + "\n\n\n\n");
         return resultado;
     }
 
-    @Override
+
 	public void save(Curso curso) {
         if (curso.getId() == null) {
             repository.save(curso);
@@ -64,7 +61,7 @@ public class CursoService implements ICursoService {
         }
     }
 
-    @Override
+
 	public void delete(Integer id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
@@ -75,7 +72,7 @@ public class CursoService implements ICursoService {
 
 //Segue corretamente o conceito de POO
 //Problema ----> Exemplo: Um vendedor pede os seus documentos
-    @Override
+
 	public void update(Curso curso) {
         if (repository.existsById(curso.getId())) {
             Curso cursoExistente = repository.findById(curso.getId()).get();
@@ -97,7 +94,7 @@ public class CursoService implements ICursoService {
 
 //Não Segue corretamente o ceonceito de POO [Por causa da reflexão]
 //Problema ----> Exemplo: Um vendedor chega e já pega os documentos da pessoa sem autorização
-    @Override
+
 	public Curso updatePartial(Map<String, Object> mapValores, Integer id) {
         if (repository.existsById(id)) {
             Curso cursoExistente = repository.findById(id).get();
@@ -149,7 +146,7 @@ public class CursoService implements ICursoService {
     }
 
     public List<Professor> getProfessoresByCurso(Integer idCurso){
-        return repository.findById(idCurso).get().getProfessores();
+        return getOne(idCurso).getProfessores();
     }
 
     public List<Professor> getProfessoresSemHorarios(int idCurso){
@@ -164,11 +161,10 @@ public class CursoService implements ICursoService {
             }
         }
         return semHorarios;
-
     }
 
     public List<CursoDTO> getCursosByProfessor(Integer idProfessor) {
-        return CursoDTO.convertToDTO(professorService.getOne(idProfessor).getCursos());
+        return CursoDTO.convertToDTO(professorService.getOne(idProfessor).getCursosLecionados());
     }
 
     public List<Curso> getCursosByIntegerList(List<Integer> cursos) {

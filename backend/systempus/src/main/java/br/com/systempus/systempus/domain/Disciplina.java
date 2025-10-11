@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import br.com.systempus.systempus.domain.role_object.Professor;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -52,9 +53,10 @@ public class Disciplina {
 
 	@OneToMany(mappedBy = "disciplina")
 	@JsonBackReference(value = "professor_disciplina")
-	private List<ProfessorDisciplina> professorDisciplina;
+	private List<ProfessorDisciplina> professoresDisciplinas;
 
     @ManyToMany(mappedBy = "disciplinasPreferidas")
     private Set<Professor> professoresPreferem;
+
 
 }

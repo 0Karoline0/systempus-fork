@@ -1,16 +1,20 @@
 package br.com.systempus.systempus.domain.dto;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import br.com.systempus.systempus.domain.dto.professor.ProfessorDTO;
 import br.com.systempus.systempus.domain.enumerador.Status;
 import br.com.systempus.systempus.domain.enumerador.StatusAtivacao;
+import br.com.systempus.systempus.domain.role_object.Coordenador;
 import br.com.systempus.systempus.domain.role_object.Professor;
+import br.com.systempus.systempus.domain.role_object.Profissional;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ProfissionalDTO {
+public class CoordenadorDTO {
     private Integer id;
     private String cpf;
     private String nome;
@@ -21,7 +25,7 @@ public class ProfissionalDTO {
     private String foto;
     private List<CursoDTO> cursos;
 
-	public ProfissionalDTO(Integer id, String cpf, String nome, String telefone, String email,
+	public CoordenadorDTO(Integer id, String cpf, String nome, String telefone, String email,
             StatusAtivacao statusAtivacao, String foto, List<CursoDTO> cursos) {
         this.id = id;
         this.cpf = cpf;
@@ -33,21 +37,27 @@ public class ProfissionalDTO {
         this.cursos = cursos;
     }
 
-    public static ProfissionalDTO convertToDTO(Professor professor) {
-        return new ProfissionalDTO(
-            professor.getId(),
-            professor.getProfissional().getCpf(),
-            professor.getProfissional().getNome(),
-            professor.getProfissional().getTelefone(),
-            professor.getProfissional().getEmail(),
-            professor.getProfissional().getStatusAtivacao(),
-            professor.getProfissional().getFoto(),
-            CursoDTO.convertToDTO(professor.getCursosLecionados())
+    public static CoordenadorDTO convertToDTO(Coordenador coordenador) {
+        return new CoordenadorDTO(
+            coordenador.getProfissional().getId(),
+            coordenador.getProfissional().getCpf(),
+            coordenador.getProfissional().getNome(),
+            coordenador.getProfissional().getTelefone(),
+            coordenador.getProfissional().getEmail(),
+            coordenador.getProfissional().getStatusAtivacao(),
+            coordenador.getProfissional().getFoto(),
+            CursoDTO.convertToDTO(coordenador.getCursosGerenciados())
         );
     }
 
-    // public static ProfissionalDTO convertToDTO(Coordenador coordenador) {
-    //     return new ProfissionalDTO(
+    public static List<CoordenadorDTO> convertToDTO(List<Profissional> profissionais) {
+        return profissionais.stream().map(
+            p -> convertToDTO((Coordenador) p.getByRole(br.com.systempus.systempus.domain.enumerador.ProfissionalEnum.COORDENADOR))
+        ).collect(Collectors.toList());
+    }
+
+    // public static CoordenadorDTO convertToDTO(Coordenador coordenador) {
+    //     return new CoordenadorDTO(
     //         coordenador.getId(),
     //         coordenador.getCpf(),
     //         coordenador.getNome(),
@@ -60,11 +70,13 @@ public class ProfissionalDTO {
     //     );
     // }
 
-    // public static List<ProfissionalDTO> convertToDTO(List<Professor> professores) {
+
+
+    // public static List<CoordenadorDTO> convertToDTO(List<Professor> professores) {
     //     return professores.stream()
-    //         .map(c -> new ProfissionalDTO(
+    //         .map(c -> new CoordenadorDTO(
     //             c.getId(),
-    //             c.getNome(),
+    //             c.getProfissional().getNome(),
                 
     //             ModuloDTO.convertToDTO(c.getModulos())
     //         ))

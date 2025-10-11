@@ -25,6 +25,16 @@ public class ModuloDTO {
         this.disciplinas = disciplinas;
     }
 
+    public static ModuloDTO convertToDTO(Modulo modulo) {
+        return new ModuloDTO(
+            modulo.getId(),
+            modulo.getNome(),
+            modulo.getDataInicio(),
+            modulo.getDataFim(),
+            DisciplinaDTO.convertToDTO(modulo.getDisciplinas())
+        );
+    }
+
     public static List<ModuloDTO> convertToDTO(List<Modulo> modulos) {
         return modulos.stream()
             .map(m -> new ModuloDTO(
@@ -36,4 +46,6 @@ public class ModuloDTO {
             ))
             .collect(Collectors.toList());
     }
+
+    
 }

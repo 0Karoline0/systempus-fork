@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.systempus.systempus.domain.Disciplina;
 import br.com.systempus.systempus.domain.Modulo;
 import br.com.systempus.systempus.domain.dto.DisciplinaDTO;
+import br.com.systempus.systempus.domain.dto.ModuloDTO;
 import br.com.systempus.systempus.services.ModuloService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,8 +37,9 @@ public class ModuloController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<Modulo> getOne(@PathVariable Integer id){
-        return ResponseEntity.ok().body(service.getOne(id));
+    public ResponseEntity<ModuloDTO> getOne(@PathVariable Integer id){
+        Modulo modulo = service.getOne(id);
+        return ResponseEntity.ok().body(ModuloDTO.convertToDTO(modulo));
     }
 
     @GetMapping("/")
@@ -79,14 +81,14 @@ public class ModuloController {
     }
 
     @PatchMapping("/disciplina/{idModulo}")
-    public ResponseEntity<Modulo> adicionarDisciplina(@PathVariable Integer idModulo, @RequestBody Disciplina disciplina){
+    public ResponseEntity<ModuloDTO> adicionarDisciplina(@PathVariable Integer idModulo, @RequestBody Disciplina disciplina){
         Modulo moduloAtualizado = service.adicionarDisicplinas(idModulo, disciplina);
-        return ResponseEntity.ok().body(moduloAtualizado);
+        return ResponseEntity.ok().body(ModuloDTO.convertToDTO(moduloAtualizado));
     }
 
     @GetMapping("/curso/{idCurso}")
-    public ResponseEntity<List<Modulo>> getModulosPorCurso(@PathVariable Integer idCurso){
-        return ResponseEntity.ok().body(service.getModulosPorCurso(idCurso));
+    public ResponseEntity<List<ModuloDTO>> getModulosPorCurso(@PathVariable Integer idCurso){
+        return ResponseEntity.ok().body(ModuloDTO.convertToDTO(service.getModulosPorCurso(idCurso)));
     }
 
     @GetMapping("/{idModulo}/disciplinas/sem-horarios")

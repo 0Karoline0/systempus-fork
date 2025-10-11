@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.systempus.systempus.domain.Curso;
-import br.com.systempus.systempus.domain.Professor;
 
 public interface CursoRepository extends JpaRepository<Curso, Integer>{
     // List<Professor> getProfessoresByCurso(Integer id);

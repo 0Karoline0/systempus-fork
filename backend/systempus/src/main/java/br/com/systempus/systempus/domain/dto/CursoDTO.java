@@ -31,6 +31,18 @@ public class CursoDTO {
         this.modulos = modulos;
     }
 
+	public static CursoDTO convertToDTO(Curso curso) {
+        return new CursoDTO(
+            curso.getId(),
+            curso.getNome(),
+            curso.getNivelEnsino(),
+            curso.getQtdPeriodos(),
+            curso.getModalidade(),
+            curso.getCargaTotal(),
+            ModuloDTO.convertToDTO(curso.getModulos())
+        );
+    }
+
 	public static List<CursoDTO> convertToDTO(List<Curso> cursos) {
         return cursos.stream()
             .map(c -> new CursoDTO(
@@ -44,4 +56,5 @@ public class CursoDTO {
             ))
             .collect(Collectors.toList());
     }
+
 }

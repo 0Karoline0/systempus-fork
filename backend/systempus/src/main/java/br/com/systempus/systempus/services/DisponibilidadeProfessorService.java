@@ -9,9 +9,10 @@ import org.springframework.stereotype.Service;
 
 import br.com.systempus.systempus.domain.Disciplina;
 import br.com.systempus.systempus.domain.DisponibilidadeProfessor;
+import br.com.systempus.systempus.domain.DisponibilidadeProfessor;
 import br.com.systempus.systempus.domain.HorarioAula;
-import br.com.systempus.systempus.domain.Professor;
 import br.com.systempus.systempus.domain.dto.DisponibilidadeProfessorDTO;
+import br.com.systempus.systempus.domain.role_object.Professor;
 import br.com.systempus.systempus.repository.DisponibilidadeProfessorRepository;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
@@ -68,7 +69,14 @@ public class DisponibilidadeProfessorService {
 
     @Transactional
     public void deleteDisponibilidadesByProfessor(Professor professor){
-        repository.deleteByProfessor(professor);
+        List<DisponibilidadeProfessor> disponibilidades = repository.getByProfessor(professor);
+        for (DisponibilidadeProfessor d : disponibilidades) {
+            repository.delete(d);
+        }
+    }
+
+    public void deleteDisponibilidade(Integer id) {
+        repository.deleteById(id);
     }
 
     public List<DisponibilidadeProfessorDTO> saveDisponibilidadeProfessor(List<DisponibilidadeProfessorDTO> disponibilidadeRequest, Integer professorId) {
@@ -87,7 +95,7 @@ public class DisponibilidadeProfessorService {
         Disciplina disciplina = disciplinaService.getOne(idDisciplina);
 
         try {
-            Integer statusCode = whatsappService.sendWhatsappMessage(professor.getTelefone(), professor.getNome(), disciplina, customMessage);
+            Integer statusCode = whatsappService.sendWhatsappMessage(professor.getProfissional().getTelefone(), professor.getProfissional().getNome(), disciplina, customMessage);
             if (statusCode >= 200 && statusCode < 300){
                 return "Mensagem enviada por Whatsapp com sucesso!";
             }

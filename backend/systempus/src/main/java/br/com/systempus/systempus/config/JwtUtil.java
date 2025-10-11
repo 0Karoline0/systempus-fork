@@ -3,8 +3,10 @@ package br.com.systempus.systempus.config;
 import java.security.Key;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Collection;
 import java.util.Date;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Jwts;
@@ -19,12 +21,13 @@ private static final String SECRET_KEY = "chave-secreta-top-12345678901234567890
 
     private static final Key KEY = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
-    public static String generateToken(String username) {
+    public static String generateToken(String username, Collection<? extends GrantedAuthority> authorities) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime expiration = now.plusMinutes(EXPIRATION_MINUTES);
 
         return Jwts.builder()
                 .setSubject(username)
+                .claim("roles", authorities.stream().map(GrantedAuthority::getAuthority).toList())
                 .setIssuedAt(toDate(now))
                 .setExpiration(toDate(expiration))
                 .signWith(KEY, SignatureAlgorithm.HS256)

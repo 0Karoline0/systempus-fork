@@ -5,6 +5,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import br.com.systempus.systempus.domain.enumerador.DiaSemana;
+import br.com.systempus.systempus.domain.role_object.Professor;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import br.com.systempus.systempus.domain.Permissoes;
 import br.com.systempus.systempus.domain.Role;
 import br.com.systempus.systempus.domain.Usuario;
+import br.com.systempus.systempus.domain.role_object.Profissional;
 import br.com.systempus.systempus.repository.PermissoesRepository;
 
 public class UserDetailsImpl implements UserDetails {
@@ -34,15 +35,17 @@ public class UserDetailsImpl implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();
 
-        for (Role role : Objects.requireNonNullElse(usuario.getRoles(), Collections.<Role>emptySet())) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.name()));
-
-            List<Permissoes> permissoesDoRole = repository.findByRolesContaining(role);
-            for (Permissoes p : permissoesDoRole) {
-                authorities.add(new SimpleGrantedAuthority(p.getNome()));
-            }
+        // Transformando as regras que recebemos em GrantedAuthority
+        Profissional profissional = usuario.getProfissional();
+        
+        if (profissional != null && profissional.getRoles() != null) {
+            profissional.getRoles().forEach( role -> {
+                String roleNome = "ROLE_"+role.getTipoProfissional().name().toUpperCase();
+                authorities.add(new SimpleGrantedAuthority(roleNome));
+            });
         }
 
+        System.out.println("Authorities do usuário: " + authorities);
         return authorities;
     }
 

@@ -1,9 +1,9 @@
 package br.com.systempus.systempus.domain;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import br.com.systempus.systempus.domain.role_object.Profissional;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -41,12 +41,11 @@ public class Usuario {
     @JoinColumn(name="profissional_id")
     private Profissional profissional;
 
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "usuario_role", joinColumns = @JoinColumn(name = "usuario_id"))
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role")
-    private Set<Role> roles;
+    // @ElementCollection(fetch = FetchType.EAGER)
+    // @CollectionTable(name = "usuario_role", joinColumns = @JoinColumn(name = "usuario_id"))
+    // @Enumerated(EnumType.STRING)
+    // @Column(name = "role")
+    // private Set<Role> roles;
     
     private String getEmail(){
         return Optional.ofNullable(profissional).map(Profissional::getEmail).orElse(null);     
