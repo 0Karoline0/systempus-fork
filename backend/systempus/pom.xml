@@ -107,23 +107,23 @@
 				 Por que é necessário: Para gerar seus próprios tokens JWT no back-end. 
 				 						A jjwt-api só define as classes/interfaces – tipo uma casca.
 			-->
-			<dependency>
+			<!-- <dependency>
 			  <groupId>io.jsonwebtoken</groupId>
 			  <artifactId>jjwt-api</artifactId>
 			  <version>0.11.5</version>
-			</dependency>
+			</dependency> -->
 
 			<!-- 
 			O que faz: É a implementação real da lógica de geração/validação do JWT.
 			Por que é necessário: É o núcleo interno da biblioteca jjwt, que contém os algoritmos de assinatura
 								 (HS256, RS256 etc.), validação de expiração, e toda a lógica de parsing do token.
 			-->
-			<dependency>
+			<!-- <dependency>
 			  <groupId>io.jsonwebtoken</groupId>
 			  <artifactId>jjwt-impl</artifactId>
 			  <version>0.11.5</version>
 			  <scope>runtime</scope>
-			</dependency>
+			</dependency> -->
 
 			<!-- 
 			O que faz: Usa o Jackson para serializar/deserializar o conteúdo do JWT.
@@ -133,12 +133,12 @@
 						 		  Header . Payload . Signature
 
 			-->
-			<dependency>
+			<!-- <dependency>
 			  <groupId>io.jsonwebtoken</groupId>
 			  <artifactId>jjwt-jackson</artifactId>
 			  <version>0.11.5</version>
 			  <scope>runtime</scope>
-			</dependency>
+			</dependency> -->
 		  
 
 		  

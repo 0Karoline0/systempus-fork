@@ -43,40 +43,43 @@ DELETE FROM profissional;
 DELETE FROM professor;
 DELETE FROM pessoa;
 
-INSERT INTO pessoa (cpf, nome, telefone, email, foto, status_ativacao) VALUES ('12345678909', 'Ana Souza', '11999990001', 'karol@gmail.com', 'https://img.cancaonova.com/cnimages/canais/uploads/sites/6/2018/03/formacao_1600x1200-como-a-presenca-da-mulher-pode-ser-harmonia-no-mundo.jpg', 1);
-INSERT INTO pessoa (cpf, nome, telefone, email, foto, status_ativacao) VALUES ('98765432100', 'Bruno Lima', '21988887777', 'bruno.lima@example.com', 'https://img.freepik.com/fotos-gratis/homem-bonito-posando-e-sorrindo_23-2149396133.jpg?w=360', 1);
-INSERT INTO pessoa (cpf, nome, telefone, email, foto, status_ativacao) VALUES ('11122233344', 'Carla Mendes', '31977776666', 'karolinevmfaria@gmail.com', 'https://t4.ftcdn.net/jpg/05/54/32/25/360_F_554322527_L4qTbf9iGZFdxaokxfm6KoQClwfmUBSq.jpg', 1);
-INSERT INTO pessoa (cpf, nome, telefone, email, foto, status_ativacao) VALUES ('55566677788', 'Diego Rocha', '41966665555', 'diego.rocha@example.com', 'diego.jpg', 1);
-INSERT INTO pessoa (cpf, nome, telefone, email, foto, status_ativacao) VALUES ('99988877766', 'Eduarda Martins', '51955554444', 'eduarda.martins@example.com', 'eduarda.png', 1);
-INSERT INTO pessoa (cpf, nome, telefone, email, foto, status_ativacao) VALUES ('29803896091', 'Erick Lima Cavalcanti', '97922208738', 'karol@gmail.com', 'https://img.freepik.com/fotos-gratis/retrato-de-homem-feliz-e-sorridente_23-2149022620.jpg', 0);
+INSERT INTO pessoa (cpf, nome, telefone, email, foto, status_ativacao) VALUES ('12345678909', 'Karol Souza', '11999990001', 'karol@gmail.com', 'https://img.cancaonova.com/cnimages/canais/uploads/sites/6/2018/03/formacao_1600x1200-como-a-presenca-da-mulher-pode-ser-harmonia-no-mundo.jpg', 1);
+INSERT INTO pessoa (cpf, nome, telefone, email, foto, status_ativacao) VALUES ('98765432100', 'Roussian Gaioso', '21988887777', 'roussian@gmail.com', 'https://img.freepik.com/fotos-gratis/homem-bonito-posando-e-sorrindo_23-2149396133.jpg?w=360', 1);
+INSERT INTO pessoa (cpf, nome, telefone, email, foto, status_ativacao) VALUES ('11122233344', 'Karoline Vitória', '31977776666', 'karolinevmfaria@gmail.com', 'https://t4.ftcdn.net/jpg/05/54/32/25/360_F_554322527_L4qTbf9iGZFdxaokxfm6KoQClwfmUBSq.jpg', 1);
+INSERT INTO pessoa (cpf, nome, telefone, email, foto, status_ativacao) VALUES ('55566677788', 'Roger Leo', '41966665555', 'rogerleo@gmail.com', 'diego.jpg', 1);
+INSERT INTO pessoa (cpf, nome, telefone, email, foto, status_ativacao) VALUES ('99988877766', 'Eduarda Martins', '51955554444', 'eduarda@gmail.com', 'eduarda.png', 1);
+INSERT INTO pessoa (cpf, nome, telefone, email, foto, status_ativacao) VALUES ('29803896091', 'Erick Lima Cavalcanti', '97922208738', 'teste@gmail.com', 'https://img.freepik.com/fotos-gratis/retrato-de-homem-feliz-e-sorridente_23-2149022620.jpg', 0);
 INSERT INTO pessoa (cpf, nome, telefone, email, foto, status_ativacao) VALUES ('70622239058', 'Luís Pereira Santos', '6836364963', 'luis@outlook.com', NULL, 0);
 INSERT INTO pessoa (cpf, nome, telefone, email, foto, status_ativacao) VALUES ('98579973090', 'Laura Cavalcanti Melo', '69926295047', 'laura@yahoo.com.br', 'https://img.freepik.com/fotos-gratis/retrato-de-uma-jovem-linda-modelo-de-pe-e-sorrindo-para-a-camera-foto-de-alta-qualidade_144627-75055.jpg', 1);
 INSERT INTO pessoa (cpf, nome, telefone, email, foto, status_ativacao) VALUES ('77230341051', 'Amanda Gomes Cardoso', '63932156476', 'amandaGomes@gmail.com.br', NULL, 1);
-INSERT INTO pessoa (cpf, nome, telefone, email, foto, status_ativacao) VALUES ('72387595009', 'Larissa Rodrigues Pinto', '9325217455', 'karolinevmfaria@gmail.com.br', NULL, 2);
-INSERT INTO pessoa (cpf, nome, telefone, email, foto, status_ativacao) VALUES ('54018147040', 'Julian Fernandes Gomes', '8137598566', 'karolinevmfaria@gmail.com', 'https://img.freepik.com/fotos-gratis/homem-bonito-posando-e-sorrindo_23-2149396133.jpg', 2);
-INSERT INTO pessoa (cpf, nome, telefone, email, foto, status_ativacao) VALUES ('93363186088', 'Manuela Martins Lima', '63939481714', 'karolinevmfaria@gmail.com', 'https://midias.correiobraziliense.com.br/_midias/jpg/2021/03/05/675x450/1_cbpfot020320212188-6556336.jpg', 2);
+INSERT INTO pessoa (cpf, nome, telefone, email, foto, status_ativacao) VALUES ('72387595009', 'Larissa Rodrigues Pinto', '9325217455', 'teste1@gmail.com.br', NULL, 2);
+INSERT INTO pessoa (cpf, nome, telefone, email, foto, status_ativacao) VALUES ('54018147040', 'Julian Fernandes Gomes', '8137598566', 'teste2@gmail.com', 'https://img.freepik.com/fotos-gratis/homem-bonito-posando-e-sorrindo_23-2149396133.jpg', 2);
+INSERT INTO pessoa (cpf, nome, telefone, email, foto, status_ativacao) VALUES ('93363186088', 'Manuela Martins Lima', '63939481714', 'teste3@gmail.com', 'https://midias.correiobraziliense.com.br/_midias/jpg/2021/03/05/675x450/1_cbpfot020320212188-6556336.jpg', 2);
 INSERT INTO pessoa (cpf, nome, telefone, email, foto, status_ativacao) VALUES ('71935254090', 'Mariana Barros Cunha', '1722816185', NULL, 'https://media.istockphoto.com/id/1961055517/pt/foto/testimonial-portrait-of-a-mature-mexican-woman.webp?b=1&s=170667a&w=0&k=20&c=hrlMKXux9zL82L92rgUWN4ARrL2Cgu-PRLK0iAY_MVk=', 0);
 INSERT INTO pessoa (cpf, nome, telefone, email, foto, status_ativacao) VALUES ('88411047083', 'Matheus Rocha Sousa', '94938884730', NULL, NULL, 0);
 INSERT INTO pessoa (cpf, nome, telefone, email, foto, status_ativacao) VALUES ('22525229096', 'Kauan Souza Fernandes', '33922412233', NULL, 'https://media.istockphoto.com/id/1338134336/pt/foto/headshot-portrait-african-30s-man-smile-look-at-camera.webp?b=1&s=170667a&w=0&k=20&c=SFQyWuhNqsI4YypI1rQEwV3yv9RMzkHoXaHrz_Jkft8=', 2);
 
-INSERT INTO profissional (id) VALUES (1); -- ANA
-INSERT INTO profissional (id) VALUES (2); -- BRUNO
-INSERT INTO profissional (id) VALUES (3); -- CARLA
-INSERT INTO profissional (id) VALUES (4);
-INSERT INTO profissional (id) VALUES (5);
+INSERT INTO profissional (id) VALUES (1); -- KAROL SOUZA
+INSERT INTO profissional (id) VALUES (2); -- ROUSSIAN
+INSERT INTO profissional (id) VALUES (3); -- KAROLINE VITÓRIA
+INSERT INTO profissional (id) VALUES (4); -- ROGER LEO
+INSERT INTO profissional (id) VALUES (5); -- EDUARDA
 INSERT INTO profissional (id) VALUES (6);
 INSERT INTO profissional (id) VALUES (7);
 INSERT INTO profissional (id) VALUES (8);
 INSERT INTO profissional (id) VALUES (9);
 INSERT INTO profissional (id) VALUES (10);
 
-INSERT INTO profissional_role (tipo_profissional, profissional_id) VALUES ('PROFESSOR', 1); --1 -- ANA (PROFESSOR)
-INSERT INTO profissional_role (tipo_profissional, profissional_id) VALUES ('COORDENADOR', 1); -- 2 -- ANA (COORDENADOR)
-INSERT INTO profissional_role (tipo_profissional, profissional_id) VALUES ('COORDENADOR', 2); -- 3 -- BRUNO (COORDENADOR)
-INSERT INTO profissional_role (tipo_profissional, profissional_id) VALUES ('PROFESSOR', 3); -- 4 -- CARLA (PROFESSOR)
+INSERT INTO profissional_role (tipo_profissional, profissional_id) VALUES ('PROFESSOR', 1); -- KAROL SOUZA (PROFESSOR)
+INSERT INTO profissional_role (tipo_profissional, profissional_id) VALUES ('COORDENADOR', 1); -- KAROL SOUZA (COORDENADOR)
+INSERT INTO profissional_role (tipo_profissional, profissional_id) VALUES ('COORDENADOR', 2); -- ROUSSIAN (COORDENADOR)
+INSERT INTO profissional_role (tipo_profissional, profissional_id) VALUES ('PROFESSOR', 3); -- KAROLINE VITÓRIA (PROFESSOR)
+INSERT INTO profissional_role (tipo_profissional, profissional_id) VALUES ('ADM', 4); -- ROGER LEO (ADMN)
+INSERT INTO profissional_role (tipo_profissional, profissional_id) VALUES ('PROFESSOR', 5); -- EDUARDA (PROFESSOR)
 
 INSERT INTO professor (id) VALUES (1);
 INSERT INTO professor (id) VALUES (4);
+INSERT INTO professor (id) VALUES (6);
 
 INSERT INTO coordenador (id) VALUES (2);
 INSERT INTO coordenador (id) VALUES (3);
@@ -163,8 +166,11 @@ INSERT INTO horario_disciplina(dia_semana, horario_aula_id, disciplina_id) VALUE
 INSERT INTO horario_disciplina(dia_semana, horario_aula_id, disciplina_id) VALUES (6, 1, 3);
 INSERT INTO horario_disciplina(dia_semana, horario_aula_id, disciplina_id) VALUES (6, 2, 3);
 
-INSERT INTO usuario(user_name, password, profissional_id) VALUES ('karolinevmfaria@gmail.com', '$2a$12$Xh4PvgfqDnviETd27ac0IeZqG79/Lntb8XRqUPVHTYN3A5ySzkw5m', 3);
-INSERT INTO usuario(user_name, password, profissional_id) VALUES ('karol@gmail.com', '$2a$12$Xh4PvgfqDnviETd27ac0IeZqG79/Lntb8XRqUPVHTYN3A5ySzkw5m', 1);
+INSERT INTO usuario(username, password, profissional_id) VALUES ('karolinevmfaria@gmail.com', '$2a$12$Xh4PvgfqDnviETd27ac0IeZqG79/Lntb8XRqUPVHTYN3A5ySzkw5m', 3);
+INSERT INTO usuario(username, password, profissional_id) VALUES ('karol@gmail.com', '$2a$12$Xh4PvgfqDnviETd27ac0IeZqG79/Lntb8XRqUPVHTYN3A5ySzkw5m', 1);
+INSERT INTO usuario(username, password, profissional_id) VALUES ('roussian@gmail.com', '$2a$12$Xh4PvgfqDnviETd27ac0IeZqG79/Lntb8XRqUPVHTYN3A5ySzkw5m', 2);
+INSERT INTO usuario(username, password, profissional_id) VALUES ('rogerleo@gmail.com', '$2a$12$Xh4PvgfqDnviETd27ac0IeZqG79/Lntb8XRqUPVHTYN3A5ySzkw5m', 4);
+INSERT INTO usuario(username, password, profissional_id) VALUES ('eduarda@gmail.com', '$2a$12$Xh4PvgfqDnviETd27ac0IeZqG79/Lntb8XRqUPVHTYN3A5ySzkw5m', 5);
 
 
 

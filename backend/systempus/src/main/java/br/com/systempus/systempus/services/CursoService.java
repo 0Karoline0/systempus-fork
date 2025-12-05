@@ -163,8 +163,8 @@ public class CursoService {
         return semHorarios;
     }
 
-    public List<CursoDTO> getCursosByProfessor(Integer idProfessor) {
-        return CursoDTO.convertToDTO(professorService.getOne(idProfessor).getCursosLecionados());
+    public List<CursoDTO> getCursosByProfessor(Integer idProfissional) {
+        return CursoDTO.convertToDTO(professorService.getOne(idProfissional).getCursosLecionados());
     }
 
     public List<Curso> getCursosByIntegerList(List<Integer> cursos) {

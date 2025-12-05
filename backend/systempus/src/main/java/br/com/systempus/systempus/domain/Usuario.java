@@ -1,16 +1,9 @@
 package br.com.systempus.systempus.domain;
 
 import java.util.Optional;
-import java.util.Set;
 
 import br.com.systempus.systempus.domain.role_object.Profissional;
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,7 +25,7 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String userName;
+    private String username;
     private String password;
     
     // TODO: Alterar email para estar ligado ao profissional (professor ou coordenador)

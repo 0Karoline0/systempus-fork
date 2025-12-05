@@ -27,11 +27,8 @@ import br.com.systempus.systempus.domain.dto.ProfessorCompatibilidadeDTO;
 import br.com.systempus.systempus.domain.dto.ProfissionalDTO;
 import br.com.systempus.systempus.domain.dto.professor.ProfessorDTO;
 import br.com.systempus.systempus.domain.role_object.Professor;
-import br.com.systempus.systempus.domain.role_object.Profissional;
 import br.com.systempus.systempus.services.CadastroService;
 import br.com.systempus.systempus.services.DisponibilidadeProfessorService;
-// import br.com.systempus.systempus.services.CadastroService;
-// import br.com.systempus.systempus.services.DisponibilidadeProfessorService;
 import br.com.systempus.systempus.services.ProfessorService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
@@ -41,7 +38,6 @@ import jakarta.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("api/v1/professor")
 @Tag(name = "Professor")
-//@CrossOrigin(origins = ("*"), allowedHeaders = ("*"))(origins = ("*"), allowedHeaders = ("*"))
 public class ProfessorController {
 
     @Autowired
@@ -55,22 +51,22 @@ public class ProfessorController {
 
     // Pegar professor por ID
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('COORDENADOR') or #id == authentication.principal.id")
+    @PreAuthorize("hasAuthority('SCOPE_COORDENADOR') or (hasAuthority('SCOPE_PROFESSOR') and #id.toString() == authentication.principal.claims['sub'])")
     public ResponseEntity<ProfessorDTO> getOne(@PathVariable Integer id) {
         ProfessorDTO p = ProfessorDTO.convertToDTO(professorService.getOne(id).getProfissional());
         return ResponseEntity.ok().body(p);
     }
     
     // Pegar professor por ID
-    @GetMapping("/{token}/{idProfessor}")
-    @PreAuthorize("hasRole('COORDENADOR') or #id == authentication.principal.id")
-    public ResponseEntity<ProfissionalDTO> getProfessorById(@PathVariable String token, @PathVariable Integer idProfessor){
-        ProfissionalDTO professor = cadastroService.getProfessorById(token, idProfessor);
+    @GetMapping("/{token}/{idProfissional}")
+    @PreAuthorize("hasAuthority('SCOPE_COORDENADOR') or (hasAuthority('SCOPE_PROFESSOR') and #idProfissional.toString() == authentication.principal.claims['sub'])")
+    public ResponseEntity<ProfissionalDTO> getProfessorById(@PathVariable String token, @PathVariable Integer idProfissional){
+        ProfissionalDTO professor = cadastroService.getProfessorById(token, idProfissional);
         return ResponseEntity.ok().body(professor);
     }
     
     // Listar todos os professores
-    @PreAuthorize("hasRole('COORDENADOR')")
+    @PreAuthorize("hasAuthority('SCOPE_COORDENADOR')")
     @GetMapping("/")
     public ResponseEntity<List<ProfessorDTO>> getAll(){
         return ResponseEntity.ok().body(professorService.getAll());
@@ -78,7 +74,7 @@ public class ProfessorController {
     
     // Pré-cadastro feito na parte de dentro do sistema pelo coordenador, que também enviará o email de cadastro completo para o professor
     @PostMapping("/pre-cadastro")
-    @PreAuthorize("hasRole('COORDENADOR')")
+    @PreAuthorize("hasAuthority('SCOPE_COORDENADOR')")
     public ResponseEntity<Void> enviarEmailCadastro(@RequestBody CadastroProfissionalDTO cadastro) throws MessagingException, IOException {
         cadastroService.enviarEmailCadastro(cadastro, true);
         return ResponseEntity.ok().build();
@@ -102,72 +98,72 @@ public class ProfessorController {
 
     // Deleta um professor -> mas não tira ele do sistema como profissional, apenas tira o papel de professor dele
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('COORDENADOR', 'ADM')")
+    @PreAuthorize("hasAnyAuthority('SCOPE_COORDENADOR', 'SCOPE_ADM')")
     public ResponseEntity<Void> delete(@PathVariable Integer id){
         professorService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     // Atualiza os dados de um professor com update
-    @PreAuthorize("hasRole(PROFESSOR) and #id == authentication.principal.id")
-    @PutMapping("/{id}")
-    public ResponseEntity<ProfessorDTO> update(@RequestBody ProfessorDTO professor){
-        professorService.update(professor);
+    @PutMapping("/{idProfissional}")
+    @PreAuthorize("hasAuthority('SCOPE_PROFESSOR') and #idProfissional.toString() == authentication.principal.claims['sub']")
+    public ResponseEntity<ProfessorDTO> update(@PathVariable Integer idProfissional, @RequestBody ProfessorDTO professor){
+        professorService.update(professor, idProfissional);
         return ResponseEntity.ok().body(professor);
     }
-
+    
     // Atualiza parcialmente os dados de um professor
-    @PreAuthorize("hasRole('PROFESSOR') and #id == authentication.principal.id")
-    @PatchMapping("/{id}")
-    public ResponseEntity<ProfessorDTO> updatePartial(@RequestBody Map<String, Object> mapValores, @PathVariable Integer id){
-        ProfessorDTO professorAtualizado = professorService.updatePartial(mapValores, id);
+    @PatchMapping("/{idProfissional}")
+    @PreAuthorize("hasAuthority('SCOPE_PROFESSOR') and #idProfissional.toString() == authentication.principal.claims['sub']")
+    public ResponseEntity<ProfessorDTO> updatePartial(@RequestBody Map<String, Object> mapValores, @PathVariable Integer idProfissional){
+        ProfessorDTO professorAtualizado = professorService.updatePartial(mapValores, idProfissional);
         return ResponseEntity.ok().body(professorAtualizado);
     }
-
+    
     // Salva as disponibilidades de um professor
-    @PreAuthorize("hasRole('PROFESSOR') and #id == authentication.principal.id")
-    @PostMapping("/{id}/disponibilidades")
-    public ResponseEntity<List<DisponibilidadeProfessorDTO>> saveDisponibilidadesPorProfessor(@PathVariable Integer id, @RequestBody List<DisponibilidadeProfessorDTO> disponibilidadeRequest, HttpServletRequest request, HttpServletResponse response) throws URISyntaxException{
-        List<DisponibilidadeProfessorDTO> disponibilidades = disponibilidadesService.saveDisponibilidadeProfessor(disponibilidadeRequest, id);
-
+    @PostMapping("/{idProfissional}/disponibilidades")
+    @PreAuthorize("hasAuthority('SCOPE_PROFESSOR') and #idProfissional.toString() == authentication.principal.claims['sub']")
+    public ResponseEntity<List<DisponibilidadeProfessorDTO>> saveDisponibilidadesPorProfessor(@PathVariable Integer idProfissional, @RequestBody List<DisponibilidadeProfessorDTO> disponibilidadeRequest, HttpServletRequest request, HttpServletResponse response) throws URISyntaxException{
+        List<DisponibilidadeProfessorDTO> disponibilidades = disponibilidadesService.saveDisponibilidadeProfessor(disponibilidadeRequest, idProfissional);
+        
         StringBuffer path = new StringBuffer();
-
+        
         path.append(request.getRequestURI())
-            .append("/")
-            .append(id);
-
+        .append("/")
+        .append(idProfissional);
+        
         URI uri = new URI(path.toString());
-
+        
         return ResponseEntity.created(uri).body(disponibilidades);
     }
-
+    
     // Atualiza as disponibilidades de um determinado professor
-    @PreAuthorize("hasRole('PROFESSOR') and #id == authentication.principal.id")
-    @PutMapping("/{id}/disponibilidades")
-    public ResponseEntity<List<DisponibilidadeProfessorDTO>> updateDisponibilidadesPorProfessor(@PathVariable Integer id, @RequestBody List<DisponibilidadeProfessorDTO> disponibilidades) {
-        List<DisponibilidadeProfessorDTO> disponibilidadesSalvas = disponibilidadesService.updateDisponibilidadeProfessor(id, disponibilidades);
+    @PutMapping("/{idProfissional}/disponibilidades")
+    @PreAuthorize("hasAuthority('SCOPE_PROFESSOR') and #idProfissional.toString() == authentication.principal.claims['sub']")
+    public ResponseEntity<List<DisponibilidadeProfessorDTO>> updateDisponibilidadesPorProfessor(@PathVariable Integer idProfissional, @RequestBody List<DisponibilidadeProfessorDTO> disponibilidades) {
+        List<DisponibilidadeProfessorDTO> disponibilidadesSalvas = disponibilidadesService.updateDisponibilidadeProfessor(idProfissional, disponibilidades);
         return ResponseEntity.ok().body(disponibilidadesSalvas);
     }
 
     // Pega a disponibilidade de horários de um determinado professor    
-    @PreAuthorize("hasRole('COORDENADOR') or #id == authentication.principal.id")
-    @GetMapping("/{id}/disponibilidades")
-    public ResponseEntity<List<DisponibilidadeProfessorDTO>> getDisponibilidadeByProfessorId(@PathVariable Integer id){
-        List<DisponibilidadeProfessorDTO> disponibilidades = professorService.getDisponibilidadeByProfessorId(id);
+    @GetMapping("/{idProfissional}/disponibilidades")
+    @PreAuthorize("hasAuthority('SCOPE_COORDENADOR') or (hasAuthority('SCOPE_PROFESSOR') and #idProfissional.toString() == authentication.principal.claims['sub'])")
+    public ResponseEntity<List<DisponibilidadeProfessorDTO>> getDisponibilidadeByProfessorId(@PathVariable Integer idProfissional){
+        List<DisponibilidadeProfessorDTO> disponibilidades = professorService.getDisponibilidadeByProfessorId(idProfissional);
         return ResponseEntity.ok().body(disponibilidades);
     }
 
     // Salva as disciplinas favoritas de um professor
-    @PreAuthorize("hasRole('PROFESSOR') and #id == authentication.principal.id")
-    @PostMapping("/{id}/preferem/disciplinas")
-    public ResponseEntity<Professor> salvarDisponibilidadesPreferidas(@PathVariable Integer id, @RequestBody List<Integer> disciplinasIds, HttpServletRequest request, HttpServletResponse response) throws URISyntaxException{
-        Professor professor = professorService.salvarDisciplinasPreferidas(id, disciplinasIds);
+    @PostMapping("/{idProfissional}/preferem/disciplinas")
+    @PreAuthorize("hasAuthority('SCOPE_PROFESSOR') and #idProfissional.toString() == authentication.principal.claims['sub']")
+    public ResponseEntity<Professor> salvarDisponibilidadesPreferidas(@PathVariable Integer idProfissional, @RequestBody List<Integer> disciplinasIds, HttpServletRequest request, HttpServletResponse response) throws URISyntaxException{
+        Professor professor = professorService.salvarDisciplinasPreferidas(idProfissional, disciplinasIds);
         
         StringBuffer path = new StringBuffer();
 
         path.append(request.getRequestURI())
             .append('/')
-            .append(id);
+            .append(idProfissional);
 
         URI uri = new URI(path.toString());
         
@@ -176,16 +172,16 @@ public class ProfessorController {
 
     
     // Lista as disciplinas favoritas de um professor
-    @PreAuthorize("hasRole('PROFESSOR') and #id == authentication.principal.id")
-    @GetMapping("/{id}/preferem/disciplinas")
-    public ResponseEntity<List<DisciplinaDTO>> getDisciplinasPreferidasByProfessor(@PathVariable Integer id){
-        List<DisciplinaDTO> disciplinas = DisciplinaDTO.convertToDTO(professorService.getDisciplinasPreferidas(id).stream().toList());
+    @GetMapping("/{idProfissional}/preferem/disciplinas")
+    @PreAuthorize("hasAuthority('SCOPE_PROFESSOR') and #idProfissional.toString() == authentication.principal.claims['sub']")
+    public ResponseEntity<List<DisciplinaDTO>> getDisciplinasPreferidasByProfessor(@PathVariable Integer idProfissional){
+        List<DisciplinaDTO> disciplinas = DisciplinaDTO.convertToDTO(professorService.getDisciplinasPreferidas(idProfissional).stream().toList());
         return ResponseEntity.ok().body(disciplinas);
     }
 
     // Lista professores com compatibilidade para cada disciplina
-    @PreAuthorize("hasRole('COORDENADOR')")
     @GetMapping("/{idDisciplina}/disciplina/compatibilidade")
+    @PreAuthorize("hasAuthority('SCOPE_COORDENADOR')")
     public ResponseEntity<List<ProfessorCompatibilidadeDTO>> getProfessoresComCompatibilidade(@PathVariable Integer idDisciplina){
         return ResponseEntity.ok().body(professorService.getProfessoresPorCompatibilidade(idDisciplina));
     }

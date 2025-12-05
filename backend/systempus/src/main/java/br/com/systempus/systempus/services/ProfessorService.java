@@ -97,8 +97,8 @@ public class ProfessorService {
     }
 
     @Transactional
-    public void update(ProfessorDTO professor) {
-        Profissional p = profissionalService.getProfissionalById(professor.getId());
+    public void update(ProfessorDTO professor, Integer idProfissional) {
+        Profissional p = profissionalService.getProfissionalById(idProfissional);
         p.setNome(professor.getNome());
         p.setCpf(professor.getCpf());
         p.setEmail(professor.getEmail());
@@ -117,8 +117,8 @@ public class ProfessorService {
         Profissional p2 = profissionalService.update(p);
     }
 
-    public ProfessorDTO updatePartial(Map<String, Object> mapValores, Integer id) {
-        Profissional p = profissionalService.getProfissionalById(id);
+    public ProfessorDTO updatePartial(Map<String, Object> mapValores, Integer idProfissional) {
+        Profissional p = profissionalService.getProfissionalById(idProfissional);
         isProfessor(p);
 
         mapValores.forEach(
@@ -139,29 +139,29 @@ public class ProfessorService {
         return ProfessorDTO.convertToDTO(profissionalService.update(p));
     }
 
-    public List<DisponibilidadeProfessorDTO> getDisponibilidadeByProfessorId(Integer id) {
-        Professor professor = getOne(id);
+    public List<DisponibilidadeProfessorDTO> getDisponibilidadeByProfessorId(Integer idProfissional) {
+        Professor professor = getOne(idProfissional);
         List<DisponibilidadeProfessor> getDisponibilidades =  professor.getDisponibilidadeProfessor();
         return DisponibilidadeProfessorDTO.convertToDTO(getDisponibilidades);
     }
 
-    public Professor salvarDisciplinasPreferidas(Integer id, List<Integer> disciplinasIds) {
+    public Professor salvarDisciplinasPreferidas(Integer idProfissional, List<Integer> disciplinasIds) {
         Set<Disciplina> disciplinas = new HashSet<>();
 
         for (Integer disciplinaId : disciplinasIds) {
             Disciplina dis = disciplinaService.getOne(disciplinaId);
             disciplinas.add(dis);
         }
-        Professor professor = getOne(id);
+        Professor professor = getOne(idProfissional);
         professor.setDisciplinasPreferidas(new HashSet<>());
-        update(ProfessorDTO.convertToDTO(professor.getProfissional()));
+        update(ProfessorDTO.convertToDTO(professor.getProfissional()), idProfissional);
         professor.setDisciplinasPreferidas(disciplinas);
-        update(ProfessorDTO.convertToDTO(professor.getProfissional()));
+        update(ProfessorDTO.convertToDTO(professor.getProfissional()), idProfissional);
         return professor;
     }
 
-    public Set<Disciplina> getDisciplinasPreferidas(Integer idProfessor) {
-        Professor professor = getOne(idProfessor);
+    public Set<Disciplina> getDisciplinasPreferidas(Integer idProfissional) {
+        Professor professor = getOne(idProfissional);
         return professor.getDisciplinasPreferidas();
     }
 

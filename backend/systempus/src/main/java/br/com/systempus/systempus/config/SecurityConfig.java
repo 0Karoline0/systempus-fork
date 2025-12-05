@@ -1,11 +1,12 @@
 package br.com.systempus.systempus.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,22 +14,27 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import io.jsonwebtoken.security.Keys;
+import com.nimbusds.jose.jwk.JWK;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
+
 
 @Configuration
-@EnableMethodSecurity(prePostEnabled = true)
+@EnableMethodSecurity
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private JwtAuthenticationFilter jwtAuthenticationFilter;
+    @Value("${jwt.private.key}")
+    private RSAPrivateKey privateKey;
 
-    @Value("${jwt.secret}")
-    private String secret;
+    @Value("${jwt.public.key}")
+    private RSAPublicKey publicKey;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -43,13 +49,10 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/professor/cadastro").permitAll()
                 .requestMatchers("/api/v1/coordenador/cadastro").permitAll()
                 .requestMatchers("/api/v1/password/**").permitAll()
-                // .requestMatchers("/api/v1/**").hasRole("COORDENADOR")
                 .anyRequest().authenticated()
             )
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .oauth2ResourceServer(oauth2 -> oauth2
-                .jwt()
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults())
             );
 
         return http.build();
@@ -57,13 +60,14 @@ public class SecurityConfig {
 
     @Bean
     public JwtDecoder jwtDecoder() {
-        String secret = "chave-secreta-top-12345678901234567890123456789012";
-        return NimbusJwtDecoder.withSecretKey(Keys.hmacShaKeyFor(secret.getBytes())).build();
+        return NimbusJwtDecoder.withPublicKey(publicKey).build();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+    public JwtEncoder jwtEncoder() {
+        JWK jwk = new RSAKey.Builder(publicKey).privateKey(privateKey).build();
+        var jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
+        return new NimbusJwtEncoder(jwks);
     }
 
     @Bean

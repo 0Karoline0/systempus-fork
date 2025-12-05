@@ -1,53 +1,29 @@
 package br.com.systempus.systempus.services;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import br.com.systempus.systempus.domain.Permissoes;
-import br.com.systempus.systempus.domain.Role;
 import br.com.systempus.systempus.domain.Usuario;
-import br.com.systempus.systempus.domain.dto.DisciplinaDTO;
-import br.com.systempus.systempus.domain.dto.PermissoesDTO;
-import br.com.systempus.systempus.domain.dto.ProfissionalRoleDTO;
 import br.com.systempus.systempus.domain.role_object.Profissional;
-import br.com.systempus.systempus.domain.role_object.ProfissionalRole;
-import br.com.systempus.systempus.domain.security.UserDetailsImpl;
 import br.com.systempus.systempus.error.NotFoundException;
-import br.com.systempus.systempus.repository.PermissoesRepository;
 import br.com.systempus.systempus.repository.UsuarioRepository;
 
 
 @Service
-public class UsuarioService implements UserDetailsService {
+public class UsuarioService {
     
     @Autowired
     private UsuarioRepository repository;
 
     @Autowired
-    private CoordenadorService coordenadorService;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private PermissoesRepository permissoesRepository;
-
-    @Autowired
-    private ProfessorService professorService;
-
-    @Override
-    public UserDetails loadUserByUsername(String username) {
-        Usuario usuario = repository.findByUserName(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
-
-        return new UserDetailsImpl(usuario, permissoesRepository);
+    public Usuario getUserByUsername(String username) {
+        return repository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
     }
 
     public void register(Usuario usuario) {

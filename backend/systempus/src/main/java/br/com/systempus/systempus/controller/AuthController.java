@@ -2,7 +2,6 @@ package br.com.systempus.systempus.controller;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.systempus.systempus.domain.Usuario;
-import br.com.systempus.systempus.domain.dto.PermissoesDTO;
-import br.com.systempus.systempus.domain.dto.ProfissionalRoleDTO;
 import br.com.systempus.systempus.domain.dto.TokenDTO;
-import br.com.systempus.systempus.domain.role_object.ProfissionalRole;
 import br.com.systempus.systempus.services.AuthService;
 import br.com.systempus.systempus.services.PasswordResetTokenService;
 import br.com.systempus.systempus.services.UsuarioService;
@@ -37,7 +33,7 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDTO> login(@RequestBody Usuario usuario) {
+    public ResponseEntity<TokenDTO> login(@RequestBody Usuario usuario) throws Exception {
         TokenDTO token = authService.getToken(usuario);
         return ResponseEntity.ok(token);
     }

@@ -10,7 +10,7 @@ import br.com.systempus.systempus.domain.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
-    Optional<Usuario> findByUserName(String userName);
+    Optional<Usuario> findByUsername(String username);
     Optional<Usuario> findByProfissionalEmail(String email);
 
     @Query("SELECT u FROM Usuario u WHERE u.profissional.id = :idProfissional")

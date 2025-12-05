@@ -3,18 +3,14 @@ package br.com.systempus.systempus.domain.role_object;
 import java.util.HashSet;
 import java.util.Set;
 
-import br.com.systempus.systempus.domain.Usuario;
 import br.com.systempus.systempus.domain.enumerador.ProfissionalEnum;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "profissional")

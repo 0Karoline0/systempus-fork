@@ -10,12 +10,9 @@ import org.springframework.util.ReflectionUtils;
 
 import br.com.systempus.systempus.domain.dto.CoordenadorDTO;
 import br.com.systempus.systempus.domain.enumerador.ProfissionalEnum;
-import br.com.systempus.systempus.domain.enumerador.StatusAtivacao;
 import br.com.systempus.systempus.domain.role_object.Coordenador;
-import br.com.systempus.systempus.domain.role_object.Professor;
 import br.com.systempus.systempus.domain.role_object.Profissional;
 import br.com.systempus.systempus.domain.role_object.ProfissionalRole;
-import br.com.systempus.systempus.error.DataIntegrityViolationException;
 import br.com.systempus.systempus.error.IllegalStateException;
 import br.com.systempus.systempus.error.NotFoundException;
 import br.com.systempus.systempus.repository.CoordenadorRepository;

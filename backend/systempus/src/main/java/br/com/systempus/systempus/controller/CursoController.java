@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -30,7 +31,6 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("api/v1/curso/")
 @Tag(name = "Curso")
-//@CrossOrigin(origins = ("*"), allowedHeaders = ("*"))(origins = ("*"), allowedHeaders = ("*"))
 public class CursoController {
 
     @Autowired
@@ -52,6 +52,7 @@ public class CursoController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('SCOPE_COORDENADOR', 'SCOPE_ADM')")
     public ResponseEntity<Curso> save(@Valid @RequestBody Curso curso, HttpServletRequest request, HttpServletResponse response) throws URISyntaxException {
         cursoService.save(curso);
 
@@ -65,43 +66,50 @@ public class CursoController {
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasAnyAuthority('SCOPE_COORDENADOR', 'SCOPE_ADM')")
     public ResponseEntity<Curso> delete(@PathVariable Integer id) {
         cursoService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping
+    @PreAuthorize("hasAnyAuthority('SCOPE_COORDENADOR', 'SCOPE_ADM')")
     public ResponseEntity<Curso> update(@Valid @RequestBody Curso curso) {
         cursoService.update(curso);
         return ResponseEntity.ok().body(curso);
     }
 
     @PatchMapping("{id}")
+    @PreAuthorize("hasAnyAuthority('SCOPE_COORDENADOR', 'SCOPE_ADM')")
     public ResponseEntity<Curso> upatePartial(@RequestBody Map<String, Object> mapValores, @PathVariable Integer id) {
         Curso cursoAtualizado = cursoService.updatePartial(mapValores, id);
         return ResponseEntity.ok().body(cursoAtualizado);
     }
 
     @PatchMapping("modulo/{idCurso}")
+    @PreAuthorize("hasAnyAuthority('SCOPE_COORDENADOR', 'SCOPE_ADM')")
     public ResponseEntity<Curso> adicionarModulo(@PathVariable Integer idCurso, @RequestBody Modulo modulo){
         Curso cursoAtualizado = cursoService.adicionarModulo(idCurso, modulo);
         return ResponseEntity.ok().body(cursoAtualizado);
     }
-
+    
     @GetMapping("professores/{idCurso}")
+    @PreAuthorize("hasAnyAuthority('SCOPE_COORDENADOR', 'SCOPE_ADM')")
     public ResponseEntity<List<Professor>> getProfessoresByCurso(@PathVariable Integer idCurso){
         return ResponseEntity.ok().body(cursoService.getProfessoresByCurso(idCurso));
     }
-
+    
     @GetMapping("{idCurso}/professores/sem-horarios")
+    @PreAuthorize("hasAnyAuthority('SCOPE_COORDENADOR', 'SCOPE_ADM')")
     public ResponseEntity<List<Professor>> getProfessorSemHorarios(@PathVariable Integer idCurso){
         List<Professor> professores = cursoService.getProfessoresSemHorarios(idCurso);
         return ResponseEntity.ok().body(professores);
     }
 
-    @GetMapping("/professor/{idProfessor}")
-    public ResponseEntity<List<CursoDTO>> getCursosByProfessor(@PathVariable Integer idProfessor){
-        List<CursoDTO> cursos = cursoService.getCursosByProfessor(idProfessor);
+    @GetMapping("/professor/{idProfissional}")
+    @PreAuthorize("hasAnyAuthority('SCOPE_COORDENADOR', 'SCOPE_ADM') or #idProfissional.toString() == authentication.principal.claims['sub']")
+    public ResponseEntity<List<CursoDTO>> getCursosByProfessor(@PathVariable Integer idProfissional){
+        List<CursoDTO> cursos = cursoService.getCursosByProfessor(idProfissional);
         return ResponseEntity.ok().body(cursos);
     }
 

@@ -2,14 +2,11 @@ package br.com.systempus.systempus.services;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 
-
-import br.com.systempus.systempus.domain.Role;
 import br.com.systempus.systempus.domain.UserToken;
 import br.com.systempus.systempus.domain.Usuario;
 import br.com.systempus.systempus.domain.dto.CadastroDTO;
@@ -18,7 +15,6 @@ import br.com.systempus.systempus.domain.dto.CursoDTO;
 import br.com.systempus.systempus.domain.dto.ProfissionalDTO;
 import br.com.systempus.systempus.domain.dto.professor.ProfessorDTO;
 import br.com.systempus.systempus.domain.enumerador.ProfissionalEnum;
-import br.com.systempus.systempus.domain.enumerador.Status;
 import br.com.systempus.systempus.domain.enumerador.StatusAtivacao;
 import br.com.systempus.systempus.domain.role_object.Coordenador;
 import br.com.systempus.systempus.domain.role_object.Professor;
@@ -152,10 +148,10 @@ public class CadastroService {
         emailService.enviarEmailCadastro(user.getProfissional().getEmail(), tk.getToken(), frontPath, idProfissional);
     }
 
-    public ProfissionalDTO getProfessorById(String token, Integer idProfessor) {
+    public ProfissionalDTO getProfessorById(String token, Integer idProfissional) {
         UserToken tk = tokenService.findByToken(token);
         tokenService.validateToken(tk);
-        Professor p = professorService.getOne(idProfessor);
+        Professor p = professorService.getOne(idProfissional);
         return ProfissionalDTO.convertToDTO(p);
     }
     
@@ -177,7 +173,7 @@ public class CadastroService {
         
         if (u != null) {
             u.setProfissional(p.getProfissional());
-            u.setUserName(p.getProfissional().getEmail());
+            u.setUsername(p.getProfissional().getEmail());
             u.setPassword(professor.getSenha());
             usuarioService.resetPassword(u);
         }
@@ -204,7 +200,7 @@ public class CadastroService {
 
         if (u != null) {
             u.setProfissional(salvo.getProfissional());
-            u.setUserName(c.getProfissional().getEmail());
+            u.setUsername(c.getProfissional().getEmail());
             u.setPassword(coordenador.getSenha());
             usuarioService.resetPassword(u);
         }
@@ -214,10 +210,10 @@ public class CadastroService {
         return c;
     }
 
-    public ProfissionalDTO getCoordenadorById(String token, Integer idCoordenador) {
-        UserToken tk = tokenService.findByToken(token);
+    public ProfissionalDTO getCoordenadorById(Integer idProfissional, JwtAuthenticationToken token) {
+        UserToken tk = tokenService.findByToken(token.getToken().getTokenValue());
         tokenService.validateToken(tk);
-        Coordenador c = coordenadorService.getOne(idCoordenador);
+        Coordenador c = coordenadorService.getOne(idProfissional);
         return new ProfissionalDTO(
             c.getProfissional().getId(),
             c.getProfissional().getCpf(),

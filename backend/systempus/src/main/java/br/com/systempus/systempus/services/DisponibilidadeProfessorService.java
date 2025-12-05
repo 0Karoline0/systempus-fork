@@ -79,13 +79,13 @@ public class DisponibilidadeProfessorService {
         repository.deleteById(id);
     }
 
-    public List<DisponibilidadeProfessorDTO> saveDisponibilidadeProfessor(List<DisponibilidadeProfessorDTO> disponibilidadeRequest, Integer professorId) {
-        Professor professor = professorService.getOne(professorId);
+    public List<DisponibilidadeProfessorDTO> saveDisponibilidadeProfessor(List<DisponibilidadeProfessorDTO> disponibilidadeRequest, Integer idProfissional) {
+        Professor professor = professorService.getOne(idProfissional);
         return save(disponibilidadeRequest, professor);
     }
 
-    public List<DisponibilidadeProfessorDTO> updateDisponibilidadeProfessor(Integer professorId, List<DisponibilidadeProfessorDTO> disponibilidades){
-        Professor professor = professorService.getOne(professorId);
+    public List<DisponibilidadeProfessorDTO> updateDisponibilidadeProfessor(Integer idProfissional, List<DisponibilidadeProfessorDTO> disponibilidades){
+        Professor professor = professorService.getOne(idProfissional);
         return updateDisponibilidades(disponibilidades, professor);
     }
 
